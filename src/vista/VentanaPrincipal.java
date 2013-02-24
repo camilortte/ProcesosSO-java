@@ -37,15 +37,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jList_ejecucion = new javax.swing.JList();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        jList_nuevo = new javax.swing.JList();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
+        jList_listo = new javax.swing.JList();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList();
+        jList_bloqueado = new javax.swing.JList();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList5 = new javax.swing.JList();
+        jList_terminado = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,15 +103,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(jList_ejecucion);
 
-        jScrollPane3.setViewportView(jList2);
+        jScrollPane3.setViewportView(jList_nuevo);
 
-        jScrollPane4.setViewportView(jList3);
+        jScrollPane4.setViewportView(jList_listo);
 
-        jScrollPane5.setViewportView(jList4);
+        jScrollPane5.setViewportView(jList_bloqueado);
 
-        jScrollPane6.setViewportView(jList5);
+        jScrollPane6.setViewportView(jList_terminado);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -229,11 +229,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_crearProceso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    private javax.swing.JList jList3;
-    private javax.swing.JList jList4;
-    private javax.swing.JList jList5;
+    private javax.swing.JList jList_bloqueado;
+    private javax.swing.JList jList_ejecucion;
+    private javax.swing.JList jList_listo;
+    private javax.swing.JList jList_nuevo;
+    private javax.swing.JList jList_terminado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
