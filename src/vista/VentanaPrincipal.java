@@ -8,6 +8,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import javax.swing.table.DefaultTableModel;
 import modelo.ControlProceso;
 import modelo.Proceso;
 
@@ -18,7 +19,7 @@ import modelo.Proceso;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlProceso controlProces;
-    
+    private DefaultTableModel modeloTabla;
     /**
      * Creates new form VentanaPrincipal
      */
@@ -30,6 +31,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_ejecucion.setModel(new DefaultListModel());
         jList_terminado.setModel(new DefaultListModel());
         controlProces=new ControlProceso();        
+        modeloTabla=new DefaultTableModel();
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Id");
+        modeloTabla.addColumn("Espacio");
+        modeloTabla.addColumn("Estado");
     }
 
     /**
@@ -61,10 +67,40 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_bloqueado = new javax.swing.JList();
         jScrollPane6 = new javax.swing.JScrollPane();
         jList_terminado = new javax.swing.JList();
+        jPanel3 = new javax.swing.JPanel();
+        statusBar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creacion y edicion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
+
+        jTextField_nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_nombreActionPerformed(evt);
+            }
+        });
+        jTextField_nombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_nombreFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField_nombreFocusLost(evt);
+            }
+        });
+
+        jTextField_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_idActionPerformed(evt);
+            }
+        });
+        jTextField_id.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_idFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField_idFocusLost(evt);
+            }
+        });
 
         jButton_crearProceso.setText("Crear");
         jButton_crearProceso.addActionListener(new java.awt.event.ActionListener() {
@@ -161,12 +197,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(76, 76, 76))
         );
@@ -179,7 +215,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -188,7 +224,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        statusBar.setText("Bienvenido , este programa fue desarrolado por esttudiantes de la UDistrital");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statusBar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,15 +256,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -218,14 +275,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
         String nombreproceso = this.jTextField_nombre.getText();
         String id = this.jTextField_id.getText();
-
-        if (nombreproceso != null && id != null) {
-            Proceso proceso=new Proceso (nombreproceso, id, "NUEVO");
-            if(controlProces.addProceso(proceso))
+            
+        
+        
+        if (nombreproceso.compareTo("")!=0 && id.compareTo("")!=0) {
+            Proceso proceso=new Proceso (nombreproceso, id, "LISTO");
+            if(controlProces.addProceso(proceso)){                
                 addItem(jList_listo, id + " " + nombreproceso);
-            else
+                deleteItem(jList_nuevo, id + " " + nombreproceso);
+                addItemTable(proceso);
+                
+            }else{
                 JOptionPane.showMessageDialog(this, "Proceso con ID ya existente",
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
+            }
             //Activamos los componententes para el ingreso de datos del nuevo proceso
 
         } else {
@@ -234,12 +297,66 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_crearProcesoActionPerformed
 
+    private void addItemTable(Proceso proceso){
+        Object vec[]=new Object[4];
+        vec[0]=proceso.getNombre();
+        vec[1]=proceso.getId();
+        vec[2]="200";
+        vec[3]=proceso.getEstado();
+        modeloTabla.addRow(vec);
+        jTable1.setModel(modeloTabla);
+    }
+    
+    private void jTextField_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nombreActionPerformed
+       
+    }//GEN-LAST:event_jTextField_nombreActionPerformed
+
+    private void jTextField_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_idActionPerformed
+        
+    }//GEN-LAST:event_jTextField_idActionPerformed
+
+    private void jTextField_nombreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_nombreFocusGained
+   
+    }//GEN-LAST:event_jTextField_nombreFocusGained
+
+    private void jTextField_idFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_idFocusGained
+       
+    }//GEN-LAST:event_jTextField_idFocusGained
+
+    private void jTextField_nombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_nombreFocusLost
+        functionAddNuevo();
+    }//GEN-LAST:event_jTextField_nombreFocusLost
+
+    private void jTextField_idFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_idFocusLost
+       functionAddNuevo();
+    }//GEN-LAST:event_jTextField_idFocusLost
+
+    private void functionAddNuevo(){
+         if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
+             System.out.println("Valor de id_"+jTextField_id.getText()+"_valor de nombre:_"+jTextField_nombre.getText()+"_");
+            if(controlProces.addNuevo(jTextField_id.getText())){                                
+                this.statusBar.setText("Bien se anadio a NUEVO");
+                this.addItem(jList_nuevo,jTextField_id.getText()+" "+jTextField_nombre.getText());                
+            }else{
+                this.statusBar.setText("Id existente en nuevo");            
+            }
+        }else{
+            this.statusBar.setText("No se logro aniadir a NUEVO id o nombre vacio");
+        }
+    }
+    
     //Aniade un item a un jlistX
     private boolean addItem(JList lista, String item) {
         DefaultListModel modelo = (DefaultListModel) lista.getModel();
         modelo.addElement(item);
         lista.setModel(modelo);
         return true;
+    }
+    
+    private void deleteItem(JList lista, String item){
+        DefaultListModel modelo = (DefaultListModel) lista.getModel();
+        modelo.removeElement(item);
+        lista.setModel(modelo);
     }
     /**
      * @param args the command line arguments
@@ -286,6 +403,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JList jList_terminado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -296,5 +414,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField_id;
     private javax.swing.JTextField jTextField_nombre;
+    private javax.swing.JLabel statusBar;
     // End of variables declaration//GEN-END:variables
 }
