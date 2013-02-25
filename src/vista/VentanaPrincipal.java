@@ -4,17 +4,32 @@
  */
 package vista;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import modelo.ControlProceso;
+import modelo.Proceso;
+
 /**
  *
  * @author camilortte
- */
+ */ 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private ControlProceso controlProces;
+    
     /**
      * Creates new form VentanaPrincipal
      */
     public VentanaPrincipal() {
         initComponents();
+        jList_nuevo.setModel(new DefaultListModel());
+        jList_listo.setModel(new DefaultListModel());
+        jList_bloqueado.setModel(new DefaultListModel());
+        jList_ejecucion.setModel(new DefaultListModel());
+        jList_terminado.setModel(new DefaultListModel());
+        controlProces=new ControlProceso();        
     }
 
     /**
@@ -49,7 +64,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creacion y edicion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
+
         jButton_crearProceso.setText("Crear");
+        jButton_crearProceso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_crearProcesoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
@@ -89,6 +111,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jButton_crearProceso)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vista ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -137,12 +161,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(76, 76, 76))
         );
@@ -155,7 +179,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -191,6 +215,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
+        String nombreproceso = this.jTextField_nombre.getText();
+        String id = this.jTextField_id.getText();
+
+        if (nombreproceso != null && id != null) {
+            Proceso proceso=new Proceso (nombreproceso, id, "NUEVO");
+            if(controlProces.addProceso(proceso))
+                addItem(jList_listo, id + " " + nombreproceso);
+            else
+                JOptionPane.showMessageDialog(this, "Proceso con ID ya existente",
+                    "Error de ingreso", JOptionPane.ERROR_MESSAGE);
+            //Activamos los componententes para el ingreso de datos del nuevo proceso
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar datos validos",
+                    "Error de ingreso", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton_crearProcesoActionPerformed
+
+    //Aniade un item a un jlistX
+    private boolean addItem(JList lista, String item) {
+        DefaultListModel modelo = (DefaultListModel) lista.getModel();
+        modelo.addElement(item);
+        lista.setModel(modelo);
+        return true;
+    }
     /**
      * @param args the command line arguments
      */
