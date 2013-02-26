@@ -4,6 +4,7 @@
  */
 package vista;
 
+import java.awt.Toolkit;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -319,6 +320,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 addItemTable(proceso);
                 
             }else{
+                
+                 final Runnable runnable = (Runnable) Toolkit.getDefaultToolkit().getDesktopProperty("win.sound.exclamation");
+                    if (runnable != null)
+                      runnable.run();
+                
                 JOptionPane.showMessageDialog(this, "Proceso con ID ya existente",
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
             }
