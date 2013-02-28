@@ -35,8 +35,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         modeloTabla=new DefaultTableModel();
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Id");
-        modeloTabla.addColumn("Espacio");
+        modeloTabla.addColumn("Tamanio");
         modeloTabla.addColumn("Estado");
+        modeloTabla.addColumn("DispositivoEx");
         this.jLabel_nombreProceso_id.setEnabled(false);
         this.jComboBox_estados.setEnabled(false);
         this.jButton_cambiarEstados.setEnabled(false);
@@ -65,11 +66,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField_id = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        jSpinner_tamanio = new javax.swing.JSpinner();
         jLabel14 = new javax.swing.JLabel();
         jCheckBox_requiereImpresora = new javax.swing.JCheckBox();
         jCheckBox_requiereMonitor = new javax.swing.JCheckBox();
-        jCheckBox__requiereArchivo = new javax.swing.JCheckBox();
+        jCheckBox_requiereArchivo = new javax.swing.JCheckBox();
         jButton_crearProceso = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -175,7 +176,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel3.setText("Tamanio");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
+        jSpinner_tamanio.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
 
         jLabel14.setText("Requiere");
 
@@ -183,10 +184,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jCheckBox_requiereMonitor.setText("Monitor");
 
-        jCheckBox__requiereArchivo.setText("Archivo");
-        jCheckBox__requiereArchivo.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBox_requiereArchivo.setText("Archivo");
+        jCheckBox_requiereArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox__requiereArchivoActionPerformed(evt);
+                jCheckBox_requiereArchivoActionPerformed(evt);
             }
         });
 
@@ -215,7 +216,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
@@ -224,7 +225,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBox_requiereImpresora)
                                     .addComponent(jCheckBox_requiereMonitor)
-                                    .addComponent(jCheckBox__requiereArchivo)))
+                                    .addComponent(jCheckBox_requiereArchivo)))
                             .addComponent(jButton_crearProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 83, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -243,7 +244,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
@@ -251,7 +252,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox_requiereMonitor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox__requiereArchivo)
+                .addComponent(jCheckBox_requiereArchivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_crearProceso)
                 .addGap(27, 27, 27))
@@ -507,7 +508,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String id = this.jTextField_id.getText();
                     
         if (nombreproceso.compareTo("")!=0 && id.compareTo("")!=0) {
-            Proceso proceso=new Proceso (nombreproceso, id, "LISTO");
+            boolean requerimientos[]={false,false,false};
+            if(this.jCheckBox_requiereImpresora.isSelected()) requerimientos[0]=true;
+            if(this.jCheckBox_requiereMonitor.isSelected()) requerimientos[1]=true;
+            if(this.jCheckBox_requiereArchivo.isSelected()) requerimientos[2]=true;
+            
+            Proceso proceso=new Proceso (nombreproceso, id, "LISTO",(Integer)this.jSpinner_tamanio.getValue(),requerimientos);
             if(controlProces.addProceso(proceso)){                
                 addItem(jList_listo, id + " " + nombreproceso);
                 deleteItem(jList_nuevo, id + " " + nombreproceso);
@@ -526,11 +532,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_crearProcesoActionPerformed
 
     private void addItemTable(Proceso proceso){
-        Object vec[]=new Object[4];
+        Object vec[]=new Object[5];
         vec[0]=proceso.getNombre();
         vec[1]=proceso.getId();
-        vec[2]="200";
+        vec[2]=proceso.getTamanio();
         vec[3]=proceso.getEstado();
+        vec[4]=proceso.isRequiereDispositivo();
         modeloTabla.addRow(vec);
         jTable1.setModel(modeloTabla);
     }
@@ -570,9 +577,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //System.out.println(jTable1.getModel().getValueAt(row, 1));
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jCheckBox__requiereArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox__requiereArchivoActionPerformed
+    private void jCheckBox_requiereArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereArchivoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox__requiereArchivoActionPerformed
+    }//GEN-LAST:event_jCheckBox_requiereArchivoActionPerformed
 
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
@@ -639,9 +646,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_cambiarEstados;
     private javax.swing.JButton jButton_crearProceso;
     private javax.swing.JCheckBox jCheckBo_monitor;
-    private javax.swing.JCheckBox jCheckBox__requiereArchivo;
     private javax.swing.JCheckBox jCheckBox_archivoExterno;
     private javax.swing.JCheckBox jCheckBox_impresora;
+    private javax.swing.JCheckBox jCheckBox_requiereArchivo;
     private javax.swing.JCheckBox jCheckBox_requiereImpresora;
     private javax.swing.JCheckBox jCheckBox_requiereMonitor;
     private javax.swing.JComboBox jComboBox_estados;
@@ -677,7 +684,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner_tamanio;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField_id;
     private javax.swing.JTextField jTextField_nombre;
