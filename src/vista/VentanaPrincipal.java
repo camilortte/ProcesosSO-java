@@ -669,7 +669,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     //Aniade un item a un jlistX
     private boolean addItem(JList lista, String item) {
         DefaultListModel modelo = (DefaultListModel) lista.getModel();
-        modelo.addElement(item);
+        //modelo.addElement(item);
+        modelo.add(0, item);
         lista.setModel(modelo);
         return true;
     }
