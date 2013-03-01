@@ -262,6 +262,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
 
         jButton_start.setText("INICIAR");
+        jButton_start.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_startActionPerformed(evt);
+            }
+        });
 
         jButton_stop.setText("PARAR");
 
@@ -632,6 +637,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jCheckBox_requiereArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereArchivoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox_requiereArchivoActionPerformed
+
+    private void jButton_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_startActionPerformed
+        // TODO add your handling code here:
+        System.out.println("prueba");
+        
+    }//GEN-LAST:event_jButton_startActionPerformed
 
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
