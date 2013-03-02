@@ -22,6 +22,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlProceso controlProces;
     private DefaultTableModel modeloTabla;
+    boolean dispositivosDisponibles[]=new boolean[3];
     /**
      * Creates new form VentanaPrincipal
      */
@@ -31,15 +32,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_listo.setModel(new DefaultListModel());
         jList_bloqueado.setModel(new DefaultListModel());
         jList_terminado.setModel(new DefaultListModel());
-        controlProces=new ControlProceso();        
+        controlProces=new ControlProceso(this);        
         modeloTabla=new DefaultTableModel();
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Id");
         modeloTabla.addColumn("Tamanio");
         modeloTabla.addColumn("Estado");
         modeloTabla.addColumn("DispositivoEx");
-        this.jComboBox_estados.setEnabled(false);
-        this.jButton_cambiarEstados.setEnabled(false);
+        dispositivosDisponibles[0]=false;
+        dispositivosDisponibles[1]=false;
+        dispositivosDisponibles[2]=false;
         
     }
 
@@ -53,8 +55,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox_estados = new javax.swing.JComboBox();
-        jButton_cambiarEstados = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jCheckBox_impresora = new javax.swing.JCheckBox();
         jCheckBo_monitor = new javax.swing.JCheckBox();
@@ -73,7 +73,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButton_crearProceso = new javax.swing.JButton();
         jButton_start = new javax.swing.JButton();
         jButton_stop = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -98,7 +97,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         panelOverload1 = new vista.PanelOverload();
-        jLabel17 = new javax.swing.JLabel();
+        jLabel_Proceso = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
         statusBar = new javax.swing.JLabel();
@@ -108,17 +107,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Control", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
 
-        jComboBox_estados.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "LISTO", "EJECUION", "BLOQUEADO", "TERMINADO" }));
-
-        jButton_cambiarEstados.setText("Cambiar");
-
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dispositivos disponibles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
 
         jCheckBox_impresora.setText("Impresora");
+        jCheckBox_impresora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_impresoraActionPerformed(evt);
+            }
+        });
 
         jCheckBo_monitor.setText("Monitor");
+        jCheckBo_monitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBo_monitorActionPerformed(evt);
+            }
+        });
 
         jCheckBox_archivoExterno.setText("ArchivoExterno");
+        jCheckBox_archivoExterno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_archivoExternoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -141,7 +151,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jCheckBo_monitor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox_archivoExterno)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
@@ -237,7 +247,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -271,32 +281,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jButton_stop.setText("PARAR");
 
-        jButton1.setText("Boton para probar los commits");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox_estados, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jButton_cambiarEstados)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                        .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                                .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -305,18 +304,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox_estados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_cambiarEstados)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vista ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
@@ -377,29 +370,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         panelOverload1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 0, 0)));
 
-        jLabel17.setText("jLabel17");
+        jLabel_Proceso.setBackground(new java.awt.Color(204, 255, 51));
+        jLabel_Proceso.setText("----------------------");
 
         javax.swing.GroupLayout panelOverload1Layout = new javax.swing.GroupLayout(panelOverload1);
         panelOverload1.setLayout(panelOverload1Layout);
         panelOverload1Layout.setHorizontalGroup(
             panelOverload1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOverload1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelOverload1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelOverload1Layout.createSequentialGroup()
-                        .addGap(0, 30, Short.MAX_VALUE)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+            .addComponent(jLabel_Proceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelOverload1Layout.setVerticalGroup(
             panelOverload1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOverload1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addComponent(jLabel_Proceso)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -502,7 +489,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel9)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -551,8 +538,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -574,6 +561,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String nombreproceso = this.jTextField_nombre.getText();
         String id = this.jTextField_id.getText();
                     
+        
+        
         if (nombreproceso.compareTo("")!=0 && id.compareTo("")!=0) {
             boolean requerimientos[]={false,false,false};
             if(this.jCheckBox_requiereImpresora.isSelected()) requerimientos[0]=true;
@@ -581,6 +570,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             if(this.jCheckBox_requiereArchivo.isSelected()) requerimientos[2]=true;
             
             Proceso proceso=new Proceso (nombreproceso, id, "LISTO",(Integer)this.jSpinner_tamanio.getValue(),requerimientos);
+            
+            
+            
             if(controlProces.addProceso(proceso)){                
                 addItem(jList_listo, id + " " + nombreproceso);
                 deleteItem(jList_nuevo, id + " " + nombreproceso);
@@ -590,8 +582,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Proceso con ID ya existente",
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
             }
-            //Activamos los componententes para el ingreso de datos del nuevo proceso
-
+            //Activamos los componententes para el ingreso de datos del nuevo proceso            
+            controlProces.cambiarEstado(proceso,"EJECUCION");
         } else {
             JOptionPane.showMessageDialog(this, "Error debe ingresar datos validos",
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
@@ -608,6 +600,46 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         modeloTabla.addRow(vec);
         jTable1.setModel(modeloTabla);
     }
+    
+    private void desactivarTodasLasFelchas(){
+        jLabel4.setEnabled(false);
+        jLabel5.setEnabled(false);
+        jLabel6.setEnabled(false);
+        jLabel8.setEnabled(false);
+        jLabel9.setEnabled(false);
+        jLabel15.setEnabled(false);        
+    }
+    
+    public void listoToEjecucion(){
+        desactivarTodasLasFelchas();
+        jLabel5.setEnabled(true);
+        String info=(String) jList_listo.getModel().getElementAt(jList_listo.getModel().getSize()-1);    
+        DefaultListModel modelo = (DefaultListModel) jList_listo.getModel();
+        modelo.remove(modelo.size()-1);                
+        jList_listo.setModel(modelo);
+        jLabel_Proceso.setText(info);
+    }
+    
+    public void ejecucionToTerminado(){
+        desactivarTodasLasFelchas();
+        jLabel6.setEnabled(true);
+        String info= jLabel_Proceso.getText();
+        DefaultListModel modelo = (DefaultListModel) jList_terminado.getModel();
+        modelo.add(0, info);
+        jList_terminado.setModel(modelo);
+        jLabel_Proceso.setText("-------------");
+    }
+    
+    public void ejecucionToListo(){
+        desactivarTodasLasFelchas();
+        jLabel15.setEnabled(true);
+        String info= jLabel_Proceso.getText();
+        DefaultListModel modelo = (DefaultListModel) jList_listo.getModel();
+        modelo.add(0, info);
+        jList_listo.setModel(modelo);
+        jLabel_Proceso.setText("-------------");
+    }
+    
     
     private void jTextField_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nombreActionPerformed
        
@@ -634,11 +666,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_idFocusLost
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int row=jTable1.getSelectedRow();
-        this.jComboBox_estados.setEnabled(true);
-        this.jButton_cambiarEstados.setEnabled(true);
-               
-        jComboBox_estados.setSelectedItem(jTable1.getModel().getValueAt(row, 3));
+       
         //System.out.println(jTable1.getModel().getValueAt(row, 1));
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -646,11 +674,39 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox_requiereArchivoActionPerformed
 
+    
+    
     private void jButton_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_startActionPerformed
         // TODO add your handling code here:
-        System.out.println("prueba");
-        
+         controlProces.setDispositivosDisponibles(dispositivosDisponibles);
+         controlProces.ejecutar();
     }//GEN-LAST:event_jButton_startActionPerformed
+
+    private void jCheckBox_impresoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_impresoraActionPerformed
+        if(jCheckBox_impresora.isSelected()){
+            dispositivosDisponibles[0]=true;
+        }else{
+            dispositivosDisponibles[0]=false;
+        }
+        
+    }//GEN-LAST:event_jCheckBox_impresoraActionPerformed
+
+    private void jCheckBo_monitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBo_monitorActionPerformed
+        if(jCheckBo_monitor.isSelected()){
+            dispositivosDisponibles[1]=true;
+        }else{
+            dispositivosDisponibles[1]=false;
+        }
+        
+    }//GEN-LAST:event_jCheckBo_monitorActionPerformed
+
+    private void jCheckBox_archivoExternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_archivoExternoActionPerformed
+        if(jCheckBox_archivoExterno.isSelected()){
+            dispositivosDisponibles[2]=true;
+        }else{
+            dispositivosDisponibles[2]=false;
+        }        
+    }//GEN-LAST:event_jCheckBox_archivoExternoActionPerformed
 
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
@@ -714,9 +770,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    public void modificarBoton(String cosas){
+        this.jButton_start.setText(cosas);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton_cambiarEstados;
     private javax.swing.JButton jButton_crearProceso;
     private javax.swing.JButton jButton_start;
     private javax.swing.JButton jButton_stop;
@@ -726,7 +786,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox_requiereArchivo;
     private javax.swing.JCheckBox jCheckBox_requiereImpresora;
     private javax.swing.JCheckBox jCheckBox_requiereMonitor;
-    private javax.swing.JComboBox jComboBox_estados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -734,7 +793,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -743,6 +801,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_Proceso;
     private javax.swing.JList jList_bloqueado;
     private javax.swing.JList jList_listo;
     private javax.swing.JList jList_nuevo;

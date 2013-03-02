@@ -12,6 +12,7 @@ public class Proceso {
     private String id;
     private String estado;
     private int tamanio;
+    private int tamanio_actual;
     private boolean requerimientos[];
     private boolean requiereDispositivo;
     public Proceso(String nombre,String id, String estado,int tamanio, boolean requerimientos[]){
@@ -19,6 +20,7 @@ public class Proceso {
         this.estado=estado;
         this.id=id;
         this.tamanio=tamanio;
+        this.tamanio_actual=tamanio;
         this.requerimientos=requerimientos;
         this.requiereDispositivo=false;
         for(int i=0;i<requerimientos.length;i++){
@@ -28,6 +30,15 @@ public class Proceso {
             }
         }
     }
+
+    public int getTamanio_actual() {
+        return tamanio_actual;
+    }
+
+    public void setTamanio_actual(int tamanio_actual) {
+        this.tamanio_actual = tamanio_actual;
+    }
+    
     
        
     public Proceso(){

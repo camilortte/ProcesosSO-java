@@ -4,6 +4,7 @@
  */
 package procesosso;
 import vista.*;
+
 /**
  *
  * @author camilortte
@@ -14,6 +15,7 @@ public class ProcesosSO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        (new VentanaPrincipal()).setVisible(true);
+        VentanaPrincipal ventanaPrinciapl = new VentanaPrincipal();
+        ventanaPrinciapl.setVisible(true);        
     }
 }
