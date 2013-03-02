@@ -102,8 +102,7 @@ public class ControlProceso {
                 //ventana.ejecucionToTerminado();
                 cambiarEstado(proceso, "TERMINADO");                
                 cola_terminado.offer(proceso);
-                //Ojo no lo elimina del arbol de proces
-                
+                //Ojo no lo elimina del arbol de proces                
                 //Si el proceso requiere un dispositivo
             } else if (proceso.isRequiereDispositivo()) {
                 
