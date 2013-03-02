@@ -137,7 +137,8 @@ public class ControlProceso {
                 ventana.actualizarProcesosTabla(proceso);
                 sleep();
                 //estan disponible los dispostivos solicitados 
-                if (comprobarRecursoDisponible(proceso)) {    
+                if (comprobarRecursoDisponible(proceso)) {  
+                    procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
                     proceso = procesador.procesar(proceso); 
                     
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
@@ -183,6 +184,7 @@ public class ControlProceso {
                 sleep();
                 ventana.listoToEjecucion();                
                 sleep();
+                procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
                 proceso = procesador.procesar(proceso);                 
                 cambiarEstado(proceso, "EJECUCION");
                 ventana.actualizarProcesosTabla(proceso);

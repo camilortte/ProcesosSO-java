@@ -14,23 +14,32 @@ import javax.swing.Timer;
 
 public class Procesador{
     
-    public Proceso procesar(Proceso proceso){        
-        for (int i = 0; i < 5; i++) {
-            //JOptionPane.showMessageDialog(null, "HOLA");
-            try {
-                Thread.sleep(0);
-                if (proceso.getTamanio_actual() > 0) {
-                proceso.setTamanio_actual(proceso.getTamanio_actual() - 20);
-                } else {
-                    proceso.setTamanio_actual(0);
-                    break;
-                }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Procesador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+    private int cantidadAQuitar;
+    
+    void Procesador(){
+        this.cantidadAQuitar=20;
+    }
+
+    public int getCantidadAQuitar() {
+        return cantidadAQuitar;
+    }
+
+    public void setCantidadAQuitar(int cantidadAQuitar) {
+        this.cantidadAQuitar = cantidadAQuitar;
+    }
+
+    public Proceso procesar(Proceso proceso) {
+        //for (int i = 0; i < 5; i++) {
+
+        if (proceso.getTamanio_actual() > 0) {
+            proceso.setTamanio_actual(proceso.getTamanio_actual() - cantidadAQuitar);
+            if(proceso.getTamanio_actual()<0)
+                proceso.setTamanio_actual(0);
+        } else {
+            proceso.setTamanio_actual(0);
+            //break;
         }
+        // }
         return proceso;
     }
-    
 }
