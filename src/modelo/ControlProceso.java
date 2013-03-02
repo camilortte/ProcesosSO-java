@@ -79,7 +79,7 @@ public class ControlProceso {
         return tree_nuevo.add(id);
     }
 
-    //prueba esto se va a borrar
+    //prueba, esto se va a borrar
     public void cambiarEstado(Proceso proceso, String estado) {
         Iterator it = tree_procesos.iterator();
         while (it.hasNext()) {
@@ -93,23 +93,27 @@ public class ControlProceso {
         }
     }
 
-    public void ejecutar() {
-        //falta cambiar los estados.              
-        if (!cola_listo.isEmpty() && stop != true) {
+    public void ejecutar() {               
+        //falta cambiar los estados.       
+        stop=false;
+        ventana.desactivarPaneles();
+        while(!cola_listo.isEmpty() && stop != true) {
             Proceso proceso = cola_listo.poll();
             //Ejecuta un proceso de la clase proceso            
             if (proceso.getTamanio_actual() <= 0) {
-                //ventana.ejecucionToTerminado();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                //ventana.ejecucionToTerminado();                
                 cambiarEstado(proceso, "TERMINADO");                
                 cola_terminado.offer(proceso);
                 //Ojo no lo elimina del arbol de proces                
                 //Si el proceso requiere un dispositivo
-            } else if (proceso.isRequiereDispositivo()) {
-                
+            } else if (proceso.isRequiereDispositivo()) {        
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 //estan disponible los dispostivos solicitados 
                 if (comprobarRecursoDisponible(proceso)) {                    
-                    ventana.listoToEjecucion();
+                    ventana.listoToEjecucion();                    
                     proceso = procesador.procesar(proceso);
+                    ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     if (proceso.getTamanio_actual() <= 0) {                        
                          cambiarEstado(proceso, "TERMINADO");
                         ventana.ejecucionToTerminado();
@@ -127,20 +131,40 @@ public class ControlProceso {
                 //COmo no requere un dispositivo
             } else {                
                 ventana.listoToEjecucion();
-                proceso = procesador.procesar(proceso);                                
+                
+                try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ControlProceso.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                
+                proceso = procesador.procesar(proceso);     
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 //Se termino el tamanio de proedimientos ?
                 if (proceso.getTamanio_actual() <= 0) {                    
                     cambiarEstado(proceso, "TERMINADO");
                     ventana.ejecucionToTerminado();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ControlProceso.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     cola_terminado.offer(proceso);
                    //COmo no termino entonces vuelve a la cola de LISTO 
                 } else {
                     ventana.ejecucionToListo();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ControlProceso.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     cambiarEstado(proceso, "LISTO");
                     cola_listo.offer(proceso);
                 }
             }
         }
+        
+        ventana.activarPaneles();
     }
 
     public boolean comprobarRecursoDisponible(Proceso proceso) {

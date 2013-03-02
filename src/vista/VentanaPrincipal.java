@@ -98,7 +98,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         panelOverload1 = new vista.PanelOverload();
         jLabel_Proceso = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jProgressBar_proceso = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
         statusBar = new javax.swing.JLabel();
 
@@ -280,6 +280,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         jButton_stop.setText("PARAR");
+        jButton_stop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_stopActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -377,7 +382,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelOverload1.setLayout(panelOverload1Layout);
         panelOverload1Layout.setHorizontalGroup(
             panelOverload1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+            .addComponent(jProgressBar_proceso, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
             .addComponent(jLabel_Proceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelOverload1Layout.setVerticalGroup(
@@ -386,7 +391,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel_Proceso)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jProgressBar_proceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -489,7 +494,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel9)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -613,11 +618,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public void listoToEjecucion(){
         desactivarTodasLasFelchas();
         jLabel5.setEnabled(true);
-        String info=(String) jList_listo.getModel().getElementAt(jList_listo.getModel().getSize()-1);    
-        DefaultListModel modelo = (DefaultListModel) jList_listo.getModel();
-        modelo.remove(modelo.size()-1);                
-        jList_listo.setModel(modelo);
-        jLabel_Proceso.setText(info);
+        if(jList_listo.getModel().getSize()>0){
+            String info=(String) jList_listo.getModel().getElementAt(jList_listo.getModel().getSize()-1);    
+            DefaultListModel modelo = (DefaultListModel) jList_listo.getModel();
+            modelo.remove(modelo.size()-1);                
+            jList_listo.setModel(modelo);
+            jLabel_Proceso.setText(info);
+        }
     }
     
     public void ejecucionToTerminado(){
@@ -639,6 +646,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_listo.setModel(modelo);
         jLabel_Proceso.setText("-------------");
     }
+    
+     public void ejecucionToBloqueado(){
+        desactivarTodasLasFelchas();
+        jLabel9.setEnabled(true);
+        String info= jLabel_Proceso.getText();
+        DefaultListModel modelo = (DefaultListModel) jList_bloqueado.getModel();
+        modelo.add(0, info);
+        jList_bloqueado.setModel(modelo);
+        jLabel_Proceso.setText("-------------");
+    }
+     
+     public void bloqueadoToListo(){
+        desactivarTodasLasFelchas();
+        jLabel8.setEnabled(true);
+        String info=(String) jList_bloqueado.getModel().getElementAt(jList_bloqueado.getModel().getSize()-1);    
+        DefaultListModel modelo = (DefaultListModel) jList_bloqueado.getModel();
+        modelo.remove(modelo.size()-1);                
+        jList_bloqueado.setModel(modelo);
+        modelo= (DefaultListModel) jList_listo.getModel();
+        modelo.add(0, info);
+        jList_listo.setModel(modelo);
+    }
+     
+     public void activarPorgresBar(int total,int actual){
+         this.jProgressBar_proceso.setMaximum(total);
+         this.jProgressBar_proceso.setValue(actual);
+     }
     
     
     private void jTextField_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_nombreActionPerformed
@@ -679,9 +713,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButton_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_startActionPerformed
         // TODO add your handling code here:
          controlProces.setDispositivosDisponibles(dispositivosDisponibles);
-         controlProces.ejecutar();
+         (new Thread() {
+            public void run() {
+              controlProces.ejecutar();
+            }
+           }).start();
     }//GEN-LAST:event_jButton_startActionPerformed
 
+    public void desactivarPaneles(){
+        jPanel6.setEnabled(false);
+        jPanel4.setEnabled(false);
+        jButton_start.setEnabled(false);
+    }
+    
+    public void activarPaneles(){
+        desactivarTodasLasFelchas();
+        controlProces.setStop(true);        
+        jPanel6.setEnabled(true);
+        jPanel4.setEnabled(true);
+        jButton_start.setEnabled(true);
+    }
+    
     private void jCheckBox_impresoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_impresoraActionPerformed
         if(jCheckBox_impresora.isSelected()){
             dispositivosDisponibles[0]=true;
@@ -707,6 +759,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             dispositivosDisponibles[2]=false;
         }        
     }//GEN-LAST:event_jCheckBox_archivoExternoActionPerformed
+
+    private void jButton_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_stopActionPerformed
+        activarPaneles();
+    }//GEN-LAST:event_jButton_stopActionPerformed
 
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
@@ -812,7 +868,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JProgressBar jProgressBar_proceso;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
