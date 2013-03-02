@@ -107,11 +107,12 @@ public class ControlProceso {
                 cola_terminado.offer(proceso);
                 //Ojo no lo elimina del arbol de proces                
                 //Si el proceso requiere un dispositivo
-            } else if (proceso.isRequiereDispositivo()) {        
+            } else if (proceso.isRequiereDispositivo()) {                        
                 ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 //estan disponible los dispostivos solicitados 
                 if (comprobarRecursoDisponible(proceso)) {                    
-                    ventana.listoToEjecucion();                    
+                    ventana.listoToEjecucion();         
+                    ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     proceso = procesador.procesar(proceso);
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     if (proceso.getTamanio_actual() <= 0) {                        
@@ -130,20 +131,20 @@ public class ControlProceso {
                 } 
                 //COmo no requere un dispositivo
             } else {                
-                ventana.listoToEjecucion();
-                
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                ventana.listoToEjecucion();                
                 try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ControlProceso.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                
                 proceso = procesador.procesar(proceso);     
                 ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 //Se termino el tamanio de proedimientos ?
                 if (proceso.getTamanio_actual() <= 0) {                    
                     cambiarEstado(proceso, "TERMINADO");
                     ventana.ejecucionToTerminado();
+                    ventana.activarPorgresBar(0, 0);
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
@@ -153,6 +154,7 @@ public class ControlProceso {
                    //COmo no termino entonces vuelve a la cola de LISTO 
                 } else {
                     ventana.ejecucionToListo();
+                    ventana.activarPorgresBar(0, 0);
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
