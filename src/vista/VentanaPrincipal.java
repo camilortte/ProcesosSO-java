@@ -107,6 +107,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jProgressBar_proceso = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
         statusBar = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem_insertarProcesosAleatorios = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ProcessSimulator UDistrital");
@@ -157,7 +161,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jCheckBo_monitor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox_archivoExterno)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
@@ -253,7 +257,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -294,9 +298,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Control Procesador", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(100, 100, 5000, 1));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(100, 10, 5000, 1));
 
-        jLabel16.setText("Velocidad de Ejecucion:");
+        jLabel16.setText("Tiempo de Ejecucion(ms):");
 
         jLabel17.setText("Eliminacion por Ciclo:");
 
@@ -328,7 +332,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(jSpinner_eliminacionPorProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -347,7 +351,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
@@ -363,8 +367,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vista ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
@@ -535,17 +539,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addGap(11, 11, 11)))))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel9)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -586,6 +590,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        jMenu1.setText("Archivo");
+
+        jMenuItem_insertarProcesosAleatorios.setText("Insertar Proceso Aleatorios");
+        jMenuItem_insertarProcesosAleatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_insertarProcesosAleatoriosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem_insertarProcesosAleatorios);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -844,6 +865,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         activarPaneles();
     }//GEN-LAST:event_jButton_stopActionPerformed
 
+    private void jMenuItem_insertarProcesosAleatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
+        // TODO add your handling code here:
+         boolean requerimientos[]={false,false,false};
+
+        
+        int max=1000;
+        int min=15;        
+        for(int i=0;i<15;i++){
+            int random1=(int)(Math.random()*(max-min))+min;
+            
+            if(random1%15==0){
+                requerimientos[0]=true;
+            }               
+            if(random1%4==0){
+                requerimientos[1]=true;
+            }
+            if(random1%9==0){
+                requerimientos[2]=true;
+            }
+            
+            
+            Proceso procesoAux=new Proceso("Chrome",String.valueOf(random1), "LISTO", random1 , requerimientos);
+            if (!controlProces.addProceso(procesoAux)){
+                i--;
+            }else {
+                addItem(jList_listo, procesoAux.getId()+ " " + procesoAux.getNombre());
+                deleteItem(jList_nuevo, procesoAux.getId()+ " " + procesoAux.getNombre());
+                addItemTable(procesoAux);
+            }
+        }
+    }//GEN-LAST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
+
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
              System.out.println("Valor de id_"+jTextField_id.getText()+"_valor de nombre:_"+jTextField_nombre.getText()+"_");
@@ -946,6 +999,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JList jList_listo;
     private javax.swing.JList jList_nuevo;
     private javax.swing.JList jList_terminado;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem_insertarProcesosAleatorios;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

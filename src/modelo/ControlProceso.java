@@ -82,7 +82,8 @@ public class ControlProceso {
 
     public boolean addProceso(Proceso proceso) {
         boolean estado = tree_procesos.add(proceso);
-        cola_listo.offer(proceso);
+        if(estado==true)/*PUTA MADRE*/
+            cola_listo.offer(proceso);
         return estado;
     }
 
@@ -112,7 +113,7 @@ public class ControlProceso {
         //falta cambiar los estados.       
         stop=false;
         ventana.desactivarPaneles();
-        while(!cola_listo.isEmpty() && stop != true) {            
+        while(!cola_listo.isEmpty() && stop != true) { 
             Proceso proceso = cola_listo.poll();
             //Ejecuta un proceso de la clase proceso            
             if (proceso.getTamanio_actual() <= 0) {
