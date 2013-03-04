@@ -39,6 +39,78 @@ public class ControlProceso {
     //offer(proceso);// inserta un elemento
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
+    
+    public Object obtenerProceso(String id){
+        Iterator it = tree_procesos.iterator();
+        Proceso value;
+        
+        while (it.hasNext()) {
+           value = (Proceso) it.next();
+            if (value.getId().compareTo(id) == 0) {
+                tree_procesos.remove(value);
+                return value;
+            }else{
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    /*Eliminar un proceso del arrbol de procesos*/
+    public void eliminarProcesoDeArbol(Proceso proceso){
+        Iterator it = tree_procesos.iterator();
+        Proceso value = proceso;
+        
+        while (it.hasNext()) {
+           value = (Proceso) it.next();
+            if (value.getId().compareTo(proceso.getId()) == 0) {
+                tree_procesos.remove(value);
+                break;
+            }else{
+                value = proceso;
+            }
+        }
+    }
+    
+    public void eleminarProcesoDeColaListo(Proceso proceso){
+        Iterator it = cola_listo.iterator();
+        Proceso value = proceso;
+        while(it.hasNext()){
+            value=(Proceso)it.next();
+            if(value.getId().compareTo(proceso.getId())==0){ //esta
+                cola_listo.remove(value);
+            }else{
+                value=proceso;
+            }
+        }
+    }
+    
+     public void eleminarProcesoDeColaBloqueado(Proceso proceso){
+        Iterator it = cola_bloquedao.iterator();
+        Proceso value = proceso;
+        while(it.hasNext()){
+            value=(Proceso)it.next();
+            if(value.getId().compareTo(proceso.getId())==0){ //esta
+                cola_bloquedao.remove(value);
+            }else{
+                value=proceso;
+            }
+        }
+    }
+    
+    public void eleminarProcesoDeColaTerminado(Proceso proceso){
+        Iterator it = cola_terminado.iterator();
+        Proceso value = proceso;
+        while(it.hasNext()){
+            value=(Proceso)it.next();
+            if(value.getId().compareTo(proceso.getId())==0){ //esta
+                cola_terminado.remove(value);
+            }else{
+                value=proceso;
+            }
+        }
+    }
+     
     public ControlProceso(VentanaPrincipal ventana) {
         tree_nuevo = new TreeSet<String>();
         tree_procesos = new TreeSet<Proceso>(new Comparator<Proceso>() {
