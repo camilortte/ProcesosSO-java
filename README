@@ -3,6 +3,9 @@
   -hay un BUG que aparece a ratos , agregadno "------" a la  lista visual de terminados
   -No hay forma de que los procesos que estan en BLOQUEADO vuelvan a LISTO
 
+  -Al generar procesos aleatorios, se agregan a  la lista jList_listo,no se  agregan aun 
+   al arbol de procesos ni a la la cola Nuevo.
+
 
 
 Copyright (C) 2013-today Camilo Ramírez camilortte@hotmail.com @camilortte on Twitter
