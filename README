@@ -1,8 +1,8 @@
 -Cosas importante que faltan:
   -Falta la implementacion de la vanetana de visualizacion de memoria
   -No hay forma de que los procesos que estan en BLOQUEADO vuelvan a LISTO
-
-
+  -Falta actualziar el panel de informacion de procesos , cada vez que el tamanio cambia.	
+  -La flecha de nuevo a listo nunca se enciende.
 Copyright (C) 2013-today Camilo Ramírez camilortte@hotmail.com @camilortte on Twitter
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public
