@@ -88,7 +88,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtNombreProceso = new javax.swing.JLabel();
         txtEstadoProceso = new javax.swing.JLabel();
         txtTamanhoProceso = new javax.swing.JLabel();
-        botonMatarProceso = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -115,6 +114,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelOverload1 = new vista.PanelOverload();
         jLabel_Proceso = new javax.swing.JLabel();
         jProgressBar_proceso = new javax.swing.JProgressBar();
+        botonMatarProceso = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         statusBar = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -354,13 +354,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel21.setText("Tamaño :");
 
-        botonMatarProceso.setText("MATAR PROCESO");
-        botonMatarProceso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonMatarProcesoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -379,10 +372,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(txtEstadoProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTamanhoProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(botonMatarProceso)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -403,9 +392,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(txtTamanhoProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(botonMatarProceso)
-                .addContainerGap())
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -520,6 +507,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jProgressBar_proceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        botonMatarProceso.setText("MATAR PROCESO");
+        botonMatarProceso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonMatarProcesoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -553,7 +547,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel6))
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(255, 255, 255)
+                                .addGap(41, 41, 41)
+                                .addComponent(botonMatarProceso)
+                                .addGap(95, 95, 95)
                                 .addComponent(jLabel8)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -610,16 +606,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addGap(11, 11, 11)))))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel9)))
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonMatarProceso)
+                            .addComponent(jLabel8))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -976,43 +974,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if ("".equals(txtIdProceso.getText()) || "".equals(txtNombreProceso.getText()) || "".equals(txtEstadoProceso.getText()) || "".equals(txtTamanhoProceso.getText())) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un proceso");
         } else {
-            String pregunta = "¿Esta seguro que desea eliminar este proceso?";
-            int seleccion = JOptionPane.showOptionDialog(null, pregunta, "Seleccione una opcion: ", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
-
-            if ((seleccion + 1) == 1) {//va a eliminar
-                //eliminar del arbol de procesos
-                Object proceso= controlProces.obtenerProceso(txtIdProceso.getText());
-                if(proceso==null){
-                    JOptionPane.showMessageDialog(this,"El proceso no existe en el arbol de procesos.");
-                }else{
-                    controlProces.eliminarProcesoDeArbol((Proceso)proceso);
-                    if("LISTO".equals(txtEstadoProceso.getText())){
-                        controlProces.eleminarProcesoDeColaListo((Proceso)proceso);
-                        controlProces.eliminarProcesoDeArbol((Proceso)proceso);
-                        //no elimina visualmente de la cola
-                        deleteItem(jList_listo,txtIdProceso+" "+txtNombreProceso);
-                        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
-                        modelo.removeRow(jTable1.getSelectedRow());
-                    }
-                    if("BLOQUEADO".equals(txtEstadoProceso.getText())){
-                        controlProces.eliminarProcesoDeArbol((Proceso)proceso);
-                        controlProces.eleminarProcesoDeColaBloqueado((Proceso)proceso);
-                        deleteItem(jList_bloqueado,txtIdProceso+" "+txtNombreProceso);
-                        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
-                        modelo.removeRow(jTable1.getSelectedRow());
-                    }
-                    if("TERMINADO".equals(txtEstadoProceso.getText())){
-                        controlProces.eliminarProcesoDeArbol((Proceso)proceso);
-                        controlProces.eleminarProcesoDeColaTerminado((Proceso)proceso);
-                        deleteItem(jList_terminado,txtIdProceso+" "+txtNombreProceso);
-                        DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
-                        modelo.removeRow(jTable1.getSelectedRow());
-                    }
-                    JOptionPane.showMessageDialog(this,"Se ha eliminado correctamente..");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this,"Accion cancelada.");
-            }
+            Proceso proceso = (Proceso)controlProces.obtenerProceso(txtIdProceso.getText());
+            controlProces.eliminarProceso(proceso);
         }
     }//GEN-LAST:event_botonMatarProcesoActionPerformed
 

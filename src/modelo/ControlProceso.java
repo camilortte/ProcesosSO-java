@@ -40,20 +40,35 @@ public class ControlProceso {
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
     
+    public void eliminarProceso(Proceso proceso){
+        Iterator it = tree_procesos.iterator();
+        Proceso value=proceso;
+        while (it.hasNext()) {
+           value = (Proceso) it.next();
+            if (value.getId().compareTo(proceso.getId()) == 0) {
+                tree_procesos.remove(value);
+                value.setTamanio_actual(0);
+                value.setNombre(value.getNombre()+" KILL");
+                tree_procesos.add(value);
+                break;
+            }
+        }
+    }
+    
     public Object obtenerProceso(String id){
         Iterator it = tree_procesos.iterator();
-        Proceso value;
+        Proceso value = null;
         
         while (it.hasNext()) {
            value = (Proceso) it.next();
-            if (value.getId().compareTo(id) == 0) {
-                tree_procesos.remove(value);
-                return value;
+            if (value.getId().compareTo(id) == 0){
+                //tree_procesos.remove(value);
+                break;
             }else{
-                return null;
+                value = null;
             }
         }
-        return null;
+        return value;
     }
     
     /*Eliminar un proceso del arrbol de procesos*/
