@@ -55,6 +55,20 @@ public class ControlProceso {
         }
     }
     
+    public int  getTamanio(String id){
+        Iterator it = tree_procesos.iterator();
+        Proceso value=null;
+        while (it.hasNext()) {
+           value = (Proceso) it.next();
+            if (value.getId().compareTo(id) == 0) {
+                tree_procesos.remove(value);
+                tree_procesos.add(value);
+                return value.getTamanio();
+            }
+        }
+        return 0;
+    }
+    
     public Object obtenerProceso(String id){
         Iterator it = tree_procesos.iterator();
         Proceso value = null;
