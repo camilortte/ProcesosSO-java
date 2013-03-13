@@ -9,7 +9,7 @@
 
 
 ##Autor
-Javier Aranda estudió Ingeniería Técnica en Informática de Gestión en la Universidad de Córdoba. Este proyecto es fruto de una beca del Departamento de Estadística, Econometría e Investigación Operativa para la realización del mismo y como tal ha servido como proyecto final de carrera para su autor. Para saber más sobre él, consultar su página web personal en http://javierav.com
+Estudiantes de la universidad Distrital Francisco José de Caldas.
 
 ##Licencia
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
@@ -18,7 +18,7 @@ Este proyecto se distribuye bajo la licencia GNU GPL v3. http://www.gnu.org/lice
 
 
 
-**Copyright (C) 2013-today Camilo Ramírez camilortte@hotmail.com, [@camilortte](https://twitter.com/camilortte)@camilortte on Twitter**
+**Copyright (C) 2013-today Camilo Ramírez camilortte@hotmail.com, [@camilortte](https://twitter.com/camilortte) on Twitter**
 
 
 
