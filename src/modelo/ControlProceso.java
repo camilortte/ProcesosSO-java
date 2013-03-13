@@ -360,7 +360,6 @@ public class ControlProceso {
                     sleep();                    
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();
-                    /*i=dispositivosDisponibles.length+2;*/
                     break;
                 }
                 

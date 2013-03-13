@@ -849,7 +849,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     public void actualizarDispositivos(Dispositivo dis){
    
-        System.out.println("Entro_" + dis.getId() + "_" + dis.isDisponible());
+        System.out.println("Actualizando dispositivo" + dis.getId());
 
         if (dis.getId().compareTo("1") == 0) {
             if (dis.isDisponible()) {
@@ -1153,7 +1153,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
-             System.out.println("Valor de id_"+jTextField_id.getText()+"_valor de nombre:_"+jTextField_nombre.getText()+"_");
+             System.out.println("ADD a la lista nuevo: Valor de id_"+jTextField_id.getText()+"_valor de nombre:_"+jTextField_nombre.getText()+"_");
             if(controlProces.addNuevo(jTextField_id.getText())){                                
                 this.statusBar.setText("Bien se anadio a NUEVO");
                 this.addItem(jList_nuevo,jTextField_id.getText()+" "+jTextField_nombre.getText());                
