@@ -29,16 +29,35 @@ public class ControlProceso {
     private Queue<Proceso> cola_terminado;
     private Queue<Proceso> cola_bloquedao;
     private boolean stop;
-    private boolean dispositivosDisponibles[];
+    private Dispositivo dispositivosDisponibles[];
     private Procesador procesador;
     private int tiempoProceso;
     //Es la unica forma que se me ocurrio para modificar la ventana  desde los
     //proceso de la clase control proceso =D
     private VentanaPrincipal ventana;
-
+    private boolean terminado;
     //offer(proceso);// inserta un elemento
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
+    
+     public ControlProceso(VentanaPrincipal ventana) {
+        tree_nuevo = new TreeSet<String>();
+        tree_procesos = new TreeSet<Proceso>(new Comparator<Proceso>() {
+            public int compare(Proceso stud1, Proceso stud2) {
+                return stud1.getId().compareTo(stud2.getId());
+            }
+        });
+        cola_listo = new LinkedList<Proceso>();
+        cola_terminado = new LinkedList<Proceso>();
+        cola_bloquedao = new LinkedList<Proceso>();
+        stop = false;
+        procesador = new Procesador();
+        this.ventana = ventana;
+        this.terminado=true;
+    }
+
+    
+    
     
     public void eliminarProceso(Proceso proceso){
         Iterator it = tree_procesos.iterator();
@@ -140,21 +159,7 @@ public class ControlProceso {
         }
     }
      
-    public ControlProceso(VentanaPrincipal ventana) {
-        tree_nuevo = new TreeSet<String>();
-        tree_procesos = new TreeSet<Proceso>(new Comparator<Proceso>() {
-            public int compare(Proceso stud1, Proceso stud2) {
-                return stud1.getId().compareTo(stud2.getId());
-            }
-        });
-        cola_listo = new LinkedList<Proceso>();
-        cola_terminado = new LinkedList<Proceso>();
-        cola_bloquedao = new LinkedList<Proceso>();
-        stop = false;
-        procesador = new Procesador();
-        this.ventana = ventana;
-    }
-
+   
     public int getTiempoProceso() {
         return tiempoProceso;
     }
@@ -173,11 +178,11 @@ public class ControlProceso {
         this.stop = stop;
     }
 
-    public boolean[] getDispositivosDisponibles() {
+    public Dispositivo[] getDispositivosDisponibles() {
         return dispositivosDisponibles;
     }
 
-    public void setDispositivosDisponibles(boolean[] dispositivosDisponibles) {
+    public void setDispositivosDisponibles(Dispositivo[] dispositivosDisponibles) {
         this.dispositivosDisponibles = dispositivosDisponibles;
     }
 
@@ -211,10 +216,10 @@ public class ControlProceso {
     }
 
     public void ejecutar() {               
-        //falta cambiar los estados.       
         stop=false;
         ventana.desactivarPaneles();
         while(!cola_listo.isEmpty() && stop != true) { 
+            terminado=false;
             Proceso proceso = cola_listo.poll();
             //Ejecuta un proceso de la clase proceso            
             if (proceso.getTamanio_actual() <= 0) {
@@ -240,9 +245,9 @@ public class ControlProceso {
                 sleep();
                 //estan disponible los dispostivos solicitados 
                 if (comprobarRecursoDisponible(proceso)) {  
+                    desactivarDispositivos(proceso);                              
                     procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
-                    proceso = procesador.procesar(proceso); 
-                    
+                    proceso = procesador.procesar(proceso);                     
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     sleep();
                     ventana.actualizarProcesosTabla(proceso);
@@ -250,6 +255,7 @@ public class ControlProceso {
                     
                     if (proceso.getTamanio_actual() <= 0) {                        
                         cambiarEstado(proceso, "TERMINADO");
+                        activarDispositivos(proceso);
                         ventana.activarPorgresBar(0, 0);
                         sleep();
                         ventana.actualizarProcesosTabla(proceso);
@@ -317,7 +323,7 @@ public class ControlProceso {
                 }
             }
         }
-        
+        terminado=true;
         ventana.activarPaneles();
     }
 
@@ -349,19 +355,60 @@ public class ControlProceso {
         }
     }
     
+    //comprueba que los dispositivos esten disponibles o que 
+    //los dispositivos tengan asignado el id del proceso
     public boolean comprobarRecursoDisponible(Proceso proceso) {
-        boolean dispositivosRequerdos[] = proceso.getRequerimientos();
+        Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
         boolean todoDisponible = false;
         for (int i = 0; i < dispositivosDisponibles.length; i++) {
-            if (dispositivosRequerdos[i] == true) {
-                if (dispositivosDisponibles[i] == true) {
+            if (dispositivosRequerdos[i]!= null) {
+                if (dispositivosDisponibles[i].isDisponible()) {
                     todoDisponible = true;
                 } else {
-                    todoDisponible = false;
-                    break;
+                    if(dispositivosDisponibles[i].getIdProcesoContenedor().compareTo(proceso.getId())==0){
+                        todoDisponible=true;
+                    }else{
+                        todoDisponible = false;
+                        break;
+                    }
                 }
             }
-        }
+        }        
+        
+        
         return todoDisponible;
+    }
+
+    public boolean isTerminado() {
+        return terminado;
+    }
+    
+    
+    
+    //Desactiva los dispositivos que requiere el proceso para que no esten y
+    //asigna los id's de los procesos a los dispositivos
+    public void desactivarDispositivos(Proceso proceso){
+        Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
+        for (int i = 0; i < dispositivosDisponibles.length; i++) {
+            if (dispositivosRequerdos[i]!= null) {
+                   dispositivosDisponibles[i].setDisponible(false);                
+                   dispositivosDisponibles[i].setIdProcesoContenedor(proceso.getId());
+                   ventana.actualizarDispositivos(dispositivosDisponibles[i]);
+            }
+        }
+    }
+    
+    
+    //Activar los dispositovos que requirio el proceso
+    // y elimina las asignaciones de lls dispositivos
+    public void activarDispositivos(Proceso proceso){
+        Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
+        for (int i = 0; i < dispositivosDisponibles.length; i++) {
+            if (dispositivosRequerdos[i]!= null) {
+                   dispositivosDisponibles[i].setDisponible(true);       
+                   dispositivosDisponibles[i].setIdProcesoContenedor(null);
+                   ventana.actualizarDispositivos(dispositivosDisponibles[i]);
+            }
+        }
     }
 }

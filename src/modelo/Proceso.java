@@ -8,14 +8,16 @@ import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
  * @author camilortte
  */
 public class Proceso {
+    
     private String nombre;
     private String id;
     private String estado;
     private int tamanio;
     private int tamanio_actual;
-    private boolean requerimientos[];
+    private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
-    public Proceso(String nombre,String id, String estado,int tamanio, boolean requerimientos[]){
+    
+    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[]){
         this.nombre=nombre;
         this.estado=estado;
         this.id=id;
@@ -24,12 +26,14 @@ public class Proceso {
         this.requerimientos=requerimientos;
         this.requiereDispositivo=false;
         for(int i=0;i<requerimientos.length;i++){
-            if(requerimientos[i]==true){
+            if(requerimientos[i]!=null){
                 requiereDispositivo=true;
                 break;
             }
         }
     }
+    
+    
 
     public int getTamanio_actual() {
         return tamanio_actual;
@@ -61,11 +65,11 @@ public class Proceso {
         this.tamanio = tamanio;
     }
 
-    public boolean[] getRequerimientos() {
+    public Dispositivo[] getRequerimientos() {
         return requerimientos;
     }
 
-    public void setRequerimientos(boolean[] requerimientos) {
+    public void setRequerimientos(Dispositivo[] requerimientos) {
         this.requerimientos = requerimientos;
     }
     
