@@ -28,6 +28,9 @@ public class ControlProceso {
     private Queue<Proceso> cola_listo;
     private Queue<Proceso> cola_terminado;
     private Queue<Proceso> cola_bloquedao;
+    private Queue<Proceso> cola_bloqueadoImpresora;
+    private Queue<Proceso> cola_bloqueadoMonitor;
+    private Queue<Proceso> cola_bloqueadoArchivo;
     private boolean stop;
     private Dispositivo dispositivosDisponibles[];
     private Procesador procesador;
@@ -50,6 +53,9 @@ public class ControlProceso {
         cola_listo = new LinkedList<Proceso>();
         cola_terminado = new LinkedList<Proceso>();
         cola_bloquedao = new LinkedList<Proceso>();
+        cola_bloqueadoImpresora= new LinkedList<Proceso>();
+        cola_bloqueadoMonitor= new LinkedList<Proceso>();
+        cola_bloqueadoArchivo= new LinkedList<Proceso>();
         stop = false;
         procesador = new Procesador();
         this.ventana = ventana;
@@ -278,13 +284,9 @@ public class ControlProceso {
                 } else {
                     cambiarEstado(proceso, "BLOQUEADO");                    
                     ventana.actualizarProcesosTabla(proceso);
-                    sleep();
-                    ventana.ejecucionToBloqueado();
-                    sleep();                    
-                    ventana.actualizarProcesosTabla(proceso);
-                    sleep();
-            
-                    cola_bloquedao.offer(proceso);
+                    sleep();            
+                    bloquearProceso(proceso);
+                    //cola_bloquedao.offer(proceso);
                 } 
                 //COmo no requere un dispositivo
             } else {                
@@ -335,6 +337,38 @@ public class ControlProceso {
         ventana.actualizarProcesosTabla(proceso);
         sleep();          
     }*/
+    
+    private void bloquearProceso(Proceso proceso) {
+        Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
+        for (int i = 0; i < dispositivosDisponibles.length; i++) {
+            if (dispositivosRequerdos[i]!= null) {
+                if (dispositivosDisponibles[i].isDisponible()!=true) {                   
+                    switch (dispositivosDisponibles[i].getId()){
+                        case "1":
+                            cola_bloqueadoImpresora.offer(proceso);                            
+                            ventana.ejecucionToImpresoraBloqueado();                            
+                            break;
+                        case "2":
+                            cola_bloqueadoMonitor.offer(proceso);
+                            ventana.ejecucionToMonitorBloqueado();
+                            break;
+                        case "3":                               
+                             cola_bloqueadoArchivo.offer(proceso);
+                             ventana.ejecucionToArchivoaBloqueado();
+                            break;
+                    }
+                    sleep();                    
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    /*i=dispositivosDisponibles.length+2;*/
+                    break;
+                }
+                
+            }
+        }
+    }
+    
+   
     
     void printTreeSet()
     {
@@ -392,7 +426,7 @@ public class ControlProceso {
         for (int i = 0; i < dispositivosDisponibles.length; i++) {
             if (dispositivosRequerdos[i]!= null) {
                    dispositivosDisponibles[i].setDisponible(false);                
-                   dispositivosDisponibles[i].setIdProcesoContenedor(proceso.getId());
+                   dispositivosDisponibles[i].setIdProcesoContenedor(proceso.getId());                   
                    ventana.actualizarDispositivos(dispositivosDisponibles[i]);
             }
         }
@@ -408,6 +442,40 @@ public class ControlProceso {
                    dispositivosDisponibles[i].setDisponible(true);       
                    dispositivosDisponibles[i].setIdProcesoContenedor(null);
                    ventana.actualizarDispositivos(dispositivosDisponibles[i]);
+                   
+                   Proceso procesoAux=null;
+                   switch (dispositivosDisponibles[i].getId()){
+                        case "1":                            
+                            if(!cola_bloqueadoImpresora.isEmpty()){
+                                //Lo mete a listo
+                                procesoAux=cola_bloqueadoImpresora.poll(); 
+                                ventana.impresoraBloqueadoToListo();
+                            }
+                            break;
+                        case "2":
+                            if(!cola_bloqueadoMonitor.isEmpty()){
+                                //Lo mete a listo
+                                procesoAux=cola_bloqueadoMonitor.poll();                                 
+                                ventana.monitorBloqueadoToListo();
+                            }
+                            break;
+                        case "3":                               
+                            if(!cola_bloqueadoArchivo.isEmpty()){
+                                //Lo mete a listo
+                                procesoAux=cola_bloqueadoArchivo.poll();                               
+                                ventana.archivoBloqueadoToListo();
+                            }
+                            break;
+                    }
+                   
+                   if(procesoAux!=null){
+                        cola_listo.offer(procesoAux);
+                        cambiarEstado(procesoAux, "LISTO");                                
+                         ventana.actualizarProcesosTabla(procesoAux);
+                         sleep();  
+                        ventana.actualizarDispositivos(dispositivosDisponibles[i]);
+                   }
+                   
             }
         }
     }

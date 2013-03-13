@@ -32,7 +32,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         jList_nuevo.setModel(new DefaultListModel());
         jList_listo.setModel(new DefaultListModel());
-        jList_bloqueado.setModel(new DefaultListModel());
+        jList_impresoraBloq.setModel(new DefaultListModel());
+        jList_monitorBloq.setModel(new DefaultListModel());
+        jList_archivoBloq.setModel(new DefaultListModel());
         jList_terminado.setModel(new DefaultListModel());
         controlProces=new ControlProceso(this);        
         modeloTabla=new DefaultTableModel();
@@ -126,11 +128,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_terminado = new javax.swing.JList();
         jLabel12 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList_bloqueado = new javax.swing.JList();
-        jLabel13 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList_impresoraBloq = new javax.swing.JList();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jList_monitorBloq = new javax.swing.JList();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jList_archivoBloq = new javax.swing.JList();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         statusBar = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -249,7 +257,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(jCheckBox_requiereMonitor)
                                     .addComponent(jCheckBox_requiereArchivo)))
                             .addComponent(jButton_crearProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 106, Short.MAX_VALUE)))
+                        .addGap(0, 111, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -315,7 +323,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jSpinner1)
                             .addComponent(jSpinner_eliminacionPorProceso)))
                     .addComponent(botonMatarProceso))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,7 +377,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)))
+                        .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -424,12 +432,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
                     .addComponent(jLabel25))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_monitorDis, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel_archivoDIs, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                    .addComponent(jLabel_monitorDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_archivoDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,15 +447,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel23)
                     .addComponent(jLabel_impresoraDIs))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel25))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel_monitorDis)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_archivoDIs)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel_monitorDis))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel_archivoDIs))
                 .addContainerGap(169, Short.MAX_VALUE))
         );
 
@@ -625,49 +631,75 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        jScrollPane5.setViewportView(jList_bloqueado);
-
-        jLabel13.setText("Bloqueado");
-
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/images/flehcaChuecaReves.png"))); // NOI18N
         jLabel8.setEnabled(false);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/images/flehcaChueca.png"))); // NOI18N
         jLabel9.setEnabled(false);
 
+        jScrollPane2.setViewportView(jList_impresoraBloq);
+
+        jScrollPane7.setViewportView(jList_monitorBloq);
+
+        jScrollPane8.setViewportView(jList_archivoBloq);
+
+        jLabel13.setText("Impresora");
+
+        jLabel26.setText("Monitor");
+
+        jLabel27.setText("Archivo");
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(289, 289, 289)
-                        .addComponent(jLabel13)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addGap(137, 137, 137))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(jLabel13)
+                .addGap(61, 61, 61)
+                .addComponent(jLabel26)
+                .addGap(95, 95, 95)
+                .addComponent(jLabel27)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel13)
+                .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
+            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel10Layout.createSequentialGroup()
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(34, 34, 34))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addGap(67, 67, 67)))
-                    .addComponent(jLabel9)))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel26))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel9)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -676,7 +708,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 3, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -686,7 +718,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -709,7 +741,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         statusBar.setText("Bienvenido , este programa fue desarrolado por esttudiantes de la UDistrital");
@@ -755,18 +787,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(13, 13, 13))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -884,28 +916,76 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_listo.setModel(modelo);
         jLabel_Proceso.setText("-------------");
     }
-    
-     public void ejecucionToBloqueado(){
+    //***************************
+     public void ejecucionToImpresoraBloqueado(){
         desactivarTodasLasFelchas();
         jLabel9.setEnabled(true);
         String info= jLabel_Proceso.getText();
-        DefaultListModel modelo = (DefaultListModel) jList_bloqueado.getModel();
+        DefaultListModel modelo = (DefaultListModel) jList_impresoraBloq.getModel();
         modelo.add(0, info);
-        jList_bloqueado.setModel(modelo);
+        jList_impresoraBloq.setModel(modelo);
         jLabel_Proceso.setText("-------------");
     }
      
-     public void bloqueadoToListo(){
+     public void ejecucionToArchivoaBloqueado(){
+        desactivarTodasLasFelchas();
+        jLabel9.setEnabled(true);
+        String info= jLabel_Proceso.getText();
+        DefaultListModel modelo = (DefaultListModel) jList_archivoBloq.getModel();
+        modelo.add(0, info);
+        jList_archivoBloq.setModel(modelo);
+        jLabel_Proceso.setText("-------------");
+    }
+     
+     public void ejecucionToMonitorBloqueado(){
+        desactivarTodasLasFelchas();
+        jLabel9.setEnabled(true);
+        String info= jLabel_Proceso.getText();
+        DefaultListModel modelo = (DefaultListModel) jList_monitorBloq.getModel();
+        modelo.add(0, info);
+        jList_monitorBloq.setModel(modelo);
+        jLabel_Proceso.setText("-------------");
+    }
+     
+     //********************************
+     
+     public void impresoraBloqueadoToListo(){
         desactivarTodasLasFelchas();
         jLabel8.setEnabled(true);
-        String info=(String) jList_bloqueado.getModel().getElementAt(jList_bloqueado.getModel().getSize()-1);    
-        DefaultListModel modelo = (DefaultListModel) jList_bloqueado.getModel();
+        String info=(String) jList_impresoraBloq.getModel().getElementAt(jList_impresoraBloq.getModel().getSize()-1);    
+        DefaultListModel modelo = (DefaultListModel) jList_impresoraBloq.getModel();
         modelo.remove(modelo.size()-1);                
-        jList_bloqueado.setModel(modelo);
+        jList_impresoraBloq.setModel(modelo);
         modelo= (DefaultListModel) jList_listo.getModel();
         modelo.add(0, info);
         jList_listo.setModel(modelo);
     }
+     
+     public void monitorBloqueadoToListo(){
+        desactivarTodasLasFelchas();
+        jLabel8.setEnabled(true);
+        String info=(String) jList_monitorBloq.getModel().getElementAt(jList_monitorBloq.getModel().getSize()-1);    
+        DefaultListModel modelo = (DefaultListModel) jList_monitorBloq.getModel();
+        modelo.remove(modelo.size()-1);                
+        jList_monitorBloq.setModel(modelo);
+        modelo= (DefaultListModel) jList_listo.getModel();
+        modelo.add(0, info);
+        jList_listo.setModel(modelo);
+    }
+     
+     public void archivoBloqueadoToListo(){
+        desactivarTodasLasFelchas();
+        jLabel8.setEnabled(true);
+        String info=(String) jList_archivoBloq.getModel().getElementAt(jList_archivoBloq.getModel().getSize()-1);    
+        DefaultListModel modelo = (DefaultListModel) jList_archivoBloq.getModel();
+        modelo.remove(modelo.size()-1);                
+        jList_archivoBloq.setModel(modelo);
+        modelo= (DefaultListModel) jList_listo.getModel();
+        modelo.add(0, info);
+        jList_listo.setModel(modelo);
+    }
+     
+     //**********************************
      
      public void activarPorgresBar(int total,int actual){
          this.jProgressBar_proceso.setMaximum(total);
@@ -1173,6 +1253,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1184,8 +1266,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_archivoDIs;
     private javax.swing.JLabel jLabel_impresoraDIs;
     private javax.swing.JLabel jLabel_monitorDis;
-    private javax.swing.JList jList_bloqueado;
+    private javax.swing.JList jList_archivoBloq;
+    private javax.swing.JList jList_impresoraBloq;
     private javax.swing.JList jList_listo;
+    private javax.swing.JList jList_monitorBloq;
     private javax.swing.JList jList_nuevo;
     private javax.swing.JList jList_terminado;
     private javax.swing.JMenu jMenu1;
@@ -1204,10 +1288,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JProgressBar jProgressBar_proceso;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner_eliminacionPorProceso;
     private javax.swing.JSpinner jSpinner_tamanio;
