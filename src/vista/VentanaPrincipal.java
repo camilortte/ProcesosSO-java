@@ -105,6 +105,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel_impresoraDIs = new javax.swing.JLabel();
         jLabel_monitorDis = new javax.swing.JLabel();
         jLabel_archivoDIs = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jComboBox_dispositivos = new javax.swing.JComboBox();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel_infoNombreDIs = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel_inforIdDis = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel_infoContenedorDis = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -257,7 +265,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(jCheckBox_requiereMonitor)
                                     .addComponent(jCheckBox_requiereArchivo)))
                             .addComponent(jButton_crearProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 111, Short.MAX_VALUE)))
+                        .addGap(0, 138, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -323,7 +331,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jSpinner1)
                             .addComponent(jSpinner_eliminacionPorProceso)))
                     .addComponent(botonMatarProceso))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,7 +385,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)))
+                        .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -422,6 +430,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel_archivoDIs.setText("Disponible");
 
+        jLabel28.setText("Seleccione");
+
+        jComboBox_dispositivos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Impresora", "Monitor", "Archivo Ext" }));
+        jComboBox_dispositivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_dispositivosActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setText("Nombre:");
+
+        jLabel_infoNombreDIs.setText("none");
+
+        jLabel30.setText("Id:");
+
+        jLabel_inforIdDis.setText("none");
+
+        jLabel31.setText("Contenedor:");
+
+        jLabel_infoContenedorDis.setText("none");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -429,15 +458,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel30)
+                    .addComponent(jLabel31)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
                     .addComponent(jLabel25))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                    .addComponent(jLabel_monitorDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel_archivoDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_monitorDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_archivoDIs, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jComboBox_dispositivos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_infoNombreDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_inforIdDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel_infoContenedorDis, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -454,7 +493,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jLabel_archivoDIs))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_dispositivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel_infoNombreDIs))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(jLabel_inforIdDis))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(jLabel_infoContenedorDis))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("info-disp", jPanel4);
@@ -708,7 +763,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -741,7 +796,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         statusBar.setText("Bienvenido , este programa fue desarrolado por esttudiantes de la UDistrital");
@@ -1151,6 +1206,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox_requiereImpresoraActionPerformed
 
+    private void jComboBox_dispositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_dispositivosActionPerformed
+        Dispositivo dispositivos[]=controlProces.getDispositivosDisponibles();
+        
+        
+            switch (jComboBox_dispositivos.getSelectedIndex()){
+                case 0:
+                    jLabel_infoNombreDIs.setText(dispositivosDisponibles[0].getNombre());
+                    jLabel_inforIdDis.setText(dispositivosDisponibles[0].getId());
+                    if (dispositivos!=null)
+                        jLabel_infoContenedorDis.setText(dispositivos[0].getIdProcesoContenedor());
+                    break;
+                case 1:
+                    jLabel_infoNombreDIs.setText(dispositivosDisponibles[1].getNombre());
+                    jLabel_inforIdDis.setText(dispositivosDisponibles[1].getId());
+                    if (dispositivos!=null)
+                        jLabel_infoContenedorDis.setText(dispositivos[1].getIdProcesoContenedor());
+                    break;
+                case 2:
+                    jLabel_infoNombreDIs.setText(dispositivosDisponibles[2].getNombre());
+                    jLabel_inforIdDis.setText(dispositivosDisponibles[2].getId());
+                    if (dispositivos!=null)
+                        jLabel_infoContenedorDis.setText(dispositivos[2].getIdProcesoContenedor());
+                    break;
+            
+        }
+    }//GEN-LAST:event_jComboBox_dispositivosActionPerformed
+
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
              System.out.println("ADD a la lista nuevo: Valor de id_"+jTextField_id.getText()+"_valor de nombre:_"+jTextField_nombre.getText()+"_");
@@ -1235,6 +1317,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox_requiereArchivo;
     private javax.swing.JCheckBox jCheckBox_requiereImpresora;
     private javax.swing.JCheckBox jCheckBox_requiereMonitor;
+    private javax.swing.JComboBox jComboBox_dispositivos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1255,7 +1338,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1265,6 +1352,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Proceso;
     private javax.swing.JLabel jLabel_archivoDIs;
     private javax.swing.JLabel jLabel_impresoraDIs;
+    private javax.swing.JLabel jLabel_infoContenedorDis;
+    private javax.swing.JLabel jLabel_infoNombreDIs;
+    private javax.swing.JLabel jLabel_inforIdDis;
     private javax.swing.JLabel jLabel_monitorDis;
     private javax.swing.JList jList_archivoBloq;
     private javax.swing.JList jList_impresoraBloq;
