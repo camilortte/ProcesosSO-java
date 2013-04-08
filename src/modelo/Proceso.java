@@ -1,12 +1,6 @@
 
 package modelo;
 
-import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
-
-/**
- *
- * @author camilortte
- */
 public class Proceso {
     
     private String nombre;
@@ -14,10 +8,12 @@ public class Proceso {
     private String estado;
     private int tamanio;
     private int tamanio_actual;
+    private int tiempoListo;
+    private int tiempoBloqueado;
     private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
     
-    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[]){
+    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int tiempoListo,int tiempoBloqueado){
         this.nombre=nombre;
         this.estado=estado;
         this.id=id;
@@ -25,6 +21,8 @@ public class Proceso {
         this.tamanio_actual=tamanio;
         this.requerimientos=requerimientos;
         this.requiereDispositivo=false;
+        this.tiempoListo=tiempoListo;
+        this.tiempoBloqueado=tiempoBloqueado;
         for(int i=0;i<requerimientos.length;i++){
             if(requerimientos[i]!=null){
                 requiereDispositivo=true;
@@ -32,9 +30,32 @@ public class Proceso {
             }
         }
     }
+   
+    public int getTiempoListo(){
+        return this.tiempoListo;
+    }
+    
+    public int getTiempoBloqueado(){
+        return this.tiempoBloqueado;
+    }
+    
+    public void setTiempoListo(int tiempoListo){
+        this.tiempoListo=tiempoListo;
+    }
+    
+    public void setTiempoBloqueado(int tiempoBloqueado){
+        this.tiempoBloqueado=tiempoBloqueado;
+    }
     
     
-
+    public void sumarTiempoListo(int tiempo){
+        this.tiempoListo += tiempo;
+    }
+    
+    public void sumarTiempoBloqueado(int tiempo){
+        this.tiempoBloqueado += tiempo;
+    }
+    
     public int getTamanio_actual() {
         return tamanio_actual;
     }
@@ -44,7 +65,6 @@ public class Proceso {
     }
     
     
-       
     public Proceso(){
         this.nombre="";
         this.estado="";
@@ -55,8 +75,6 @@ public class Proceso {
         return requiereDispositivo;
     }
 
-    
-    
     public int getTamanio() {
         return tamanio;
     }

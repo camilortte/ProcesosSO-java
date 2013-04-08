@@ -4,30 +4,22 @@
  */
 package vista;
 
-import java.awt.Toolkit;
-import java.awt.image.ImageProducer;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 import modelo.ControlProceso;
 import modelo.Dispositivo;
 import modelo.Proceso;
 
-/**
- *
- * @author camilortte
- */ 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlProceso controlProces;
     private DefaultTableModel modeloTabla;
     Dispositivo dispositivosDisponibles[]=new Dispositivo[3];
-    /**
-     * Creates new form VentanaPrincipal
-     */
+    private Proceso procesoEjecutado;
+    
     public VentanaPrincipal() {
         initComponents();
         jList_nuevo.setModel(new DefaultListModel());
@@ -36,7 +28,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_monitorBloq.setModel(new DefaultListModel());
         jList_archivoBloq.setModel(new DefaultListModel());
         jList_terminado.setModel(new DefaultListModel());
-        controlProces=new ControlProceso(this);        
+        controlProces=new ControlProceso(this,jTable1,txtTamActual);        
         modeloTabla=new DefaultTableModel();
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Id");
@@ -51,7 +43,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dispositivosDisponibles[0].setDisponible(true);
         dispositivosDisponibles[1].setDisponible(true);
         dispositivosDisponibles[2].setDisponible(true);
-        
         
     }
 
@@ -86,18 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jSpinner_eliminacionPorProceso = new javax.swing.JSpinner();
         botonMatarProceso = new javax.swing.JButton();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        txtIdProceso = new javax.swing.JLabel();
-        txtNombreProceso = new javax.swing.JLabel();
-        txtEstadoProceso = new javax.swing.JLabel();
-        txtTamanhoProceso = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        txtTamActual = new javax.swing.JLabel();
+        listaRequerimientos = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -113,6 +93,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel_inforIdDis = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel_infoContenedorDis = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        txtNombreContenedor = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        txtIdProceso = new javax.swing.JLabel();
+        txtNombreProceso = new javax.swing.JLabel();
+        txtEstadoProceso = new javax.swing.JLabel();
+        txtTamanhoProceso = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        txtTamActual = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        listaRequiere = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -173,10 +168,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
+
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Creacion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
 
         jLabel1.setText("Nombre");
 
+        jTextField_nombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_nombreMouseClicked(evt);
+            }
+        });
         jTextField_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_nombreActionPerformed(evt);
@@ -210,10 +216,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel3.setText("Tamanio");
 
         jSpinner_tamanio.setModel(new javax.swing.SpinnerNumberModel(100, 1, 1000, 1));
+        jSpinner_tamanio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jSpinner_tamanioMouseClicked(evt);
+            }
+        });
 
         jLabel14.setText("Requiere");
 
         jCheckBox_requiereImpresora.setText("Impresora");
+        jCheckBox_requiereImpresora.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBox_requiereImpresoraMouseClicked(evt);
+            }
+        });
         jCheckBox_requiereImpresora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox_requiereImpresoraActionPerformed(evt);
@@ -221,8 +237,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         jCheckBox_requiereMonitor.setText("Monitor");
+        jCheckBox_requiereMonitor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBox_requiereMonitorMouseClicked(evt);
+            }
+        });
 
         jCheckBox_requiereArchivo.setText("Archivo");
+        jCheckBox_requiereArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBox_requiereArchivoMouseClicked(evt);
+            }
+        });
         jCheckBox_requiereArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox_requiereArchivoActionPerformed(evt);
@@ -265,7 +291,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(jCheckBox_requiereMonitor)
                                     .addComponent(jCheckBox_requiereArchivo)))
                             .addComponent(jButton_crearProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 138, Short.MAX_VALUE)))
+                        .addGap(0, 201, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -331,7 +357,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jSpinner1)
                             .addComponent(jSpinner_eliminacionPorProceso)))
                     .addComponent(botonMatarProceso))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,77 +370,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(jSpinner_eliminacionPorProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(botonMatarProceso)
                 .addGap(40, 40, 40))
         );
 
         jTabbedPane1.addTab("Procesador", jPanel7);
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informarcion proceso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
-
-        jLabel18.setText("Id proceso :");
-
-        jLabel19.setText("Nombre : ");
-
-        jLabel20.setText("Estado :");
-
-        jLabel21.setText("Tamaño :");
-
-        jLabel22.setText("Tam actual :");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel19)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel21))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNombreProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtEstadoProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtTamanhoProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel22)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtIdProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(txtNombreProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(txtEstadoProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(txtTamanhoProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(103, Short.MAX_VALUE))
-        );
-
-        jTabbedPane2.addTab("Info-process", jPanel8);
+        listaRequerimientos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaRequerimientosMouseClicked(evt);
+            }
+        });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado Dispositivos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
 
@@ -451,6 +418,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel_infoContenedorDis.setText("none");
 
+        jLabel33.setText("Nombre Cont :");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -464,18 +433,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel31)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
-                    .addComponent(jLabel25))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_monitorDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_archivoDIs, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jComboBox_dispositivos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_infoNombreDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_inforIdDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_infoContenedorDis, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jComboBox_dispositivos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_infoNombreDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_inforIdDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_infoContenedorDis, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(txtNombreContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -509,10 +479,91 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
                     .addComponent(jLabel_infoContenedorDis))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel33)
+                    .addComponent(txtNombreContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("info-disp", jPanel4);
+        listaRequerimientos.addTab("info-disp", jPanel4);
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informarcion proceso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
+
+        jLabel18.setText("Id proceso :");
+
+        jLabel19.setText("Nombre : ");
+
+        jLabel20.setText("Estado :");
+
+        jLabel21.setText("Tamaño :");
+
+        jLabel22.setText("Tam actual :");
+
+        jLabel32.setText("Requiere :");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIdProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombreProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEstadoProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTamanhoProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel32))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(listaRequiere, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtIdProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(txtNombreProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(txtEstadoProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(txtTamanhoProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(listaRequiere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+
+        listaRequerimientos.addTab("Info-process", jPanel8);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -521,7 +572,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane2)
+                    .addComponent(listaRequerimientos)
                     .addComponent(jTabbedPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -535,7 +586,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(listaRequerimientos, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_start)
@@ -863,16 +914,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
         String nombreproceso = this.jTextField_nombre.getText();
         String id = this.jTextField_id.getText();
-                    
+        jLabel4.setEnabled(true);         
         if (nombreproceso.compareTo("")!=0 && id.compareTo("")!=0) {
             Dispositivo requerimientos[]={null,null,null};
-            if(this.jCheckBox_requiereImpresora.isSelected()) requerimientos[0]=new Dispositivo(("Impresora"), "1");
-            if(this.jCheckBox_requiereMonitor.isSelected()) requerimientos[1]=new Dispositivo(("Impresora"), "2");
-            if(this.jCheckBox_requiereArchivo.isSelected()) requerimientos[2]=new Dispositivo(("Impresora"), "3");
+            if(this.jCheckBox_requiereImpresora.isSelected()) {
+                requerimientos[0]=new Dispositivo(("Impresora"), "1");
+            }
+            if(this.jCheckBox_requiereMonitor.isSelected()) {
+                requerimientos[1]=new Dispositivo(("Impresora"), "2");
+            }
+            if(this.jCheckBox_requiereArchivo.isSelected()) {
+                requerimientos[2]=new Dispositivo(("Impresora"), "3");
+            }
             
-            Proceso proceso=new Proceso (nombreproceso, id, "LISTO",(Integer)this.jSpinner_tamanio.getValue(),requerimientos);
-            
-            
+            //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            Proceso proceso=new Proceso (nombreproceso, id, "LISTO",(Integer)this.jSpinner_tamanio.getValue(),requerimientos,0,0);
             
             if(controlProces.addProceso(proceso)){                
                 addItem(jList_listo, id + " " + nombreproceso);
@@ -889,6 +945,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error debe ingresar datos validos",
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
         }
+        statusBar.setText("se ha creado un nuevo proceso.");
     }//GEN-LAST:event_jButton_crearProcesoActionPerformed
 
     private void addItemTable(Proceso proceso){
@@ -1057,7 +1114,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_nombreActionPerformed
 
     private void jTextField_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_idActionPerformed
-        
+        statusBar.setText("ingrese el id del proceso");
     }//GEN-LAST:event_jTextField_idActionPerformed
 
     private void jTextField_nombreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_nombreFocusGained
@@ -1088,10 +1145,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     
     private void jButton_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_startActionPerformed
-        
-        if(controlProces.isTerminado())
-            controlProces.setDispositivosDisponibles(dispositivosDisponibles);         
+        jLabel4.setEnabled(false);
+        statusBar.setText("Se ha iniciado la ejecuacion de los procesos.");
+        if(controlProces.isTerminado()) {
+            controlProces.setDispositivosDisponibles(dispositivosDisponibles);
+        }         
          (new Thread() {
+             @Override
             public void run() {
               controlProces.ejecutar();
             }
@@ -1120,12 +1180,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel4.getComponent(i).setEnabled(true);
         }*/
     }
-        
+    
+    
     public void actualizarProcesosTabla(Proceso procesoEjecutado){
+        this.procesoEjecutado=procesoEjecutado;
         int row = 0;
         String idProcesoEjecutado = procesoEjecutado.getId();
-        String estadoActual=procesoEjecutado.getEstado();
-        String tamanio=String.valueOf(procesoEjecutado.getTamanio_actual());
+        String estadoActual = procesoEjecutado.getEstado();
+        String tamanio = String.valueOf(procesoEjecutado.getTamanio_actual());
         while(row<jTable1.getRowCount()){
             if(idProcesoEjecutado.equals(jTable1.getValueAt(row,1))){
                 jTable1.setValueAt(estadoActual, row,3);
@@ -1139,6 +1201,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     private void jButton_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_stopActionPerformed
         activarPaneles();
+        statusBar.setText("se ha detenido la ejecucion de los procesos");
     }//GEN-LAST:event_jButton_stopActionPerformed
 
     private void jMenuItem_insertarProcesosAleatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
@@ -1160,9 +1223,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             if(random1%9==0){
                 requerimientos[2]=new Dispositivo(("Archivo"), "3");
             }
-            
-            
-            Proceso procesoAux=new Proceso("Chrome",String.valueOf(random1), "LISTO", random1 , requerimientos);
+            //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            Proceso procesoAux=new Proceso("Chrome",String.valueOf(random1), "LISTO", random1 , requerimientos,0,0);
             if (!controlProces.addProceso(procesoAux)){
                 i--;
             }else {
@@ -1171,6 +1233,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 addItemTable(procesoAux);
             }
         }
+        jLabel4.setEnabled(true);
     }//GEN-LAST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
 
     private void botonMatarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMatarProcesoActionPerformed
@@ -1180,11 +1243,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         } else {
             Proceso proceso = (Proceso)controlProces.obtenerProceso(txtIdProceso.getText());
             controlProces.eliminarProceso(proceso);
+            statusBar.setText("se ha eliminado un proceso");
         }
     }//GEN-LAST:event_botonMatarProcesoActionPerformed
 
     private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
         // TODO add your handling code here:
+        
         if(evt.getKeyCode()==38){
             int filaSeleccionada= jTable1.getSelectedRow()-1;
             if(filaSeleccionada <= jTable1.getRowCount()) {
@@ -1209,29 +1274,72 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jComboBox_dispositivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_dispositivosActionPerformed
         Dispositivo dispositivos[]=controlProces.getDispositivosDisponibles();
         
-        
             switch (jComboBox_dispositivos.getSelectedIndex()){
                 case 0:
                     jLabel_infoNombreDIs.setText(dispositivosDisponibles[0].getNombre());
                     jLabel_inforIdDis.setText(dispositivosDisponibles[0].getId());
-                    if (dispositivos!=null)
+                    if (dispositivos!=null) {
                         jLabel_infoContenedorDis.setText(dispositivos[0].getIdProcesoContenedor());
+                        Proceso p = (Proceso) controlProces.obtenerProceso(jLabel_infoContenedorDis.getText());
+                        txtNombreContenedor.setText(p.getNombre());
+                        }
                     break;
                 case 1:
                     jLabel_infoNombreDIs.setText(dispositivosDisponibles[1].getNombre());
                     jLabel_inforIdDis.setText(dispositivosDisponibles[1].getId());
-                    if (dispositivos!=null)
+                    if (dispositivos!=null) {
                         jLabel_infoContenedorDis.setText(dispositivos[1].getIdProcesoContenedor());
+                        Proceso p = (Proceso) controlProces.obtenerProceso(jLabel_infoContenedorDis.getText());
+                        txtNombreContenedor.setText(p.getNombre());
+                    }
                     break;
                 case 2:
                     jLabel_infoNombreDIs.setText(dispositivosDisponibles[2].getNombre());
                     jLabel_inforIdDis.setText(dispositivosDisponibles[2].getId());
-                    if (dispositivos!=null)
+                    if (dispositivos!=null) {
                         jLabel_infoContenedorDis.setText(dispositivos[2].getIdProcesoContenedor());
+                        Proceso p = (Proceso) controlProces.obtenerProceso(jLabel_infoContenedorDis.getText());
+                        txtNombreContenedor.setText(p.getNombre());
+                    }
                     break;
             
         }
     }//GEN-LAST:event_jComboBox_dispositivosActionPerformed
+
+    private void jTextField_nombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_nombreMouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("Ingrese el nombre del proceso");
+    }//GEN-LAST:event_jTextField_nombreMouseClicked
+
+    private void jSpinner_tamanioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSpinner_tamanioMouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("Seleccione un tamanho para el proceso");
+    }//GEN-LAST:event_jSpinner_tamanioMouseClicked
+
+    private void jCheckBox_requiereImpresoraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox_requiereImpresoraMouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("se ha selccionado un recurso");
+    }//GEN-LAST:event_jCheckBox_requiereImpresoraMouseClicked
+
+    private void jCheckBox_requiereMonitorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox_requiereMonitorMouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("se ha selccionado un recurso");
+    }//GEN-LAST:event_jCheckBox_requiereMonitorMouseClicked
+
+    private void jCheckBox_requiereArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox_requiereArchivoMouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("se ha selccionado un recurso");
+    }//GEN-LAST:event_jCheckBox_requiereArchivoMouseClicked
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("Creacion de procesos");
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void listaRequerimientosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaRequerimientosMouseClicked
+        // TODO add your handling code here:
+        statusBar.setText("Informacion de procesos");
+    }//GEN-LAST:event_listaRequerimientosMouseClicked
 
     private void functionAddNuevo(){
          if(jTextField_nombre.getText().compareTo("")!=0 && jTextField_id.getText().compareTo("")!=0){
@@ -1247,12 +1355,35 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }
     
+/*String tupla[]=new String[modelo.getRowCount()];
+       for(int i=0;i<modelo.getRowCount();i++){
+           tupla[i]=String.valueOf(modelo.getValueAt(i, 1));
+       }
+       DefaultComboBoxModel modeloComboBOx=new DefaultComboBoxModel(tupla);
+       
+       cajaProductos.setModel(modeloComboBOx);*/
+
     private void actualizarInformacion(int filaSeleccionada){
-            txtIdProceso.setText(""+jTable1.getValueAt(filaSeleccionada, 1));
-            txtNombreProceso.setText(""+jTable1.getValueAt(filaSeleccionada, 0));
-            txtEstadoProceso.setText(""+jTable1.getValueAt(filaSeleccionada, 3));
-            txtTamanhoProceso.setText(""+controlProces.getTamanio(txtIdProceso.getText()));
-            txtTamActual.setText(""+jTable1.getValueAt(filaSeleccionada,2));
+        String id = String.valueOf(jTable1.getValueAt(filaSeleccionada, 1));
+        Proceso procesoSeleccionado = (Proceso) controlProces.obtenerProceso(id);
+
+        if (procesoSeleccionado.isRequiereDispositivo()) {
+            Dispositivo arreglo[] = procesoSeleccionado.getRequerimientos();
+            String requerimiento[] = new String[arreglo.length];
+
+            for (int i = 0; i < arreglo.length - 1; i++) {
+                requerimiento[i] = String.valueOf(arreglo[i].getNombre());
+            }
+            DefaultComboBoxModel modeloComboBOx = new DefaultComboBoxModel(requerimiento);
+            listaRequiere.setModel(modeloComboBOx);
+        }
+
+        controlProces.setFila(filaSeleccionada);
+        txtIdProceso.setText("" + jTable1.getValueAt(filaSeleccionada, 1));
+        txtNombreProceso.setText("" + jTable1.getValueAt(filaSeleccionada, 0));
+        txtEstadoProceso.setText("" + jTable1.getValueAt(filaSeleccionada, 3));
+        txtTamanhoProceso.setText("" + controlProces.getTamanio(txtIdProceso.getText()));
+        txtTamActual.setText("" + jTable1.getValueAt(filaSeleccionada, 2));
     } 
     
     //Aniade un item a un jlistX
@@ -1343,6 +1474,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1388,14 +1521,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner_eliminacionPorProceso;
     private javax.swing.JSpinner jSpinner_tamanio;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField_id;
     private javax.swing.JTextField jTextField_nombre;
+    private javax.swing.JTabbedPane listaRequerimientos;
+    private javax.swing.JComboBox listaRequiere;
     private vista.PanelOverload panelOverload1;
     private javax.swing.JLabel statusBar;
     private javax.swing.JLabel txtEstadoProceso;
     private javax.swing.JLabel txtIdProceso;
+    private javax.swing.JLabel txtNombreContenedor;
     private javax.swing.JLabel txtNombreProceso;
     private javax.swing.JLabel txtTamActual;
     private javax.swing.JLabel txtTamanhoProceso;

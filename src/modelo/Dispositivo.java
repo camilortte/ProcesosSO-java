@@ -4,10 +4,6 @@
  */
 package modelo;
 
-/**
- *
- * @author camilortte
- */
 public class Dispositivo {
     
     private String nombre;
@@ -54,10 +50,4 @@ public class Dispositivo {
         this.nombre = nombre;
     }
     
-    
-    
-    
-
-    
-      
 }

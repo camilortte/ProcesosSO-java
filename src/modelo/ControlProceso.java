@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
 
 import java.util.Comparator;
@@ -11,15 +7,10 @@ import java.util.Queue;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.text.Element;
-import sun.reflect.generics.tree.Tree;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import vista.VentanaPrincipal;
 
-/**
- *
- * @author camilortte
- */
 public class ControlProceso {
 
     //private TreeSet<String> tree_procesos;
@@ -34,16 +25,18 @@ public class ControlProceso {
     private boolean stop;
     private Dispositivo dispositivosDisponibles[];
     private Procesador procesador;
-    private int tiempoProceso;
+    private int tiempoProceso,fila;
     //Es la unica forma que se me ocurrio para modificar la ventana  desde los
     //proceso de la clase control proceso =D
     private VentanaPrincipal ventana;
+    private JTable tabla;
+    private JLabel tam;
     private boolean terminado;
     //offer(proceso);// inserta un elemento
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
     
-     public ControlProceso(VentanaPrincipal ventana) {
+     public ControlProceso(VentanaPrincipal ventana,JTable tabla,JLabel tam) {
         tree_nuevo = new TreeSet<String>();
         tree_procesos = new TreeSet<Proceso>(new Comparator<Proceso>() {
             public int compare(Proceso stud1, Proceso stud2) {
@@ -59,12 +52,13 @@ public class ControlProceso {
         stop = false;
         procesador = new Procesador();
         this.ventana = ventana;
+        this.tabla=tabla;
+        this.tam=tam;
+        fila=-1;
         this.terminado=true;
     }
 
-    
-    
-    
+     
     public void eliminarProceso(Proceso proceso){
         Iterator it = tree_procesos.iterator();
         Proceso value=proceso;
@@ -174,8 +168,6 @@ public class ControlProceso {
         this.tiempoProceso = tiempoProceso;
     }
 
-    
-    
     public boolean isStop() {
         return stop;
     }
@@ -194,8 +186,9 @@ public class ControlProceso {
 
     public boolean addProceso(Proceso proceso) {
         boolean estado = tree_procesos.add(proceso);
-        if(estado==true)/*PUTA MADRE*/
+        if(estado==true) {
             cola_listo.offer(proceso);
+        }
         return estado;
     }
 
@@ -206,7 +199,7 @@ public class ControlProceso {
     //prueba, esto se va a borrar
     public void cambiarEstado(Proceso proceso, String estado) {
         Iterator it = tree_procesos.iterator();
-        Proceso value=proceso;
+        Proceso value = proceso;
         while (it.hasNext()) {
            value = (Proceso) it.next();
             if (value.getId().compareTo(proceso.getId()) == 0) {
@@ -221,11 +214,22 @@ public class ControlProceso {
         
     }
 
-    public void ejecutar() {               
+    public void setFila(int fila){
+        this.fila=fila;
+    }
+    
+    public int getFila(){
+        return this.fila;
+    }
+    
+    public void ejecutar(){               
         stop=false;
         ventana.desactivarPaneles();
         while(!cola_listo.isEmpty() && stop != true) { 
-            terminado=false;
+            terminado = false;
+            if(getFila()!=-1){
+              tam.setText(""+tabla.getValueAt(tabla.getSelectedRow(),2));
+            }
             Proceso proceso = cola_listo.poll();
             //Ejecuta un proceso de la clase proceso            
             if (proceso.getTamanio_actual() <= 0) {
@@ -340,6 +344,7 @@ public class ControlProceso {
     
     private void bloquearProceso(Proceso proceso) {
         Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
+        //proceso.sumarTiempoBloqueado(1);
         for (int i = 0; i < dispositivosDisponibles.length; i++) {
             if (dispositivosRequerdos[i]!= null) {
                 if (dispositivosDisponibles[i].isDisponible()!=true) {                   
