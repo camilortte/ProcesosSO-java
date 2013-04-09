@@ -4,13 +4,13 @@
 ##Cosas importante que faltan:
 
 * Falta la implementación de la vantana de visualizacion de memoria.                    ------
-* Falta actualizar el panel de informacion de procesos , cada vez que el tamaño cambia.	(HECHO)
-* La flecha de nuevo a listo nunca se enciende.                                         (HECHO)
-* La barra de estados no cambia.                                                        (HECHO)
-* Añadir los campos de tiempo en listo, bloqueado, total.                               en proceso
-* Mostrar en inforProcess el nombre del dispositivo que necesita.                       (HECHO)
-* Actualizar el panel que contiene informacion de cada dispositivo.                     (HECHO)
-* Aumentar el numero de dispositivos a 10 dispositivos.                                 en proceso
+* Falta actualizar el panel de informacion de procesos , cada vez que el tamaño cambia.	<< RESUELTO >>
+* La flecha de nuevo a listo nunca se enciende.                                         << RESUELTO >>
+* La barra de estados no cambia.                                                        << RESUELTO >>
+* Añadir los campos de tiempo en listo, bloqueado, total.                               << RESUELTO CON UNA FALENCIA >>
+* Mostrar en inforProcess el nombre del dispositivo que necesita.                       << RESUELTO >>
+* Actualizar el panel que contiene informacion de cada dispositivo.                     << RESUELTO >>
+* Aumentar el numero de dispositivos a 10 dispositivos.                                 << en proceso  >>
 
 
 ##Licencia
