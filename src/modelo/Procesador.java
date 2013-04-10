@@ -33,6 +33,8 @@ public class Procesador{
 
         if (proceso.getTamanio_actual() > 0) {
             proceso.setTamanio_actual(proceso.getTamanio_actual() - cantidadAQuitar);
+            //tiempo ejecucion
+            proceso.sumarTiempoEjecucion(10);
             if(proceso.getTamanio_actual()<0) {
                 proceso.setTamanio_actual(0);
             }

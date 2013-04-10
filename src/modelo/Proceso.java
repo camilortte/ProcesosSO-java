@@ -10,10 +10,11 @@ public class Proceso {
     private int tamanio_actual;
     private int tiempoListo;
     private int tiempoBloqueado;
+    private int tiempoEjecucion;
     private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
     
-    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int tiempoListo,int tiempoBloqueado){
+    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int tiempoListo,int tiempoBloqueado,int tiempoEjecucion){
         this.nombre=nombre;
         this.estado=estado;
         this.id=id;
@@ -23,6 +24,7 @@ public class Proceso {
         this.requiereDispositivo=false;
         this.tiempoListo=tiempoListo;
         this.tiempoBloqueado=tiempoBloqueado;
+        this.tiempoEjecucion = tiempoEjecucion;
         for(int i=0;i<requerimientos.length;i++){
             if(requerimientos[i]!=null){
                 requiereDispositivo=true;
@@ -30,6 +32,15 @@ public class Proceso {
             }
         }
     }
+
+    public int getTiempoEjecucion() {
+        return tiempoEjecucion;
+    }
+
+    public void setTiempoEjecucion(int tiempoEjecucion) {
+        this.tiempoEjecucion = tiempoEjecucion;
+    }
+    
    
     public int getTiempoListo(){
         return this.tiempoListo;
@@ -54,6 +65,10 @@ public class Proceso {
     
     public void sumarTiempoBloqueado(int tiempo){
         this.tiempoBloqueado += tiempo;
+    }
+    
+    public void sumarTiempoEjecucion(int tiempo){
+        this.tiempoEjecucion+=tiempo;
     }
     
     public int getTamanio_actual() {

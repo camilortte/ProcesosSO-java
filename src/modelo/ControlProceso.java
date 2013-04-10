@@ -95,7 +95,6 @@ public class ControlProceso {
         while (it.hasNext()) {
            value = (Proceso) it.next();
             if (value.getId().compareTo(id) == 0){
-                //tree_procesos.remove(value);
                 break;
             }else{
                 value = null;
@@ -280,9 +279,9 @@ public class ControlProceso {
                         sleep();
                         cambiarEstado(proceso, "LISTO");
                         ventana.actualizarProcesosTabla(proceso);
-                        sleep();
-                                    
+                        sleep();           
                         cola_listo.offer(proceso);
+                        proceso.sumarTiempoListo(10); //mas 10 unidades  en listo
                     }
                    //Como no estan disponibles los dispositivos solicitados.
                 } else {
@@ -290,6 +289,7 @@ public class ControlProceso {
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();            
                     bloquearProceso(proceso);
+                    proceso.sumarTiempoBloqueado(10);//mas 10 unidades en bloqueado
                     //cola_bloquedao.offer(proceso);
                 } 
                 //COmo no requere un dispositivo
@@ -326,6 +326,7 @@ public class ControlProceso {
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();            
                     cola_listo.offer(proceso);
+                    proceso.sumarTiempoListo(10); //mas 10 unidades en listo
                 }
             }
         }

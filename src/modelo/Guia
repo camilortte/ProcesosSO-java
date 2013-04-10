@@ -1,0 +1,8 @@
+- En el constructor se creó un arreglo de dispositivos disponibles
+- se inicializan todos a true. o sea estan disponibles TODOS.
+- En el evento del boton [crear proceso] obtenemos los dispositivos que requiere cada proceso y se le asigna.
+- 
+
+
+- TIEMPOS:
+- POR CADA EJECUCION SUMAR A TODOS LOS PROCESOS DE LAS COLAS LISTO Y BLOQUEADOS.
