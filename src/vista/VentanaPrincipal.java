@@ -1459,8 +1459,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jList_listo.setModel(modelo);
     }
      
-     //**********************************
-     
      public void activarPorgresBar(int total,int actual){
          this.jProgressBar_proceso.setMaximum(total);
          this.jProgressBar_proceso.setValue(actual);
@@ -1526,10 +1524,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_startActionPerformed
 
     public void desactivarPaneles(){
-        jButton_start.setEnabled(false);     
-        /*for (int i = 0; i < jPanel6.getComponentCount(); i++) {
-            jPanel6.getComponent(i).setEnabled(false);
-        }   */
+        jButton_start.setEnabled(false);    
     }
     
     public int getCantidadAQUitarJSpinner(){
