@@ -13,7 +13,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class Procesador{
-    
     private int cantidadAQuitar;
     
     void Procesador(){
@@ -33,8 +32,8 @@ public class Procesador{
 
         if (proceso.getTamanio_actual() > 0) {
             proceso.setTamanio_actual(proceso.getTamanio_actual() - cantidadAQuitar);
-            //tiempo ejecucion
-            proceso.sumarTiempoEjecucion(10);
+            //tiempo ejecucion funciona
+            proceso.addTiempoEjecucion();
             if(proceso.getTamanio_actual()<0) {
                 proceso.setTamanio_actual(0);
             }

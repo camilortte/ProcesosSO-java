@@ -1,5 +1,7 @@
 package vista;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -608,12 +610,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel34)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTiempoListo, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
-                    .addComponent(jLabel41)
-                    .addComponent(txtTiempoEjecucion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtTiempoEjecucion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel41))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
@@ -831,8 +833,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(jButton_start, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33)
-                        .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButton_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1169,7 +1170,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
         String nombreproceso = this.jTextField_nombre.getText();
         String id = this.jTextField_id.getText();
-        jLabel4.setEnabled(true);         
         if (nombreproceso.compareTo("")!=0 && id.compareTo("")!=0) {
             Dispositivo requerimientos[]={null,null,null};
             /*Dispositivo requerimientos[]={null,null,null,null,null,null,null,null,null,null};
@@ -1236,7 +1236,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 addItem(jList_listo, id + " " + nombreproceso);
                 deleteItem(jList_nuevo, id + " " + nombreproceso);
                 addItemTable(proceso);
-                
+                jLabel4.setEnabled(true); 
             }else{                                
                 JOptionPane.showMessageDialog(this, "Proceso con ID ya existente",
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
@@ -1515,9 +1515,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          (new Thread() {
              @Override
             public void run() {
-              controlProces.ejecutar();
+                 try {
+                     controlProces.ejecutar();
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                 }
             }
            }).start();
+        
     }//GEN-LAST:event_jButton_startActionPerformed
 
     public void desactivarPaneles(){
@@ -1604,6 +1609,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un proceso");
         } else {
             Proceso proceso = (Proceso)controlProces.obtenerProceso(txtIdProceso.getText());
+            /*se liberan los recursos que tiene*/
+            Dispositivo liberar[] = proceso.getRequerimientos();
+            if (liberar.length > 0) {
+                for (int i = 0; i < liberar.length; i++) {
+                    liberar[i].setDisponible(true);
+                }
+            }
             controlProces.eliminarProceso(proceso);
             statusBar.setText("se ha eliminado un proceso");
         }
@@ -1734,12 +1746,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (procesoSeleccionado.isRequiereDispositivo()) {
             Dispositivo arreglo[] = procesoSeleccionado.getRequerimientos();
             String requerimiento[] = new String[arreglo.length];
-
-            for (int i = 0; i < arreglo.length - 1; i++) {
+            
+            for (int i = 0; i < arreglo.length-1; i++) {
                 requerimiento[i] = String.valueOf(arreglo[i].getNombre());
             }
             DefaultComboBoxModel modeloComboBOx = new DefaultComboBoxModel(requerimiento);
             listaRequiere.setModel(modeloComboBOx);
+        }else{
+            String requiere[]={"Ninguno"};
+            DefaultComboBoxModel modeloComboBOx = new DefaultComboBoxModel(requiere);
+            listaRequiere.setModel(modeloComboBOx);       
         }
 
         controlProces.setFila(filaSeleccionada);

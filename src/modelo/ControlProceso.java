@@ -45,7 +45,7 @@ public class ControlProceso {
         });
         cola_listo = new LinkedList<Proceso>();
         cola_terminado = new LinkedList<Proceso>();
-        cola_bloquedao = new LinkedList<Proceso>();
+        cola_bloquedao = new LinkedList<>();
         cola_bloqueadoImpresora= new LinkedList<Proceso>();
         cola_bloqueadoMonitor= new LinkedList<Proceso>();
         cola_bloqueadoArchivo= new LinkedList<Proceso>();
@@ -166,7 +166,21 @@ public class ControlProceso {
     public void setTiempoProceso(int tiempoProceso) {
         this.tiempoProceso = tiempoProceso;
     }
-
+/*
+    public void sumarTiempoEjecucion(Proceso proceso){
+        proceso.addTiempoEjecucion();
+    }*/
+    
+    /*A todos los procesos de listo les aumenta el tiempo*/
+    public void sumarTiempoListos(){
+        Iterator it = cola_listo.iterator();
+        Proceso value;
+        while(it.hasNext()){
+            value=(Proceso)it.next();
+            value.addTiempoEjecucion();
+        }
+    }
+    
     public boolean isStop() {
         return stop;
     }
@@ -221,10 +235,11 @@ public class ControlProceso {
         return this.fila;
     }
     
-    public void ejecutar(){               
+    public void ejecutar() throws InterruptedException{       
         stop=false;
         ventana.desactivarPaneles();
         while(!cola_listo.isEmpty() && stop != true) { 
+            
             terminado = false;
             if(getFila()!=-1){
               tam.setText(""+tabla.getValueAt(tabla.getSelectedRow(),2));
@@ -281,7 +296,7 @@ public class ControlProceso {
                         ventana.actualizarProcesosTabla(proceso);
                         sleep();           
                         cola_listo.offer(proceso);
-                        proceso.sumarTiempoListo(10); //mas 10 unidades  en listo
+                        //proceso.sumarTiempoListo(); //mas 10 unidades  en listo
                     }
                    //Como no estan disponibles los dispositivos solicitados.
                 } else {
@@ -289,7 +304,7 @@ public class ControlProceso {
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();            
                     bloquearProceso(proceso);
-                    proceso.sumarTiempoBloqueado(10);//mas 10 unidades en bloqueado
+                    //proceso.sumarTiempoBloqueado();//mas 10 unidades en bloqueado
                     //cola_bloquedao.offer(proceso);
                 } 
                 //COmo no requere un dispositivo
@@ -326,7 +341,7 @@ public class ControlProceso {
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();            
                     cola_listo.offer(proceso);
-                    proceso.sumarTiempoListo(10); //mas 10 unidades en listo
+                    //proceso.sumarTiempoListo(); //mas 10 unidades en listo
                 }
             }
         }

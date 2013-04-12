@@ -59,16 +59,16 @@ public class Proceso {
     }
     
     
-    public void sumarTiempoListo(int tiempo){
-        this.tiempoListo += tiempo;
+    public void addTiempoListo(){
+        this.tiempoListo ++;
     }
     
-    public void sumarTiempoBloqueado(int tiempo){
-        this.tiempoBloqueado += tiempo;
+    public void addTiempoBloqueado(){
+        this.tiempoBloqueado ++;
     }
     
-    public void sumarTiempoEjecucion(int tiempo){
-        this.tiempoEjecucion+=tiempo;
+    public void addTiempoEjecucion(){
+        this.tiempoEjecucion++;
     }
     
     public int getTamanio_actual() {
