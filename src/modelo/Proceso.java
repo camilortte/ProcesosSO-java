@@ -14,17 +14,17 @@ public class Proceso {
     private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
     
-    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int tiempoListo,int tiempoBloqueado,int tiempoEjecucion){
-        this.nombre=nombre;
-        this.estado=estado;
-        this.id=id;
-        this.tamanio=tamanio;
-        this.tamanio_actual=tamanio;
-        this.requerimientos=requerimientos;
-        this.requiereDispositivo=false;
-        this.tiempoListo=tiempoListo;
-        this.tiempoBloqueado=tiempoBloqueado;
-        this.tiempoEjecucion = tiempoEjecucion;
+    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[]){
+        this.nombre = nombre;
+        this.estado = estado;
+        this.id = id;
+        this.tamanio = tamanio;
+        this.tamanio_actual = tamanio;
+        this.requerimientos = requerimientos;
+        this.requiereDispositivo = false;
+        this.tiempoListo = 0;
+        this.tiempoEjecucion = 0;
+        this.tiempoBloqueado = 0;
         for(int i=0;i<requerimientos.length;i++){
             if(requerimientos[i]!=null){
                 requiereDispositivo=true;

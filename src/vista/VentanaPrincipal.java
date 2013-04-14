@@ -1356,7 +1356,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 requerimientos[2]=new Dispositivo(("Archivo"), "3");
             }
             //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            Proceso procesoAux=new Proceso("Chrome",String.valueOf(random1), "LISTO", random1 , requerimientos,0,0,0);
+            Proceso procesoAux=new Proceso("Chrome",String.valueOf(random1), "LISTO", random1 , requerimientos);
             if (!controlProces.addProceso(procesoAux)){
                 i--;
             }else {
@@ -1462,7 +1462,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
                 */
 
-                Proceso proceso=new Proceso (nombreproceso, id, "LISTO",(Integer)this.jSpinner_tamanio.getValue(),requerimientos,0,0,0);
+                Proceso proceso=new Proceso (nombreproceso, id, "LISTO",(Integer)this.jSpinner_tamanio.getValue(),requerimientos);
 
                 if(controlProces.addProceso(proceso)){
                     addItem(jList_listo, id + " " + nombreproceso);
