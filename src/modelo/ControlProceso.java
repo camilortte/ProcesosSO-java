@@ -172,15 +172,40 @@ public class ControlProceso {
     }*/
     
     /*A todos los procesos de listo les aumenta el tiempo*/
-    public void sumarTiempoListos(){
+    public void sumarTiempoListos() {
         Iterator it = cola_listo.iterator();
         Proceso value;
-        while(it.hasNext()){
-            value=(Proceso)it.next();
-            value.addTiempoEjecucion();
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoListo();
         }
     }
     
+    public void sumaTiempoBloqueadosArchivo(){
+        Iterator it = cola_bloqueadoArchivo.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
+    
+     public void sumaTiempoBloqueadosImpresora(){
+        Iterator it = cola_bloqueadoImpresora.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
+      public void sumaTiempoBloqueadosMonitor(){
+        Iterator it = cola_bloqueadoMonitor.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
     public boolean isStop() {
         return stop;
     }
@@ -238,8 +263,12 @@ public class ControlProceso {
     public void ejecutar() throws InterruptedException{       
         stop=false;
         ventana.desactivarPaneles();
+        
         while(!cola_listo.isEmpty() && stop != true) { 
-            
+            sumarTiempoListos();
+            sumaTiempoBloqueadosArchivo();
+            sumaTiempoBloqueadosImpresora();
+            sumaTiempoBloqueadosMonitor();
             terminado = false;
             if(getFila()!=-1){
               tam.setText(""+tabla.getValueAt(tabla.getSelectedRow(),2));
