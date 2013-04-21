@@ -4,6 +4,7 @@
 ##Cosas importante que faltan:
 
 * ¡¡ES NECESARIO HACER PRUEBAS PARA ASÏ DETERMINAR ERRORES Y PODER PASAR AL SIGUIENTE NIOVEL DE DESARROLLO!!
+* Se creo una nueva rama por seguridad debido a la gran cantidad de adiciones y cambios, potencialmente inestables.
 * Falta la implementación de la vantana de visualizacion de memoria.      
 * Al parecer hay un BUG en el momento de adicionar un proceso cuando se esta corriento la simulacion.
 
