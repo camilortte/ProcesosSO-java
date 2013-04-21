@@ -1,5 +1,6 @@
 package vista;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -15,7 +16,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlProceso controlProces;
     private DefaultTableModel modeloTabla;
-    Dispositivo dispositivosDisponibles[] = new Dispositivo[3];
+    Dispositivo dispositivosDisponibles[] = new Dispositivo[7];
     //Dispositivo dispositivosDisponibles[]=new Dispositivo[7];
     //private Proceso procesoEjecutado;
 
@@ -34,31 +35,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         modeloTabla.addColumn("Tamanio");
         modeloTabla.addColumn("Estado");
         modeloTabla.addColumn("DispositivoEx");
-        dispositivosDisponibles[0] = new Dispositivo("Impresora", "1");
-        dispositivosDisponibles[1] = new Dispositivo("Monitor", "2");
-        dispositivosDisponibles[2] = new Dispositivo("Archivo Externo", "3");
-        /*
-         dispositivosDisponibles[0]=new Dispositivo("Impresora","1");
-         dispositivosDisponibles[1]=new Dispositivo("Monitor","2");
-         dispositivosDisponibles[2]=new Dispositivo("Archivo","3");
-         dispositivosDisponibles[3]=new Dispositivo("Parlante","4");
-         dispositivosDisponibles[4]=new Dispositivo("Microfono","5");
-         dispositivosDisponibles[5]=new Dispositivo("Usb","6");
-         dispositivosDisponibles[6]=new Dispositivo("Camara","7");
-         */
+        dispositivosDisponibles[0]=new Dispositivo("Impresora","0");
+        dispositivosDisponibles[1]=new Dispositivo("Monitor","1");
+        dispositivosDisponibles[2]=new Dispositivo("Archivo","2");
+        dispositivosDisponibles[3]=new Dispositivo("Parlante","3");
+        dispositivosDisponibles[4]=new Dispositivo("Microfono","4");
+        dispositivosDisponibles[5]=new Dispositivo("Usb","5");
+        dispositivosDisponibles[6]=new Dispositivo("Camara","6");
         //Todos los dispositivos estaran disponibles
-        dispositivosDisponibles[0].setDisponible(true);
-        dispositivosDisponibles[1].setDisponible(true);
-        dispositivosDisponibles[2].setDisponible(true);
-        /*
-         dispositivosDisponibles[0].setDisponible(true);
-         dispositivosDisponibles[1].setDisponible(true);
-         dispositivosDisponibles[2].setDisponible(true);
-         dispositivosDisponibles[3].setDisponible(true);
-         dispositivosDisponibles[4].setDisponible(true);
-         dispositivosDisponibles[5].setDisponible(true);
-         dispositivosDisponibles[6].setDisponible(true);
-         */
+        for (int i=0;i<7;i++)
+            dispositivosDisponibles[i].setDisponible(true);
         //procesoEjecutado = null;
     }
 
@@ -307,8 +293,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         jCheckBox_requiereParlante.setText("Parlante");
+        jCheckBox_requiereParlante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_requiereParlanteActionPerformed(evt);
+            }
+        });
 
         jCheckBox_requiereMicrofono.setText("Microfono");
+        jCheckBox_requiereMicrofono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_requiereMicrofonoActionPerformed(evt);
+            }
+        });
 
         jCheckBox_requiereUsb.setText("Usb");
         jCheckBox_requiereUsb.addActionListener(new java.awt.event.ActionListener() {
@@ -318,6 +314,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         jCheckBox_requiereCamara.setText("Camara");
+        jCheckBox_requiereCamara.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_requiereCamaraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -329,7 +330,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                             .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
                             .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,7 +357,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(jCheckBox_requiereMicrofono))))
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox_requiereCamara)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,7 +428,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jSpinner1)
                             .addComponent(jSpinner_eliminacionPorProceso)))
                     .addComponent(botonMatarProceso))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +441,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(jSpinner_eliminacionPorProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(botonMatarProceso)
                 .addGap(40, 40, 40))
         );
@@ -511,7 +512,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(txtTamActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel8Layout.createSequentialGroup()
                                         .addComponent(jComboBoxRequiere, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 90, Short.MAX_VALUE))))))
+                                        .addGap(0, 61, Short.MAX_VALUE))))))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,7 +550,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtIdProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -577,7 +578,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel34)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTiempoListo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTiempoEjecucion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
@@ -594,7 +595,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabel42)
                         .addComponent(txtTiempoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel39)
-                    .addComponent(txtTimeBloqueados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE))
+                    .addComponent(txtTimeBloqueados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
 
@@ -671,7 +672,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel_ParlanteDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                            .addComponent(jLabel_impresoraDIs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel_archivoDIs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel_monitorDis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -734,7 +735,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel_ParlanteDis))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
                     .addComponent(jComboBox_dispositivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1124,7 +1125,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         System.out.println("Actualizando dispositivo" + dis.getId());
 
-        if (dis.getId().compareTo("1") == 0) {
+        if (dis.getId().compareTo("0") == 0) {
             if (dis.isDisponible()) {
                 jLabel_impresoraDIs.setText("Disponible");
             } else {
@@ -1132,7 +1133,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
 
-        if (dis.getId().compareTo("2") == 0) {
+        if (dis.getId().compareTo("1") == 0) {
             if (dis.isDisponible()) {
                 jLabel_monitorDis.setText("Disponible");
             } else {
@@ -1140,7 +1141,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
 
-        if (dis.getId().compareTo("3") == 0) {
+        if (dis.getId().compareTo("2") == 0) {
             if (dis.isDisponible()) {
                 jLabel_archivoDIs.setText("Disponible");
             } else {
@@ -1148,39 +1149,39 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
 
-        /*
-         if (dis.getId().compareTo("4") == 0) {
-         if (dis.isDisponible()) {
-         jLabel_ParlanteDis.setText("Disponible");
-         } else {
-         jLabel_ParlanteDis.setText("NO Disponible");
-         }
-         }
-         * 
-         * if (dis.getId().compareTo("5") == 0) {
-         if (dis.isDisponible()) {
-         jLabel_MicrofonoDis.setText("Disponible");
-         } else {
-         jLabel_MicrofonoDIs.setText("NO Disponible");
-         }
-         }
-         * 
-         * if (dis.getId().compareTo("6") == 0) {
-         if (dis.isDisponible()) {
-         jLabel_usbDIs.setText("Disponible");
-         } else {
-         jLabel_usbDIs.setText("NO Disponible");
-         }
-         }
-         * 
-         * if (dis.getId().compareTo("7") == 0) {
-         if (dis.isDisponible()) {
-         jLabel_camaraDIs.setText("Disponible");
-         } else {
-         jLabel_camaraDIs.setText("NO Disponible");
-         }
-         }
-         */
+
+        if (dis.getId().compareTo("3") == 0) {
+            if (dis.isDisponible()) {
+                jLabel_ParlanteDis.setText("Disponible");
+            } else {
+                jLabel_ParlanteDis.setText("NO Disponible");
+            }
+        }
+
+        if (dis.getId().compareTo("4") == 0) {
+            if (dis.isDisponible()) {
+                jLabel_MicrofonoDis.setText("Disponible");
+            } else {
+                jLabel_MicrofonoDis.setText("NO Disponible");
+            }
+        }
+
+        if (dis.getId().compareTo("5") == 0) {
+            if (dis.isDisponible()) {
+                jLabel_UsbDis.setText("Disponible");
+            } else {
+                jLabel_UsbDis.setText("NO Disponible");
+            }
+        }
+
+        if (dis.getId().compareTo("6") == 0) {
+            if (dis.isDisponible()) {
+                jLabel_CamaraDis.setText("Disponible");
+            } else {
+                jLabel_CamaraDis.setText("NO Disponible");
+            }
+        }
+
     }
 
     private void desactivarTodasLasFelchas() {
@@ -1343,25 +1344,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void jMenuItem_insertarProcesosAleatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
-        // TODO add your handling code here:
-        Dispositivo requerimientos[] = {null, null, null};
-
-
         int max = 1000;
         int min = 15;
         for (int i = 0; i < 15; i++) {
-            int random1 = (int) (Math.random() * (max - min)) + min;
-
-            if (random1 % 15 == 0) {
-                requerimientos[0] = new Dispositivo(("Impresora"), "1");
+            int random1 =  (int) (Math.random() * (max - min)) + min;
+            int randmonn=  (int)(Math.random()*(3))+1;
+            int random3;
+            Dispositivo requerimientos[]=new Dispositivo[randmonn];
+            ArrayList creados=new ArrayList();           
+            for (int j=0;j<randmonn;j++){
+                
+                random3=  (int) (Math.random() * (3));                
+                System.out.println( random3);
+                if(!creados.contains(random3) || creados.isEmpty()){
+                    switch (random3){
+                        case 0:
+                            requerimientos[j] = new Dispositivo(("Impresora"), "0");
+                            break;
+                        case 1:
+                            requerimientos[j] = new Dispositivo(("Monitor"), "1");
+                            break;
+                        case 2:
+                            requerimientos[j] = new Dispositivo(("Archivo"), "2");
+                            break;
+                    }
+                    creados.add(random3);
+                }else{
+                    j--;
+                }
+                
             }
-            if (random1 % 4 == 0) {
-                requerimientos[1] = new Dispositivo(("Monitor"), "2");
-            }
-            if (random1 % 9 == 0) {
-                requerimientos[2] = new Dispositivo(("Archivo"), "3");
-            }
-            //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            
             Proceso procesoAux = new Proceso("Chrome", String.valueOf(random1), "LISTO", random1, requerimientos);
             if (!controlProces.addProceso(procesoAux)) {
                 i--;
@@ -1429,54 +1442,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String nombreproceso = this.jTextField_nombre.getText();
         String id = this.jTextField_id.getText();
         if (nombreproceso.compareTo("") != 0 && id.compareTo("") != 0) {
-            Dispositivo requerimientos[] = {null, null, null};
-            /*Dispositivo requerimientos[]={null,null,null,null,null,null,null,null,null,null};
-             //if(this.jCheckBox_requiereTodos.isSelected()){
-             requerimientos[0]=new Dispositivo("Impresora","1");
-             requerimientos[1]=new Dispositivo("Monitor","2");
-             requerimientos[2]=new Dispositivo("Archivo","3");
-             requerimientos[3]=new Dispositivo("Parlante","4");
-             requerimientos[4]=new Dispositivo("Microfono","5");
-             requerimientos[5]=new Dispositivo("Usb","6");
-             requerimientos[6]=new Dispositivo("Camara","7");
-             }else{
-
-             if(this.jCheckBox_requiereImpresora.isSelected()) {
-             requerimientos[0]=new Dispositivo("Impresora", "1");
-             }
-             if(this.jCheckBox_requiereMonitor.isSelected()) {
-             requerimientos[1]=new Dispositivo("Monitor", "2");
-             }
-             if(this.jCheckBox_requiereArchivo.isSelected()) {
-             requerimientos[2]=new Dispositivo("Archivo", "3");
-             }
-             if(this.jCheckBox_RequiereParlante.isSelected()) {
-             requerimientos[3]=new Dispositivo("Parlante", "4");
-             }
-             if(this.jCheckBox_RequiereMicrofono.isSelected()) {
-             requerimientos[4]=new Dispositivo("Microfono", "5");
-             }
-             if(this.jCheckBox_RequiereUsb.isSelected()) {
-             requerimientos[5]=new Dispositivo("Usb", "6");
-             }
-             if(this.jCheckBox_requiereCamara.isSelected()) {
-             requerimientos[6]=new Dispositivo("Camara", "7");
-             }
-             */
-            if (this.jCheckBox_requiereImpresora.isSelected()) {
-                requerimientos[0] = new Dispositivo("Impresora", "1");
-            }
-            if (this.jCheckBox_requiereMonitor.isSelected()) {
-                requerimientos[1] = new Dispositivo("Monitor", "2");
-            }
-            if (this.jCheckBox_requiereArchivo.isSelected()) {
-                requerimientos[2] = new Dispositivo("Archivo", "3");
-            }
-            /*
-
-             */
-
-            Proceso proceso = new Proceso(nombreproceso, id, "LISTO", (Integer) this.jSpinner_tamanio.getValue(), requerimientos);
+            Dispositivo arregloAEnviar[] = new Dispositivo[dispositivosRequeridos.size()];
+            dispositivosRequeridos.toArray(arregloAEnviar);
+               
+            Proceso proceso = new Proceso(nombreproceso, id, "LISTO", (Integer) 
+                    this.jSpinner_tamanio.getValue(),arregloAEnviar);
 
             if (controlProces.addProceso(proceso)) {
                 addItem(jList_listo, id + " " + nombreproceso);
@@ -1497,7 +1467,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_crearProcesoActionPerformed
 
     private void jCheckBox_requiereArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereArchivoActionPerformed
-        // TODO add your handling code here:
+         if(jCheckBox_requiereArchivo.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("Archivo", "2"));
+        }else{
+            for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("Archivo")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        } 
     }//GEN-LAST:event_jCheckBox_requiereArchivoActionPerformed
 
     private void jCheckBox_requiereArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox_requiereArchivoMouseClicked
@@ -1511,7 +1488,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox_requiereMonitorMouseClicked
 
     private void jCheckBox_requiereImpresoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereImpresoraActionPerformed
-        // TODO add your handling code here:
+        if(jCheckBox_requiereImpresora.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("Impresora", "0"));
+             System.out.println("Sel agrego Impresora");
+        }else{
+             for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("Impresora")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        }            
     }//GEN-LAST:event_jCheckBox_requiereImpresoraActionPerformed
 
     private void jCheckBox_requiereImpresoraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox_requiereImpresoraMouseClicked
@@ -1618,12 +1603,59 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox_dispositivosActionPerformed
 
     private void jCheckBox_requiereUsbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereUsbActionPerformed
-        // TODO add your handling code here:
+       if(jCheckBox_requiereUsb.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("USB", "5"));
+        }else{
+            for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("USB")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        } 
     }//GEN-LAST:event_jCheckBox_requiereUsbActionPerformed
 
     private void jCheckBox_requiereMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereMonitorActionPerformed
-        // TODO add your handling code here:
+        if(jCheckBox_requiereMonitor.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("Monitor", "1"));
+        }else{
+            for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("Monitor")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        } 
     }//GEN-LAST:event_jCheckBox_requiereMonitorActionPerformed
+
+    private void jCheckBox_requiereParlanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereParlanteActionPerformed
+        if(jCheckBox_requiereParlante.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("Parlante", "3"));
+        }else{
+            for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("Parlante")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        } 
+    }//GEN-LAST:event_jCheckBox_requiereParlanteActionPerformed
+
+    private void jCheckBox_requiereMicrofonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereMicrofonoActionPerformed
+        if(jCheckBox_requiereMicrofono.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("Microfono", "4"));
+        }else{
+            for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("Microfono")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        } 
+    }//GEN-LAST:event_jCheckBox_requiereMicrofonoActionPerformed
+
+    private void jCheckBox_requiereCamaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereCamaraActionPerformed
+        if(jCheckBox_requiereCamara.isSelected()){
+            dispositivosRequeridos.add(new Dispositivo("Camara", "6"));
+        }else{
+            for (int i=0;i<dispositivosRequeridos.size();i++){
+                 if (dispositivosRequeridos.get(i).getNombre().compareTo("Camara")==0)
+                     dispositivosRequeridos.remove(i);
+              }
+        } 
+    }//GEN-LAST:event_jCheckBox_requiereCamaraActionPerformed
 
     private void functionAddNuevo() {
         if (jTextField_nombre.getText().compareTo("") != 0 && jTextField_id.getText().compareTo("") != 0) {
@@ -1645,18 +1677,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //public void run() {
         if (filaSelected != -1) {
             String id = String.valueOf(jTable1.getValueAt(filaSelected, 1));
-            /*final*/ Proceso procesoSeleccionado =/* (Proceso)*/ controlProces.obtenerProceso(id);
+            /*final*/ Proceso procesoSeleccionado =controlProces.obtenerProceso(id);
             int totalTime = 0;
 
             if (procesoSeleccionado.isRequiereDispositivo()) {
-
-                Dispositivo arreglo[] = procesoSeleccionado.getRequerimientos();
-                String requerimiento[] = new String[arreglo.length];
-                for (int i = 0; i < arreglo.length - 1; i++) {
-                    requerimiento[i] = String.valueOf(arreglo[i].getNombre());
-                    DefaultComboBoxModel modeloComboBOx = new DefaultComboBoxModel(requerimiento);
-                    jComboBoxRequiere.setModel(modeloComboBOx);
+                Dispositivo dispositivos_requeridos[]= procesoSeleccionado.getRequerimientos();
+                String dispositivosCadena[]=new String[dispositivos_requeridos.length];
+                for (int i=0;i<dispositivos_requeridos.length;i++){
+                    dispositivosCadena[i]=String.valueOf(dispositivos_requeridos[i].getNombre());
+                    //System.out.println(dispositivos_requeridos[i].getNombre());
                 }
+                DefaultComboBoxModel modeloComboBOx = new DefaultComboBoxModel(dispositivosCadena);
+                jComboBoxRequiere.setModel(modeloComboBOx);
+
+                
             } else {
                 String requiere[] = {"Ninguno"};
                 DefaultComboBoxModel modeloComboBOx = new DefaultComboBoxModel(requiere);
@@ -1780,6 +1814,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public void modificarBoton(String cosas) {
         this.jButton_start.setText(cosas);
     }
+    private  ArrayList<Dispositivo> dispositivosRequeridos=new ArrayList<Dispositivo>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonMatarProceso;
     private javax.swing.JButton jButton_crearProceso;

@@ -24,7 +24,7 @@ public class Proceso {
         this.requiereDispositivo = false;
         this.tiempoListo = 0;
         this.tiempoEjecucion = 0;
-        this.tiempoBloqueado = 0;
+        this.tiempoBloqueado = 0;        
         for(int i=0;i<requerimientos.length;i++){
             if(requerimientos[i]!=null){
                 requiereDispositivo=true;
