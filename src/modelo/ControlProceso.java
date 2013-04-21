@@ -271,9 +271,9 @@ public class ControlProceso {
             sumaTiempoBloqueadosArchivo();
             sumaTiempoBloqueadosImpresora();
             sumaTiempoBloqueadosMonitor();
-            terminado = false;
-            ventana.actualziarPanelProceso();
+            terminado = false;           
             Proceso proceso = cola_listo.poll();
+             ventana.actualizarInformacion(proceso);
             //Ejecuta un proceso de la clase proceso            
             if (proceso.getTamanio_actual() <= 0) {
                 ventana.listoToEjecucion();
@@ -347,7 +347,7 @@ public class ControlProceso {
                 proceso = procesador.procesar(proceso);
                 cambiarEstado(proceso, "EJECUCION");
                 ventana.actualizarProcesosTabla(proceso);
-                ventana.actualizarInformacion(-1);
+                ventana.actualizarInformacion(proceso);
                 sleep();
                 ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 sleep();
@@ -375,7 +375,7 @@ public class ControlProceso {
                     //proceso.sumarTiempoListo(); //mas 10 unidades en listo
                 }
             }
-            ventana.actualizarInformacion(-1);
+            ventana.actualizarInformacion(proceso);
         }
         terminado = true;
         ventana.activarPaneles();
@@ -398,31 +398,31 @@ public class ControlProceso {
                  switch (Integer.parseInt(dispositivosDisponibles[Integer.parseInt(dispositivosRequerdos[i].getId())].getId())) {
                     case 0:
                         cola_bloqueadoImpresora.offer(proceso);
-                        ventana.ejecucionToImpresoraBloqueado();
+                        ventana.ejecucionBloqueado();
                         break;
                     case 1:
                         cola_bloqueadoMonitor.offer(proceso);
-                        ventana.ejecucionToMonitorBloqueado();
+                        ventana.ejecucionBloqueado();
                         break;
                     case 2:
                      cola_bloqueadoArchivo.offer(proceso);
-                     ventana.ejecucionToArchivoaBloqueado();
+                     ventana.ejecucionBloqueado();
                      break;
                      case 3:
                          cola_bloqueadoParlante.offer(proceso);
-                         ventana.ejecucionToArchivoaBloqueado();
+                         ventana.ejecucionBloqueado();
                          break;
                      case 4:
                          cola_bloqueadoMicrofono.offer(proceso);
-                         ventana.ejecucionToArchivoaBloqueado();
+                         ventana.ejecucionBloqueado();
                          break;
                      case 5:
                          cola_bloqueadoUSB.offer(proceso);
-                         ventana.ejecucionToArchivoaBloqueado();
+                         ventana.ejecucionBloqueado();
                          break;
                      case 6:
                          cola_bloqueadoCamara.offer(proceso);
-                         ventana.ejecucionToArchivoaBloqueado();
+                         ventana.ejecucionBloqueado();
                          break;
                     }
                     sleep();
@@ -514,49 +514,49 @@ public class ControlProceso {
                     if (!cola_bloqueadoImpresora.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoImpresora.poll();
-                        ventana.impresoraBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
                 case 1:
                     if (!cola_bloqueadoMonitor.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoMonitor.poll();
-                        ventana.monitorBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
                 case 2:
                     if (!cola_bloqueadoArchivo.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoArchivo.poll();
-                        ventana.archivoBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
                 case 3:
                     if (!cola_bloqueadoParlante.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoParlante.poll();
-                        ventana.archivoBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
                 case 4:
                     if (!cola_bloqueadoMicrofono.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoMicrofono.poll();
-                        ventana.archivoBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
                 case 5:
                     if (!cola_bloqueadoUSB.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoUSB.poll();
-                        ventana.archivoBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
                 case 6:
                     if (!cola_bloqueadoCamara.isEmpty()) {
                         //Lo mete a listo
                         procesoAux = cola_bloqueadoCamara.poll();
-                        ventana.archivoBloqueadoToListo();
+                        ventana.bloqueadoToListo(procesoAux.getId()+" "+procesoAux.getNombre());
                     }
                     break;
             }

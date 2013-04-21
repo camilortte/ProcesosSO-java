@@ -3,9 +3,9 @@
 
 ##Cosas importante que faltan:
 
-* Falta la implementación de la vantana de visualizacion de memoria.                    ------
-* Aumentar el numero de dispositivos a 7 dispositivos.                                 << en proceso  >>
-* OJO , no se esta actualizando  la pestaña informacion dispositivo.
+* ¡¡ES NECESARIO HACER PRUEBAS PARA ASÏ DETERMINAR ERRORES Y PODER PASAR AL SIGUIENTE NIOVEL DE DESARROLLO!!
+* Falta la implementación de la vantana de visualizacion de memoria.      
+* Al parecer hay un BUG en el momento de adicionar un proceso cuando se esta corriento la simulacion.
 
 
 ##Licencia
