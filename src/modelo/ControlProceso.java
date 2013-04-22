@@ -215,7 +215,42 @@ public class ControlProceso {
             value.addTiempoBloqueado();
         }
     }
-
+    
+    public void sumaTiempoBloqueadosParlante() {
+        Iterator it = cola_bloqueadoParlante.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
+    
+    public void sumaTiempoBloqueadosMicrofono() {
+        Iterator it = cola_bloqueadoMicrofono.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
+    
+    public void sumaTiempoBloqueadosUsb() {
+        Iterator it = cola_bloqueadoUSB.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
+    
+    public void sumaTiempoBloqueadosCamara() {
+        Iterator it = cola_bloqueadoCamara.iterator();
+        Proceso value;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            value.addTiempoBloqueado();
+        }
+    }
     public boolean isStop() {
         return stop;
     }
@@ -271,6 +306,10 @@ public class ControlProceso {
             sumaTiempoBloqueadosArchivo();
             sumaTiempoBloqueadosImpresora();
             sumaTiempoBloqueadosMonitor();
+            sumaTiempoBloqueadosParlante();
+            sumaTiempoBloqueadosMicrofono();
+            sumaTiempoBloqueadosUsb();
+            sumaTiempoBloqueadosCamara();
             terminado = false;           
             Proceso proceso = cola_listo.poll();
              ventana.actualizarInformacion(proceso);
