@@ -1318,12 +1318,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             
             Proceso procesoAux = new Proceso("Chrome", String.valueOf(random1), "LISTO", 
                     random1, requerimientos,(int) Math.ceil((random1+0.0)/(tamanioPaginas+0.0)));
-            if (!controlProces.addProceso(procesoAux)) {
-                i--;
-            } else {
-                addItem(jList_listo, procesoAux.getId() + " " + procesoAux.getNombre());
-                deleteItem(jList_nuevo, procesoAux.getId() + " " + procesoAux.getNombre());
-                addItemTable(procesoAux);
+            
+            if(memoria.hayMemoriaDisponible(procesoAux.getPaginasCount())){
+                if (!controlProces.addProceso(procesoAux)) {
+                    i--;
+                } else {
+                    memoria.solicitarEspacio(procesoAux.getTablaDePaginas(), procesoAux.getNombre()+" "+procesoAux.getId());
+                    addItem(jList_listo, procesoAux.getId() + " " + procesoAux.getNombre());
+                    deleteItem(jList_nuevo, procesoAux.getId() + " " + procesoAux.getNombre());
+                    addItemTable(procesoAux);
+                }
+            }else{
+                break;
             }
         }
         jLabel4.setEnabled(true);
