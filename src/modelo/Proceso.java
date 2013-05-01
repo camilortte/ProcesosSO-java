@@ -1,6 +1,8 @@
 
 package modelo;
 
+import java.util.ArrayList;
+
 public class Proceso {
     
     private String nombre;
@@ -13,8 +15,10 @@ public class Proceso {
     private int tiempoEjecucion;
     private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
+    private Integer tablaDePaginas[][];
+    private int paginasCount;
     
-    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[]){
+    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas){
         this.nombre = nombre;
         this.estado = estado;
         this.id = id;
@@ -25,6 +29,12 @@ public class Proceso {
         this.tiempoListo = 0;
         this.tiempoEjecucion = 0;
         this.tiempoBloqueado = 0;        
+        //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
+        //Esta ultimas es como mejor.
+        //int tamanioTablapagina=tamanio/tamanioPaginas; 
+        this.tablaDePaginas=new Integer[cantidadPaginas][2];
+        System.out.println("EL proceso se creo con "+cantidadPaginas+" paginas");
+        paginasCount=cantidadPaginas;
         for(int i=0;i<requerimientos.length;i++){
             if(requerimientos[i]!=null){
                 requiereDispositivo=true;
@@ -33,6 +43,14 @@ public class Proceso {
         }
     }
 
+    public int getPaginasCount() {
+        return paginasCount;
+    }
+    
+    
+
+    
+    
     public int getTiempoEjecucion() {
         return tiempoEjecucion;
     }
@@ -57,6 +75,11 @@ public class Proceso {
     public void setTiempoBloqueado(int tiempoBloqueado){
         this.tiempoBloqueado=tiempoBloqueado;
     }
+
+    public Integer[][] getTablaDePaginas() {
+        return tablaDePaginas;
+    }
+    
     
     
     public void addTiempoListo(){
