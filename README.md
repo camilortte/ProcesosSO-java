@@ -1,5 +1,6 @@
 #**ProcesSO**
 
+## Se cambió a PRIVATE devido a la naturaleza de la aplicación. (VENDERLA)
 
 ##Cosas importante que faltan:
 
