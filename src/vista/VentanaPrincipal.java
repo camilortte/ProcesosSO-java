@@ -20,6 +20,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     Dispositivo dispositivosDisponibles[] = new Dispositivo[7];
     private int tamanioPaginas=100;
     private Memoria memoria;
+    private VentanaMemoria venatanaMemoria;
     //Dispositivo dispositivosDisponibles[]=new Dispositivo[7];
     //private Proceso procesoEjecutado;
 
@@ -43,7 +44,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dispositivosDisponibles[4]=new Dispositivo("Microfono","4");
         dispositivosDisponibles[5]=new Dispositivo("Usb","5");
         dispositivosDisponibles[6]=new Dispositivo("Camara","6");
-        memoria=new Memoria(10);
+        memoria=new Memoria(10);        
         //Todos los dispositivos estaran disponibles
         for (int i=0;i<7;i++)
             dispositivosDisponibles[i].setDisponible(true);
@@ -1587,7 +1588,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         ArrayList<String> memoriaPrincipal=memoria.getMemoriaPrincipal();
         ArrayList<String> memoriaVirtual=memoria.getMemoriaVirtual();
-        
+        /*
         System.out.println("Memoria princiapl");
         for(int i=0;i<memoriaPrincipal.size();i++){
             System.out.println(memoriaPrincipal.get(i));
@@ -1596,7 +1597,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         System.out.println("Memoria Virtual");
         for(int i=0;i<memoriaVirtual.size();i++){
             System.out.println(memoriaVirtual.get(i));
-        }
+        }*/
+        
+        venatanaMemoria=new VentanaMemoria(memoriaPrincipal,memoriaVirtual);
+        //venatanaMemoria.dibujarMemoria(memoriaPrincipal);
+        venatanaMemoria.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
