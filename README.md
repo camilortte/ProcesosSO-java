@@ -11,10 +11,10 @@
 
 ## screenshots
 
-![alt text](http://es.zimagez.com/full/20b064d720bec0e9329a618ec91320d49f4651c693dc10cc6924c0fb25bf0a9dd288f4f8e80a503e414efaf4dd72b62cecf2b77a13c2960f.php "Inicio con procesos")
+![alt text](http://i.imgur.com/fOom0JP.png "Inicio con procesos")
 
 
-![alt text](http://es.zimagez.com/full/52ca0c66f372cb5a329a618ec91320d4f70af19f1257e35a6924c0fb25bf0a9dd288f4f8e80a503e414efaf4dd72b62c96e6dc8f366a7bfc.php "Visualización memoria")
+![alt text](http://i.imgur.com/fUo6DOK.png "Visualización memoria")
 
 
 ##Licencia
