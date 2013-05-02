@@ -71,11 +71,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="MemoriaPrincipal">
-              <Color PropertyName="color" blue="bc" green="51" red="43" type="rgb"/>
-            </TitledBorder>
-          </Border>
+          <Border info="null"/>
         </Property>
       </Properties>
       <Events>
@@ -98,11 +94,7 @@
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Memoria Virtual">
-              <Color PropertyName="color" blue="bc" green="51" red="43" type="rgb"/>
-            </TitledBorder>
-          </Border>
+          <Border info="null"/>
         </Property>
       </Properties>
       <Events>
@@ -117,7 +109,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="418" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="444" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
