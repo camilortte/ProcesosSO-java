@@ -1,8 +1,8 @@
 #**ProcesSO**
 
-## Se cambió a PRIVATE devido a la naturaleza de la aplicación. (VENDERLA)
+## Se cambió a PRIVATE debido a la naturaleza de la aplicación. (VENDERLA)
 
-##Cosas importante que faltan:
+##Cosas importantes que faltan:
 
 * ¡¡ES NECESARIO HACER PRUEBAS PARA ASÏ DETERMINAR ERRORES Y PODER PASAR AL SIGUIENTE NIOVEL DE DESARROLLO!!
 * Se creo una nueva rama por seguridad debido a la gran cantidad de adiciones y cambios, potencialmente inestables.
