@@ -17,7 +17,11 @@ public class Proceso {
     private boolean requiereDispositivo;
     private Integer tablaDePaginas[][];
     private int paginasCount;
+    private FalloPagina fallosDePagina;
     
+    public FalloPagina getFallosDePagina(){
+        return this.fallosDePagina;
+    }
     public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas){
         this.nombre = nombre;
         this.estado = estado;
@@ -28,7 +32,8 @@ public class Proceso {
         this.requiereDispositivo = false;
         this.tiempoListo = 0;
         this.tiempoEjecucion = 0;
-        this.tiempoBloqueado = 0;        
+        this.tiempoBloqueado = 0;  
+        this.fallosDePagina = new FalloPagina(cantidadPaginas);
         //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
         //Esta ultimas es como mejor.
         //int tamanioTablapagina=tamanio/tamanioPaginas; 
