@@ -9,6 +9,16 @@
 * Falta la implementación de la vantana de visualizacion de memoria.      
 * Al parecer hay un BUG en el momento de adicionar un proceso cuando se esta corriento la simulacion.
 
+* La politica de reemplazo falta integrarla a la ejecucion de caja proceso segun la secuencia de paginas.
+* Aplicar la politica la reemplazo visualmente.
+
+Consideraciones para manejo del conjunto residente:
+* La memoria principal soporta un maximo de 3 procesos.
+* Se van a subir 5 paginas por proceso.
+* Alcance de reemplazo, se va a manejar alcance local.
+* Politica de vaciado: por demanda.
+* tamaño de pagina : 100.
+
 ## screenshots
 
 ![alt text](http://i.imgur.com/fOom0JP.png "Inicio con procesos")
