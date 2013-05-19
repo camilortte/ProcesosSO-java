@@ -81,6 +81,7 @@ public class Memoria {
         Integer tablaPaginas[][] = proceso.getTablaDePaginas();
         for(int i=0;i<tablaPaginas.length;i++){
             //memoriaPrincipal.remove(tablaPaginas[i][0]);
+            memoriaVirtual.add(memoriaPrincipal.get(tablaPaginas[i][0]));
             memoriaPrincipal.set(tablaPaginas[i][0], null);
             System.out.println("memoria princiapl");
             System.out.println(memoriaPrincipal.get(i));
