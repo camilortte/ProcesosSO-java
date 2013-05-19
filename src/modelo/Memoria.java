@@ -210,6 +210,7 @@ public class Memoria {
             //memoriaPrincipal.set(tablaPaginas[i][0],"");
             System.out.println("memoria princiapl");
             System.out.println(memoriaPrincipal.get(i));
+            espaciosVaciosPrincipal.add(tablaPaginas[i][0]);
             //System.out.println(proceso.getNombre()+" "+tablaPaginas[i][0]+" ---   "+tablaPaginas[i][1]);
         }
     }
