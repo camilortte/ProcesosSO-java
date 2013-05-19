@@ -41,7 +41,7 @@ public class Memoria {
                 memoriaPrincipal.add(null);
                 espaciosVaciosPrincipal.add(i);
             }            
-            memoriaVirtual.add(null);    
+            memoriaVirtual.add(null);
             espaciosVaciosVirtual.add(i);
         }
     }
@@ -257,6 +257,7 @@ public class Memoria {
                 //System.out.println("datos a bajar a virtual : "+datoABajar[0]+" "+datoABajar[1]+" "+datoABajar[2]);
                     System.out.println("SE ESTA BAJANDO LAS PAGINAS DEL PROCESO "+p.getNombre());
                     memoriaPrincipal.set(i, null);
+                    espaciosVaciosPrincipal.add(i);
                     insertarEnVirtual(v);
                }
             }
@@ -297,12 +298,12 @@ public class Memoria {
             }*/
             //memoriaPrincipal.remove(tablaPaginas[i][0]);
             //insertarEnMemoriaVirtual(tablaPaginas[i][0]);
-            memoriaPrincipal.set(tablaPaginas[i][0], null);
+            //memoriaPrincipal.set(tablaPaginas[i][0], null);-------------
             //memoriaPrincipal.add(tablaPaginas[i][0], null);
             //memoriaPrincipal.set(tablaPaginas[i][0],"");
             System.out.println("memoria princiapl");
             System.out.println(memoriaPrincipal.get(i));
-            espaciosVaciosPrincipal.add(tablaPaginas[i][0]);
+            //espaciosVaciosPrincipal.add(tablaPaginas[i][0]);---------------
             //System.out.println(proceso.getNombre()+" "+tablaPaginas[i][0]+" ---   "+tablaPaginas[i][1]);
         }
     }
