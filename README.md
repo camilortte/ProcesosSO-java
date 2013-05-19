@@ -5,7 +5,7 @@
 ##Cosas importantes que faltan:
 
 * poner en virtual los procesos que se bajan.   En proceso.
-* intercambiar paginas..  En proceso
+* intercambiar paginas..  con errores
 
 * ¡¡ES NECESARIO HACER PRUEBAS PARA ASÏ DETERMINAR ERRORES Y PODER PASAR AL SIGUIENTE NIOVEL DE DESARROLLO!!
 * Se creo una nueva rama por seguridad debido a la gran cantidad de adiciones y cambios, potencialmente inestables.
