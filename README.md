@@ -5,6 +5,7 @@
 ##FALTA:
 
 *Mostrar el numero de fallos por cada proceso.
+* ERROR AL QUERER INGRESAR UN PROCESO DESPUES DE HAER EJECUTADOY TERMINADO OTROS.
 
 
 Consideraciones para manejo del conjunto residente:
