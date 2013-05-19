@@ -373,7 +373,8 @@ public class ControlProceso {
                 ventana.ejecucionToTerminado();
                 sleep();
                 cambiarEstado(proceso, "TERMINADO");
-                memoria.bajarUnProceso(proceso);
+                //memoria.bajarUnProceso(proceso);
+                memoria.bajarPaginas(proceso);
                 ventana.actualizarProcesosTabla(proceso);
                 sleep();
                 cola_terminado.offer(proceso);
@@ -408,7 +409,8 @@ public class ControlProceso {
 
                     if (proceso.getTamanio_actual() <= 0) {
                         cambiarEstado(proceso, "TERMINADO");
-                        memoria.bajarUnProceso(proceso);
+                        //memoria.bajarUnProceso(proceso);
+                        memoria.bajarPaginas(proceso);
                         activarDispositivos(proceso);
                         ventana.activarPorgresBar(0, 0);
                         sleep();
@@ -460,7 +462,8 @@ public class ControlProceso {
                 //Se termino el tamanio de proedimientos ?
                 if (proceso.getTamanio_actual() <= 0) {
                     cambiarEstado(proceso, "TERMINADO");
-                    memoria.bajarUnProceso(proceso);
+                    //memoria.bajarUnProceso(proceso);
+                    memoria.bajarPaginas(proceso);
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();
                     ventana.ejecucionToTerminado();

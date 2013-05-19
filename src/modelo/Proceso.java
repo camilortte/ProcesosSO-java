@@ -78,10 +78,6 @@ public class Proceso {
         return paginasCount;
     }
     
-    
-
-    
-    
     public int getTiempoEjecucion() {
         return tiempoEjecucion;
     }

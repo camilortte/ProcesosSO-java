@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,6 +44,22 @@ public class Memoria {
             memoriaVirtual.add(null);    
             espaciosVaciosVirtual.add(i);
         }
+    }
+
+    public ArrayList<Integer> getEspaciosVaciosPrincipal() {
+        return espaciosVaciosPrincipal;
+    }
+
+    public void setEspaciosVaciosPrincipal(ArrayList<Integer> espaciosVaciosPrincipal) {
+        this.espaciosVaciosPrincipal = espaciosVaciosPrincipal;
+    }
+
+    public ArrayList<Integer> getEspaciosVaciosVirtual() {
+        return espaciosVaciosVirtual;
+    }
+
+    public void setEspaciosVaciosVirtual(ArrayList<Integer> espaciosVaciosVirtual) {
+        this.espaciosVaciosVirtual = espaciosVaciosVirtual;
     }
 
     public ArrayList<String> getMemoriaPrincipal() {
@@ -87,12 +104,14 @@ public class Memoria {
                 if(vector[0].compareTo(proceso.getNombre())==0 && vector[1].compareTo(proceso.getId())==0 && vector[2].compareTo(""+paginaASubir)==0){
                     //System.out.println("la pagina referenciada "+paginaReferenciada+"esta en la pos "+i);
                     datosProceso =  new String[3];
+                    
                     //datosProceso=vector;
                     datosProceso[0]=vector[0];
                     datosProceso[1]=vector[1];
                     datosProceso[2]=vector[2]+" "+i;
                     //datosProceso[3]=vector[3];
                     //datosProceso[3]=""+i; //el indice de la pos en MP 
+                    memoriaPrincipal.set(i, null);
                     break;
                 }
             }
@@ -114,6 +133,7 @@ public class Memoria {
                     datosProceso[2]=vector[2]+" "+i;
                     //datosProceso=vector;
                     //datosProceso[3]=""+i; //el indice de la pos en MP 
+                    memoriaVirtual.set(i, null);
                     break;
                 }
             }
@@ -133,10 +153,19 @@ public class Memoria {
             temporal_p = obtenerProcesoDePrincipal(proceso, paginaAVirtual);
             System.out.println("valor de painaASubir:"+paginaASubir);
             temporal_v = obtenerProcesoDeVirtual(proceso, paginaASubir);
-            String indice_1[]=temporal_p[2].split(" ");
-            String indice_2[]=temporal_v[2].split(" ");
+            
+            /*String indice_1[]=temporal_p[2].split(" ");
+            String indice_2[]=temporal_v[2].split(" ");*/
+            
+            insertarEnPrincipal(temporal_v);
+            insertarEnVirtual(temporal_p);
+            /*
             memoriaPrincipal.set(Integer.parseInt(indice_1[1]),temporal_v[0]+" "+temporal_v[1]+" "+temporal_v[2]);
             memoriaVirtual.set(Integer.parseInt(indice_2[1]),temporal_p[0]+" "+temporal_p[1]+" "+temporal_p[2]);
+            */
+            //memoriaPrincipal.add(Integer.parseInt(indice_2[1]),temporal_v[0]+" "+temporal_v[1]+" "+temporal_v[2]);
+            //memoriaVirtual.add(Integer.parseInt(indice_1[1]),temporal_p[0]+" "+temporal_p[1]+" "+temporal_p[2]);
+            //memoriaVirtual.add(Integer.parseInt(indice_2[1]),temporal_p[0]+" "+temporal_p[1]+" "+temporal_p[2]);
             System.out.println("se ha hiperpaginado...");
             proceso.addFalloDePagina();
             System.out.println("HA HABIDO UN NUEVO FALLO DE PAGINA");
@@ -199,14 +228,77 @@ public class Memoria {
         return esta;
     }
     
+    /*public void bajarTodasPaginas(Proceso proceso){
+        String nombreP = proceso.getNombre();
+        String idP = proceso.getId();
+        int numPages = proceso.getPaginasCount();
+        for(int i=0;i<memoriaPrincipal.size();i++){
+            String vector[] = memoriaPrincipal.get(i).split(" ");
+         for(int k=0;k<memoriaVirtual.size();k++){
+            for(int j=0;j<numPages;j++){
+                if(vector[0].compareTo(nombreP)==0 && vector[1].compareTo(idP)==0 && Integer.parseInt(vector[2])==j){
+                    memoriaPrincipal.set(i, null);
+                    
+                }
+            }
+        }
+        }
+    }*/
+    
+    public void bajarPaginas(Proceso p){
+        //Integer tablaPaginas[][] = p.getTablaDePaginas();
+        //System.out.println("bajada a virtual de todas las paginas del proceso :"+p.getNombre());
+      
+        for(int i=0;i<memoriaPrincipal.size();i++){
+            if(memoriaPrincipal.get(i)!=null){
+                String v[]=memoriaPrincipal.get(i).split(" ");
+            
+                if(v[1].compareTo(p.getId())==0){
+                //System.out.println("datos a bajar a virtual : "+datoABajar[0]+" "+datoABajar[1]+" "+datoABajar[2]);
+                    System.out.println("SE ESTA BAJANDO LAS PAGINAS DEL PROCESO "+p.getNombre());
+                    memoriaPrincipal.set(i, null);
+                    insertarEnVirtual(v);
+               }
+            }
+        }
+    }
+    
+    public void insertarEnVirtual(String v[]){
+        for(int i=0;i<memoriaVirtual.size();i++){
+            if(memoriaVirtual.get(i)==null){
+                memoriaVirtual.set(i,v[0]+" "+v[1]+" "+v[2]);
+                System.out.println("se ha insertado en virtaul");
+                break;
+            }
+        }
+    }
+    
+    public void insertarEnPrincipal(String v[]){
+        for(int i=0;i<memoriaPrincipal.size();i++){
+            if(memoriaPrincipal.get(i)==null){
+                memoriaPrincipal.set(i,v[0]+" "+v[1]+" "+v[2]);
+                System.out.println("se ha insertado en principal");
+                break;
+            }
+        }
+    }
+    
     /*Metodo que recibe un proceso que se va a bajar de la memoria principal
      Es llamado cuando ya se termina se ejecutar un proceso*/
     public void bajarUnProceso(Proceso proceso){
         Integer tablaPaginas[][] = proceso.getTablaDePaginas();
+        //ArrayList vaciosVirtual = getEspaciosVaciosVirtual();
         for(int i=0;i<tablaPaginas.length;i++){
-            memoriaVirtual.add(memoriaPrincipal.get(tablaPaginas[i][0]));
+            //memoriaVirtual.add(memoriaPrincipal.get(tablaPaginas[i][0]));
+            /*for(int j=0;j<memoriaVirtual.size();j++){
+                if(memoriaVirtual.get(i)==null){
+                    memoriaVirtual.add(j,memoriaPrincipal.get(tablaPaginas[i][0]));
+                }
+            }*/
             //memoriaPrincipal.remove(tablaPaginas[i][0]);
+            //insertarEnMemoriaVirtual(tablaPaginas[i][0]);
             memoriaPrincipal.set(tablaPaginas[i][0], null);
+            //memoriaPrincipal.add(tablaPaginas[i][0], null);
             //memoriaPrincipal.set(tablaPaginas[i][0],"");
             System.out.println("memoria princiapl");
             System.out.println(memoriaPrincipal.get(i));
@@ -275,8 +367,9 @@ public class Memoria {
         return tabla_paginas;        
     }
     
+    
     public boolean hayMemoriaDisponible(int cantidadDePaginas){
-        
+        //refrescarEspaciosVacios();
         if(espaciosVaciosPrincipal.size()>=numeroPaginas ){
             return true;
         }else if(cantidadDePaginas<=espaciosVaciosPrincipal.size()){
