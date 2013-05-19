@@ -1,8 +1,6 @@
 
 package modelo;
 
-import java.util.ArrayList;
-
 public class Proceso {
     
     private String nombre;
@@ -20,7 +18,6 @@ public class Proceso {
     private int falloDePagina;
     private int paginasCount;
     private int tamanhoEjecutado;
-    private FalloPagina fallosDePagina;
     
     public void addFalloDePagina(){
         this.falloDePagina=falloDePagina+1;
@@ -47,9 +44,6 @@ public class Proceso {
         this.tamanhoEjecutado = tamanhoEjecutado;
     }
     
-    public FalloPagina getFallosDePagina(){
-        return this.fallosDePagina;
-    }
     
     public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas){
         this.nombre = nombre;
@@ -64,7 +58,7 @@ public class Proceso {
         this.tiempoBloqueado = 0;
         this.tamanhoEjecutado=0; // no ha ejecutado nada.
         this.ultimaPaginaCargada=-1;
-        this.fallosDePagina = new FalloPagina(cantidadPaginas);
+        //this.fallosDePagina = new FalloPagina(cantidadPaginas);
         //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
         //Esta ultimas es como mejor.
         //int tamanioTablapagina=tamanio/tamanioPaginas; 
