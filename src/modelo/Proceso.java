@@ -19,32 +19,6 @@ public class Proceso {
     private int paginasCount;
     private int tamanhoEjecutado;
     
-    public void addFalloDePagina(){
-        this.falloDePagina=falloDePagina+1;
-    }
-    
-    public void addPaginaCargada(){
-        ultimaPaginaCargada=ultimaPaginaCargada + 1;
-    }
-    
-    public int getUltimaPaginaCargada(){
-        return this.ultimaPaginaCargada;
-    }
-    
-        
-    public void addTamanhoEjecutado(int ejecutado){
-        tamanhoEjecutado = tamanhoEjecutado + ejecutado;
-    }
-
-    public int getTamanhoEjecutado() {
-        return tamanhoEjecutado;
-    }
-
-    public void setTamanhoEjecutado(int tamanhoEjecutado) {
-        this.tamanhoEjecutado = tamanhoEjecutado;
-    }
-    
-    
     public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas){
         this.nombre = nombre;
         this.estado = estado;
@@ -74,6 +48,36 @@ public class Proceso {
         }
     }
 
+    public void addFalloDePagina(){
+        this.falloDePagina++;
+    }
+
+    public int getFalloDePagina() {
+        return falloDePagina;
+    }
+    
+    
+    public void addPaginaCargada(){
+        ultimaPaginaCargada=ultimaPaginaCargada + 1;
+    }
+    
+    public int getUltimaPaginaCargada(){
+        return this.ultimaPaginaCargada;
+    }
+    
+        
+    public void addTamanhoEjecutado(int ejecutado){
+        tamanhoEjecutado = tamanhoEjecutado + ejecutado;
+    }
+
+    public int getTamanhoEjecutado() {
+        return tamanhoEjecutado;
+    }
+
+    public void setTamanhoEjecutado(int tamanhoEjecutado) {
+        this.tamanhoEjecutado = tamanhoEjecutado;
+    }
+    
     public int getPaginasCount() {
         return paginasCount;
     }

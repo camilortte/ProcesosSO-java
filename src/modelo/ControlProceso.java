@@ -7,9 +7,6 @@ import java.util.Queue;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import vista.VentanaPrincipal;
 
 public class ControlProceso {
@@ -72,47 +69,35 @@ public class ControlProceso {
     /*metodo para saber si se puede bajar una pagina..FUNCIONA CORRECTAMENTE*/
     public boolean sePuedeBajarPagina(Proceso proceso){
         boolean sePuedeBajarUnaPagina=false;
-        //int tamanhoProceso = proceso.getTamanio(); //tamaño del proceso
         int ejecutado = proceso.getTamanhoEjecutado();
         int tamanhoActual = proceso.getTamanio_actual();
         int tamanhoProceso = proceso.getTamanio();
-        // 100 porque ese es el tamaño de las paginas que se van bajando.
+        
         if(tamanhoProceso<=100){
-            System.out.println("proceso con tamaño menor o igual a 100");
             if(tamanhoActual>0){
-                System.out.println("tamanho actual >0, no se puede bajar");
                 sePuedeBajarUnaPagina=false;
             }else{
-                System.out.println("se puede bajar una pagina");
-                System.out.println("tamanho ejecutado set = 0");
                 sePuedeBajarUnaPagina=true;
                 proceso.setTamanhoEjecutado(0);
             }
             
         }else if(ejecutado>=100){
-            System.out.println("ejecutado :"+ejecutado);
             sePuedeBajarUnaPagina=true;
             proceso.setTamanhoEjecutado(0);
-            System.out.println("sePuedeBajarUnaPagina :"+sePuedeBajarUnaPagina);
-            System.out.println("tamanho ejecutado set = 0");
         }else{
-            System.out.println("sePuedeBajar()...no se puedebajar una pagina");
             sePuedeBajarUnaPagina=false;
         }
         
         return sePuedeBajarUnaPagina;
     }
     
+    /*Recibe un proceso al que se le va a bajar una pagina*/
     public void bajarPagina(Proceso proceso){
-        /*if(sePuedeBajarPagina(proceso)){
-            int paginaABajar = proceso.getUltimaPaginaBajada() +1;
-            memoria.bajarUnaPagina(paginaABajar,proceso);
-        }*/
-        
         int paginaASubir = proceso.getUltimaPaginaCargada() +1;
         memoria.cargarPagina(proceso,paginaASubir);
     }
     
+    /*Elimina un proceso del arbol de procesos*/
     public void eliminarProceso(Proceso proceso) {
         Iterator it = tree_procesos.iterator();
         Proceso value = proceso;
@@ -128,6 +113,7 @@ public class ControlProceso {
         }
     }
 
+    /*Obtiene el tamaño de un proceso especifico*/
     public int getTamanio(String id) {
         Iterator it = tree_procesos.iterator();
         Proceso value = null;
@@ -142,7 +128,7 @@ public class ControlProceso {
         return 0;
     }
 
-    /*OJO SE MODIFICO EN LA PRIMERA LOINEA DEL IF y el valor que return era Object*/
+    /*Metodo para obtener un proceso del arol de procesos*/
     public Proceso obtenerProceso(String id) {
         Iterator it = tree_procesos.iterator();
         Proceso value = null;
@@ -179,6 +165,7 @@ public class ControlProceso {
         }
     }
 
+    /*Metodo para eliminar un proceso de la cola listo*/
     public void eleminarProcesoDeColaListo(Proceso proceso) {
         Iterator it = cola_listo.iterator();
         Proceso value = proceso;
@@ -192,6 +179,7 @@ public class ControlProceso {
         }
     }
 
+    /*Metodo para eliminar un proceso de la cola bloqueado*/
     public void eleminarProcesoDeColaBloqueado(Proceso proceso) {
         Iterator it = cola_bloquedao.iterator();
         Proceso value = proceso;
@@ -205,6 +193,7 @@ public class ControlProceso {
         }
     }
 
+    /*Metodo para eliminar un proceso de la cola terminado*/
     public void eleminarProcesoDeColaTerminado(Proceso proceso) {
         Iterator it = cola_terminado.iterator();
         Proceso value = proceso;
@@ -218,6 +207,7 @@ public class ControlProceso {
         }
     }
 
+    
     public int getTiempoProceso() {
         return tiempoProceso;
     }
@@ -225,12 +215,9 @@ public class ControlProceso {
     public void setTiempoProceso(int tiempoProceso) {
         this.tiempoProceso = tiempoProceso;
     }
-    /*
-     public void sumarTiempoEjecucion(Proceso proceso){
-     proceso.addTiempoEjecucion();
-     }*/
+    
 
-    /*A todos los procesos de listo les aumenta el tiempo*/
+    /*A todos los procesos de listo les aumenta el tiempo en una unidad*/
     public void sumarTiempoListos() {
         Iterator it = cola_listo.iterator();
         Proceso value;
@@ -302,6 +289,8 @@ public class ControlProceso {
             value.addTiempoBloqueado();
         }
     }
+    
+    
     public boolean isStop() {
         return stop;
     }
@@ -373,7 +362,6 @@ public class ControlProceso {
                 ventana.ejecucionToTerminado();
                 sleep();
                 cambiarEstado(proceso, "TERMINADO");
-                //memoria.bajarUnProceso(proceso);
                 memoria.bajarPaginas(proceso);
                 ventana.actualizarProcesosTabla(proceso);
                 sleep();
@@ -386,7 +374,6 @@ public class ControlProceso {
                 ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 sleep();
                 cambiarEstado(proceso, "EJECUCION");
-                //bajarPagina(proceso);//-----------------------------------------
                 ventana.actualizarProcesosTabla(proceso);
                 ventana.actualizarInformacion(-1);
                 sleep();
@@ -398,10 +385,7 @@ public class ControlProceso {
                     if(sePuedeBajarPagina(proceso)){
                         System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
                         bajarPagina(proceso);
-                    }/*else{
-                        System.out.println("Ejecutar()...no se puede bajar una pagina.");
-                    }*/
-                    //bajarPagina(proceso);
+                    }
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     sleep();
                     ventana.actualizarProcesosTabla(proceso);
@@ -409,7 +393,6 @@ public class ControlProceso {
 
                     if (proceso.getTamanio_actual() <= 0) {
                         cambiarEstado(proceso, "TERMINADO");
-                        //memoria.bajarUnProceso(proceso);
                         memoria.bajarPaginas(proceso);
                         activarDispositivos(proceso);
                         ventana.activarPorgresBar(0, 0);
@@ -428,7 +411,6 @@ public class ControlProceso {
                         ventana.actualizarProcesosTabla(proceso);
                         sleep();
                         cola_listo.offer(proceso);
-                        //proceso.sumarTiempoListo(); //mas 10 unidades  en listo
                     }
                     //Como no estan disponibles los dispositivos solicitados.
                 } else {
@@ -436,8 +418,6 @@ public class ControlProceso {
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();
                     bloquearProceso(proceso);
-                    //proceso.sumarTiempoBloqueado();//mas 10 unidades en bloqueado
-                    //cola_bloquedao.offer(proceso);
                 }
                 //COmo no requere un dispositivo
             } else {
@@ -453,7 +433,6 @@ public class ControlProceso {
                         bajarPagina(proceso);
                 }
                 cambiarEstado(proceso, "EJECUCION");
-               // bajarPagina(proceso);//-----------------------------------------
                 ventana.actualizarProcesosTabla(proceso);
                 ventana.actualizarInformacion(proceso);
                 sleep();
@@ -462,7 +441,6 @@ public class ControlProceso {
                 //Se termino el tamanio de proedimientos ?
                 if (proceso.getTamanio_actual() <= 0) {
                     cambiarEstado(proceso, "TERMINADO");
-                    //memoria.bajarUnProceso(proceso);
                     memoria.bajarPaginas(proceso);
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();
