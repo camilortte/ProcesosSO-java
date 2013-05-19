@@ -32,6 +32,7 @@ public class Procesador{
 
         if (proceso.getTamanio_actual() > 0) {
             proceso.setTamanio_actual(proceso.getTamanio_actual() - cantidadAQuitar);
+            proceso.addTamanhoEjecutado(cantidadAQuitar);
             //tiempo ejecucion funciona
             proceso.addTiempoEjecucion();
             if(proceso.getTamanio_actual()<0) {

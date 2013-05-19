@@ -69,6 +69,41 @@ public class ControlProceso {
         return this.memoria;
     }
     
+    /*metodo para saber si se puede bajar una pagina*/
+    public boolean sePuedeBajarPagina(Proceso proceso){
+        boolean sePuedeBajarUnaPagina=false;
+        //int tamanhoProceso = proceso.getTamanio(); //tamaño del proceso
+        int ejecutado = proceso.getTamanhoEjecutado();
+        int tamanhoActual = proceso.getTamanio_actual();
+        int tamanhoProceso = proceso.getTamanio();
+        // 100 porque ese es el tamaño de las paginas que se van bajando.
+        if(tamanhoProceso<=100){
+            if(tamanhoActual>0){
+                sePuedeBajarUnaPagina=false;
+            }else{
+                sePuedeBajarUnaPagina=true;
+                proceso.setTamanhoEjecutado(0);
+            }
+            
+        }else if(ejecutado>=100){
+            sePuedeBajarUnaPagina=true;
+            proceso.setTamanhoEjecutado(0);
+        }else{
+            sePuedeBajarUnaPagina=false;
+        }
+        
+        return sePuedeBajarUnaPagina;
+    }
+    
+    public void bajarPagina(Proceso proceso){
+        if(sePuedeBajarPagina(proceso)){
+            int paginaABajar = proceso.getUltimaPaginaBajada() +1;
+            System.out.println("estoy en bajarPagina()");
+            System.out.println("pagina a bajar : "+paginaABajar);
+            memoria.bajarUnaPagina(paginaABajar,proceso);
+        }
+    }
+    
     public void eliminarProceso(Proceso proceso) {
         Iterator it = tree_procesos.iterator();
         Proceso value = proceso;
@@ -341,6 +376,7 @@ public class ControlProceso {
                 ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 sleep();
                 cambiarEstado(proceso, "EJECUCION");
+                bajarPagina(proceso);//-----------------------------------------
                 ventana.actualizarProcesosTabla(proceso);
                 ventana.actualizarInformacion(-1);
                 sleep();
@@ -349,6 +385,7 @@ public class ControlProceso {
                     desactivarDispositivos(proceso);
                     procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
                     proceso = procesador.procesar(proceso);
+                    //bajarPagina(proceso);
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     sleep();
                     ventana.actualizarProcesosTabla(proceso);
@@ -393,7 +430,9 @@ public class ControlProceso {
                 sleep();
                 procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
                 proceso = procesador.procesar(proceso);
+                //bajarPagina(proceso);
                 cambiarEstado(proceso, "EJECUCION");
+                bajarPagina(proceso);//-----------------------------------------
                 ventana.actualizarProcesosTabla(proceso);
                 ventana.actualizarInformacion(proceso);
                 sleep();

@@ -6,6 +6,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -89,6 +90,42 @@ public class Memoria {
         }
     }
     
+    /*bajamos una pagina n de principal y subimos la pagina n+1 de virtual*/
+    public void bajarUnaPagina(int paginaABajar, Proceso proceso){
+        System.out.println("se llamo a bajarUnaPagina()");
+        //memoriaPrincipal = getMemoriaPrincipal();
+        System.out.println("tam main "+memoriaPrincipal.size());
+        for(int i=0;i<memoriaPrincipal.size();i++){
+            
+            if(memoriaPrincipal.get(i)!=null){
+               String vector[]= memoriaPrincipal.get(i).split(" ");
+            if(Integer.parseInt(vector[1])==paginaABajar){
+                memoriaPrincipal.add(i, null);
+                memoriaVirtual.add(vector[0]+" "+vector[1]);
+                proceso.addPaginaBajada();
+                //subir pagina
+                memoriaPrincipal.add(i,getPaginaASubir(paginaABajar));
+                break;
+            }
+            }
+        }        
+    }
+    
+    /*obtiene la pagina a subir de la memoria virtual*/
+    public String getPaginaASubir(int paginaABajar){
+        String paginaASubir = "";
+        int paginaAsubir = paginaABajar+1;
+        
+        for(int i=0;i<memoriaVirtual.size();i++){
+            String vector[] = memoriaVirtual.get(i).split(" ");
+            if(Integer.parseInt(vector[1])==paginaAsubir){
+                paginaASubir=memoriaVirtual.get(i);
+                break;
+            }
+        }
+        
+        return paginaASubir;
+    }
     
     public Integer[][]  solicitarEspacio(Integer tabla_paginas[][],String nombreProceso){
               
@@ -112,7 +149,7 @@ public class Memoria {
             if(!espaciosVaciosPrincipal.isEmpty()){
                 indiceVacio=espaciosVaciosPrincipal.get(0);
                 espaciosVaciosPrincipal.remove(0);
-                memoriaPrincipal.set(indiceVacio, (nombreProceso+" Pag_"+i));
+                memoriaPrincipal.set(indiceVacio,(nombreProceso+" "+i));
                 tabla_paginas[i][0]=indiceVacio;
                 tabla_paginas[i][1]=0;
             }else{

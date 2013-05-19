@@ -16,12 +16,36 @@ public class Proceso {
     private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
     private Integer tablaDePaginas[][];
+    private int ultimaPaginaBajada;
     private int paginasCount;
+    private int tamanhoEjecutado;
     private FalloPagina fallosDePagina;
+    
+    public void addPaginaBajada(){
+        ultimaPaginaBajada=ultimaPaginaBajada + 1;
+    }
+    
+    public int getUltimaPaginaBajada(){
+        return this.ultimaPaginaBajada;
+    }
+    
+        
+    public void addTamanhoEjecutado(int ejecutado){
+        tamanhoEjecutado = tamanhoEjecutado + ejecutado;
+    }
+
+    public int getTamanhoEjecutado() {
+        return tamanhoEjecutado;
+    }
+
+    public void setTamanhoEjecutado(int tamanhoEjecutado) {
+        this.tamanhoEjecutado = tamanhoEjecutado;
+    }
     
     public FalloPagina getFallosDePagina(){
         return this.fallosDePagina;
     }
+    
     public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas){
         this.nombre = nombre;
         this.estado = estado;
@@ -32,12 +56,15 @@ public class Proceso {
         this.requiereDispositivo = false;
         this.tiempoListo = 0;
         this.tiempoEjecucion = 0;
-        this.tiempoBloqueado = 0;  
+        this.tiempoBloqueado = 0;
+        this.tamanhoEjecutado=0; // no ha ejecutado nada.
+        this.ultimaPaginaBajada=-1;
         this.fallosDePagina = new FalloPagina(cantidadPaginas);
         //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
         //Esta ultimas es como mejor.
         //int tamanioTablapagina=tamanio/tamanioPaginas; 
         this.tablaDePaginas=new Integer[cantidadPaginas][2];
+        //this.estadoPaginas = new String[cantidadPaginas][2];
         System.out.println("EL proceso se creo con "+cantidadPaginas+" paginas");
         paginasCount=cantidadPaginas;
         for(int i=0;i<requerimientos.length;i++){
@@ -133,8 +160,6 @@ public class Proceso {
     public void setRequerimientos(Dispositivo[] requerimientos) {
         this.requerimientos = requerimientos;
     }
-    
-    
     
     public String getNombre() {
         return nombre;
