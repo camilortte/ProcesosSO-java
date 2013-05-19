@@ -75,6 +75,20 @@ public class Memoria {
                 System.out.println("");
         }
      */
+    
+    /*Metodo que recibe un proceso que se va a bajar de la memoria principal*/
+    public void bajarUnProceso(Proceso proceso){
+        Integer tablaPaginas[][] = proceso.getTablaDePaginas();
+        for(int i=0;i<tablaPaginas.length;i++){
+            //memoriaPrincipal.remove(tablaPaginas[i][0]);
+            memoriaPrincipal.set(tablaPaginas[i][0], null);
+            System.out.println("memoria princiapl");
+            System.out.println(memoriaPrincipal.get(i));
+            //System.out.println(proceso.getNombre()+" "+tablaPaginas[i][0]+" ---   "+tablaPaginas[i][1]);
+        }
+    }
+    
+    
     public Integer[][]  solicitarEspacio(Integer tabla_paginas[][],String nombreProceso){
               
         

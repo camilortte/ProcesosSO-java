@@ -46,8 +46,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dispositivosDisponibles[6]=new Dispositivo("Camara","6");
         memoria=new Memoria(10);        
         //Todos los dispositivos estaran disponibles
-        for (int i=0;i<7;i++)
+        for (int i=0;i<7;i++) {
             dispositivosDisponibles[i].setDisponible(true);
+        }
         //procesoEjecutado = null;
     }
 
@@ -1276,6 +1277,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jMenuItem_insertarProcesosAleatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
         int max = 1000;
         int min = 15;
+        memoria = controlProces.getMemoria();
         for (int i = 0; i < 15; i++) {
             int random1 =  (int) (Math.random() * (max - min)) + min;
             int randmonn=  (int)(Math.random()*(7))+1;
@@ -1382,6 +1384,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
         
+        memoria = controlProces.getMemoria();
         
         String nombreproceso = this.jTextField_nombre.getText();
         String id = this.jTextField_id.getText();
@@ -1586,6 +1589,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox_requiereCamaraActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        memoria=controlProces.getMemoria();
         ArrayList<String> memoriaPrincipal=memoria.getMemoriaPrincipal();
         ArrayList<String> memoriaVirtual=memoria.getMemoriaVirtual();
         /*
@@ -1605,6 +1609,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /*Este metodo refresca la ventana de memoria, ya que se han subido y bajado procesos.*/
+    public void actualizarVentanaMemoria(){
+        memoria=controlProces.getMemoria();
+        ArrayList<String> memoriaPrincipal=memoria.getMemoriaPrincipal();
+        ArrayList<String> memoriaVirtual=memoria.getMemoriaVirtual();
+        venatanaMemoria.setMemoriaPrincipal(memoriaPrincipal);
+        venatanaMemoria.setMemoriaVirtual(memoriaVirtual);
+        venatanaMemoria.dibujarMemoria();
+    }
+    
     private void functionAddNuevo() {
         if (jTextField_nombre.getText().compareTo("") != 0 && jTextField_id.getText().compareTo("") != 0) {
             System.out.println("ADD a la lista nuevo: Valor de id_" + jTextField_id.getText() + "_valor de nombre:_" + jTextField_nombre.getText() + "_");

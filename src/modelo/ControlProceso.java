@@ -35,6 +35,7 @@ public class ControlProceso {
     //proceso de la clase control proceso =D
     private VentanaPrincipal ventana;
     private boolean terminado;
+    private Memoria memoria;
     //offer(proceso);// inserta un elemento
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
@@ -60,8 +61,14 @@ public class ControlProceso {
         procesador = new Procesador();
         this.ventana = ventana;
         this.terminado = true;
+        memoria=new Memoria(10);
     }
-
+    
+    /*obtener la memoria*/
+    public Memoria getMemoria(){
+        return this.memoria;
+    }
+    
     public void eliminarProceso(Proceso proceso) {
         Iterator it = tree_procesos.iterator();
         Proceso value = proceso;
@@ -322,6 +329,7 @@ public class ControlProceso {
                 ventana.ejecucionToTerminado();
                 sleep();
                 cambiarEstado(proceso, "TERMINADO");
+                memoria.bajarUnProceso(proceso);
                 ventana.actualizarProcesosTabla(proceso);
                 sleep();
                 cola_terminado.offer(proceso);
@@ -348,6 +356,7 @@ public class ControlProceso {
 
                     if (proceso.getTamanio_actual() <= 0) {
                         cambiarEstado(proceso, "TERMINADO");
+                        memoria.bajarUnProceso(proceso);
                         activarDispositivos(proceso);
                         ventana.activarPorgresBar(0, 0);
                         sleep();
@@ -393,6 +402,7 @@ public class ControlProceso {
                 //Se termino el tamanio de proedimientos ?
                 if (proceso.getTamanio_actual() <= 0) {
                     cambiarEstado(proceso, "TERMINADO");
+                    memoria.bajarUnProceso(proceso);
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();
                     ventana.ejecucionToTerminado();

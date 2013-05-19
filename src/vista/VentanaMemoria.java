@@ -263,4 +263,12 @@ public class VentanaMemoria extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+
+    void setMemoriaPrincipal(ArrayList<String> memoriaPrincipal) {
+        this.memoriaPrincipal=memoriaPrincipal;
+    }
+
+    void setMemoriaVirtual(ArrayList<String> memoriaVirtual) {
+        this.memoriaVirtual=memoriaVirtual;
+    }
 }
