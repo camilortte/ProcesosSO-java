@@ -69,7 +69,7 @@ public class ControlProceso {
         return this.memoria;
     }
     
-    /*metodo para saber si se puede bajar una pagina*/
+    /*metodo para saber si se puede bajar una pagina..FUNCIONA CORRECTAMENTE*/
     public boolean sePuedeBajarPagina(Proceso proceso){
         boolean sePuedeBajarUnaPagina=false;
         //int tamanhoProceso = proceso.getTamanio(); //tamaño del proceso
@@ -78,17 +78,25 @@ public class ControlProceso {
         int tamanhoProceso = proceso.getTamanio();
         // 100 porque ese es el tamaño de las paginas que se van bajando.
         if(tamanhoProceso<=100){
+            System.out.println("proceso con tamaño menor o igual a 100");
             if(tamanhoActual>0){
+                System.out.println("tamanho actual >0, no se puede bajar");
                 sePuedeBajarUnaPagina=false;
             }else{
+                System.out.println("se puede bajar una pagina");
+                System.out.println("tamanho ejecutado set = 0");
                 sePuedeBajarUnaPagina=true;
                 proceso.setTamanhoEjecutado(0);
             }
             
         }else if(ejecutado>=100){
+            System.out.println("ejecutado :"+ejecutado);
             sePuedeBajarUnaPagina=true;
             proceso.setTamanhoEjecutado(0);
+            System.out.println("sePuedeBajarUnaPagina :"+sePuedeBajarUnaPagina);
+            System.out.println("tamanho ejecutado set = 0");
         }else{
+            System.out.println("sePuedeBajar()...no se puedebajar una pagina");
             sePuedeBajarUnaPagina=false;
         }
         
@@ -96,12 +104,13 @@ public class ControlProceso {
     }
     
     public void bajarPagina(Proceso proceso){
-        if(sePuedeBajarPagina(proceso)){
+        /*if(sePuedeBajarPagina(proceso)){
             int paginaABajar = proceso.getUltimaPaginaBajada() +1;
-            System.out.println("estoy en bajarPagina()");
-            System.out.println("pagina a bajar : "+paginaABajar);
             memoria.bajarUnaPagina(paginaABajar,proceso);
-        }
+        }*/
+        
+        int paginaASubir = proceso.getUltimaPaginaCargada() +1;
+        memoria.cargarPagina(proceso,paginaASubir);
     }
     
     public void eliminarProceso(Proceso proceso) {
@@ -376,7 +385,7 @@ public class ControlProceso {
                 ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                 sleep();
                 cambiarEstado(proceso, "EJECUCION");
-                bajarPagina(proceso);//-----------------------------------------
+                //bajarPagina(proceso);//-----------------------------------------
                 ventana.actualizarProcesosTabla(proceso);
                 ventana.actualizarInformacion(-1);
                 sleep();
@@ -385,6 +394,12 @@ public class ControlProceso {
                     desactivarDispositivos(proceso);
                     procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
                     proceso = procesador.procesar(proceso);
+                    if(sePuedeBajarPagina(proceso)){
+                        System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                        bajarPagina(proceso);
+                    }/*else{
+                        System.out.println("Ejecutar()...no se puede bajar una pagina.");
+                    }*/
                     //bajarPagina(proceso);
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     sleep();
@@ -431,8 +446,12 @@ public class ControlProceso {
                 procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
                 proceso = procesador.procesar(proceso);
                 //bajarPagina(proceso);
+                if(sePuedeBajarPagina(proceso)){
+                        System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                        bajarPagina(proceso);
+                }
                 cambiarEstado(proceso, "EJECUCION");
-                bajarPagina(proceso);//-----------------------------------------
+               // bajarPagina(proceso);//-----------------------------------------
                 ventana.actualizarProcesosTabla(proceso);
                 ventana.actualizarInformacion(proceso);
                 sleep();

@@ -7,6 +7,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -77,55 +78,142 @@ public class Memoria {
         }
      */
     
-    /*Metodo que recibe un proceso que se va a bajar de la memoria principal*/
+    /*Obtenien una pagina y un proceso de memoria principal especificos*/
+    public String[] obtenerProcesoDePrincipal(Proceso proceso, int paginaASubir){
+        String datosProceso[] = null;
+        for(int i=0;i<memoriaPrincipal.size();i++){
+            if(memoriaPrincipal.get(i)!=null){
+                String vector[] = memoriaPrincipal.get(i).split(" ");
+                if(vector[0].compareTo(proceso.getNombre())==0 && vector[1].compareTo(proceso.getId())==0 && vector[2].compareTo(""+paginaASubir)==0){
+                    //System.out.println("la pagina referenciada "+paginaReferenciada+"esta en la pos "+i);
+                    datosProceso =  new String[3];
+                    //datosProceso=vector;
+                    datosProceso[0]=vector[0];
+                    datosProceso[1]=vector[1];
+                    datosProceso[2]=vector[2]+" "+i;
+                    //datosProceso[3]=vector[3];
+                    //datosProceso[3]=""+i; //el indice de la pos en MP 
+                    break;
+                }
+            }
+        }
+        return datosProceso;
+    }
+    
+    /*Obtenien una pagina y un proceso de memoria virtual especificos*/
+    public String[] obtenerProcesoDeVirtual(Proceso proceso, int paginaASubir){
+        String datosProceso[]=null;
+        for(int i=0;i<memoriaVirtual.size();i++){
+            if(memoriaVirtual.get(i)!=null){
+                String vector[] = memoriaVirtual.get(i).split(" ");
+                if(vector[0].compareTo(proceso.getNombre())==0 && vector[1].compareTo(proceso.getId())==0 && vector[2].compareTo(""+paginaASubir)==0){
+                    //System.out.println("la pagina referenciada "+paginaReferenciada+"esta en la pos "+i);
+                    datosProceso =  new String[3];
+                    datosProceso[0]=vector[0];
+                    datosProceso[1]=vector[1];
+                    datosProceso[2]=vector[2]+" "+i;
+                    //datosProceso=vector;
+                    //datosProceso[3]=""+i; //el indice de la pos en MP 
+                    break;
+                }
+            }
+        }
+        return datosProceso;
+    }
+    
+    /*Este metodo  hace la hiperpaginacion segun la politica de vaciado local.*/
+    public void hiperPaginar(Proceso proceso, int paginaASubir){
+        int paginaAVirtual = paginaASubir-1;
+        String temporal_p[] = null;
+        String temporal_v[] = null;
+        System.out.println("se ha llamado a hiperPaginar()....");
+        //if(paginaEnVirtual(proceso, paginaASubir)){
+            System.out.println("se esta hiperpaginando....");
+            System.out.println("valor de paginaAVirtual:"+paginaAVirtual);
+            temporal_p = obtenerProcesoDePrincipal(proceso, paginaAVirtual);
+            System.out.println("valor de painaASubir:"+paginaASubir);
+            temporal_v = obtenerProcesoDeVirtual(proceso, paginaASubir);
+            String indice_1[]=temporal_p[2].split(" ");
+            String indice_2[]=temporal_v[2].split(" ");
+            memoriaPrincipal.set(Integer.parseInt(indice_1[1]),temporal_v[0]+" "+temporal_v[1]+" "+temporal_v[2]);
+            memoriaVirtual.set(Integer.parseInt(indice_2[1]),temporal_p[0]+" "+temporal_p[1]+" "+temporal_p[2]);
+            System.out.println("se ha hiperpaginado...");
+            proceso.addFalloDePagina();
+            System.out.println("HA HABIDO UN NUEVO FALLO DE PAGINA");
+        //}
+    }
+    
+    /*Este metodo mira si es necesario cargar una pagina de virtual o si ya esta en principal*/
+    public void cargarPagina(Proceso proceso,int paginaASubir){
+        Integer tablaPaginas[][]=proceso.getTablaDePaginas();
+        System.out.println("tabla de paginas:");
+        for(int i=0;i<tablaPaginas.length;i++){
+            System.out.println("vector[i][0] :"+tablaPaginas[i][0]);
+            System.out.println("vector[i][1] :"+tablaPaginas[i][1]);
+        }
+        System.out.println("se ha referenciado a la pagina :"+paginaASubir);
+        if(paginaEnPrincipal(proceso, paginaASubir)){
+            System.out.println("la pagina esta en MP, no es necesario subirla");
+            proceso.addPaginaCargada();
+        }else{
+            System.out.println("la pagina no esta en MP, se necesita subir la pagina de MV, fallo de pagina");
+            hiperPaginar(proceso, paginaASubir);
+            proceso.addPaginaCargada();
+        }
+        
+    }
+    
+    /*busca un proceso y una pagina referenciadae en MV, return true si está*/
+    public boolean paginaEnVirtual(Proceso proceso, int paginaReferenciada){
+        boolean esta=false;
+        String vector[] = new String[2];
+        System.out.println("SE ESTA BUSCANDO LA PAGINA EN MV");
+        for(int i=0;i<memoriaVirtual.size();i++){
+            if(memoriaVirtual.get(i)!=null){
+                vector = memoriaVirtual.get(i).split(" ");
+                if(vector[0].compareTo(proceso.getNombre())==0 && vector[1].compareTo(proceso.getId())==0 && vector[2].compareTo(""+paginaReferenciada)==0){
+                    esta=true;
+                    System.out.println("la pagina referenciada "+paginaReferenciada+" esta en la pos "+i+"de virtual");
+                    break;
+                }
+            }
+        }
+        return esta;
+    }
+    
+    /*busca un proceso y una pagina referenciadae en MP, return true si está*/
+    public boolean paginaEnPrincipal(Proceso proceso, int paginaReferenciada){
+        boolean esta=false;
+        String vector[] = new String[2];
+        System.out.println("SE ESTA BUSCANDO LA PAGINA EN MP");
+        for(int i=0;i<memoriaPrincipal.size();i++){
+            if(memoriaPrincipal.get(i)!=null){
+                vector = memoriaPrincipal.get(i).split(" ");
+                if(vector[0].compareTo(proceso.getNombre())==0 && vector[1].compareTo(proceso.getId())==0 && vector[2].compareTo(""+paginaReferenciada)==0){
+                    esta=true;
+                    System.out.println("la pagina referenciada "+paginaReferenciada+"esta en la pos "+i);
+                    break;
+                }
+            }
+        }
+        return esta;
+    }
+    
+    /*Metodo que recibe un proceso que se va a bajar de la memoria principal
+     Es llamado cuando ya se termina se ejecutar un proceso*/
     public void bajarUnProceso(Proceso proceso){
         Integer tablaPaginas[][] = proceso.getTablaDePaginas();
         for(int i=0;i<tablaPaginas.length;i++){
             memoriaVirtual.add(memoriaPrincipal.get(tablaPaginas[i][0]));
             //memoriaPrincipal.remove(tablaPaginas[i][0]);
             memoriaPrincipal.set(tablaPaginas[i][0], null);
+            //memoriaPrincipal.set(tablaPaginas[i][0],"");
             System.out.println("memoria princiapl");
             System.out.println(memoriaPrincipal.get(i));
             //System.out.println(proceso.getNombre()+" "+tablaPaginas[i][0]+" ---   "+tablaPaginas[i][1]);
         }
     }
-    
-    /*bajamos una pagina n de principal y subimos la pagina n+1 de virtual*/
-    public void bajarUnaPagina(int paginaABajar, Proceso proceso){
-        System.out.println("se llamo a bajarUnaPagina()");
-        //memoriaPrincipal = getMemoriaPrincipal();
-        System.out.println("tam main "+memoriaPrincipal.size());
-        for(int i=0;i<memoriaPrincipal.size();i++){
-            
-            if(memoriaPrincipal.get(i)!=null){
-               String vector[]= memoriaPrincipal.get(i).split(" ");
-            if(Integer.parseInt(vector[1])==paginaABajar){
-                memoriaPrincipal.add(i, null);
-                memoriaVirtual.add(vector[0]+" "+vector[1]);
-                proceso.addPaginaBajada();
-                //subir pagina
-                memoriaPrincipal.add(i,getPaginaASubir(paginaABajar));
-                break;
-            }
-            }
-        }        
-    }
-    
-    /*obtiene la pagina a subir de la memoria virtual*/
-    public String getPaginaASubir(int paginaABajar){
-        String paginaASubir = "";
-        int paginaAsubir = paginaABajar+1;
-        
-        for(int i=0;i<memoriaVirtual.size();i++){
-            String vector[] = memoriaVirtual.get(i).split(" ");
-            if(Integer.parseInt(vector[1])==paginaAsubir){
-                paginaASubir=memoriaVirtual.get(i);
-                break;
-            }
-        }
-        
-        return paginaASubir;
-    }
+      
     
     public Integer[][]  solicitarEspacio(Integer tabla_paginas[][],String nombreProceso){
               
@@ -197,100 +285,4 @@ public class Memoria {
         }
     }
     
-    //busca si una pagina de un proceso esta o no en memoria principal
-    public boolean estaEnPrincipal(Proceso proceso, int pagina){
-        boolean esta=false;
-        if(memoriaPrincipal.isEmpty()){
-            esta=false;
-        }else{
-            String proc[]= new String[2]; //para extraer el nombre del proceso y la pagina
-            for(int i=0;i<memoriaPrincipal.size();i++){
-                proc=memoriaPrincipal.get(i).split(" ");
-                //si nombre es igual al nombre del proceso buscado y la pagina es la pagina buscada
-                if(proc[0].compareTo(proceso.getNombre())==0 && proc[1].compareTo(String.valueOf(pagina))==0){
-                    esta=true;
-                }
-            }
-        }
-        return esta;
-    }
-    
-    //retorna una pagina que este en memoria principal, si no esta retorna null
-    public String getPaginaDePrincipal(Proceso proceso, int paginaReferenciada){
-        String pagina = null;
-        String paginaBuscada = proceso+" "+paginaReferenciada;
-        for(int i=0;i<memoriaPrincipal.size();i++){
-            if(memoriaPrincipal.get(i).compareTo(paginaBuscada)==0){
-                pagina=memoriaPrincipal.get(i);
-                break;
-            }
-        }
-        return pagina;
-    }
-    
-    //retorna una pagina que este en memoria virtual, si no esta retorna null
-    public String getPaginaDeVirtual(Proceso proceso, int paginaReferenciada){
-        String pagina = null;
-        String paginaBuscada = proceso+" "+paginaReferenciada;
-        for(int i=0;i<memoriaVirtual.size();i++){
-            if(memoriaVirtual.get(i).compareTo(paginaBuscada)==0){
-                pagina=memoriaVirtual.get(i);
-                break;
-            }
-        }
-        return pagina;
-    }
-    
-    public int getIndiceDePaginaEnPrincipal(Proceso p, int pagina){
-        int index=-1;
-        String pag[] = new String[2];
-        if(estaEnPrincipal(p, pagina)){//si la pagina esta en principal entonces busquea y returne el INDICE
-            for(int i=0;i<memoriaPrincipal.size();i++){
-                pag=memoriaPrincipal.get(i).split(" ");
-                if(Integer.parseInt(pag[2]) == pagina){
-                    index=i;
-                    break;
-                }
-            }
-        }        
-        return index;
-    }
-    
-    public int getIndiceDePaginaEnVirtual(Proceso p, int pagina){
-        int index=-1;
-        String pag[] = new String[2];
-        if(estaEnPrincipal(p, pagina)){//si la pagina esta en principal entonces busquea y returne el INDICE
-            for(int i=0;i<memoriaVirtual.size();i++){
-                pag=memoriaVirtual.get(i).split(" ");
-                if(Integer.parseInt(pag[2]) == pagina){
-                    index=i;
-                    break;
-                }
-            }
-        }        
-        return index;
-    }
-    
-    /*
-     * Politica: Una pagina se escribira en la memoria secundaria (virtual) solo cuando haya sido elegida para
-     * reemplaarce.
-     *  La pagina que se va a reeemplazar es la que provoco el fallo.
-     *  
-     * Explicacion del metodo: recibe el proceso y la pagina que esta llamando a otra pagina
-     * se obtiene la pagina llamada, si no esta en principal se provoca un fallo, se baja la pagina
-     * que lo provoco y se sube la pagina llamada.
-     */
-    public void reemplazoPorDemanda(Proceso proceso, int paginaAReemplazarce){
-        int paginaAEjecutar = proceso.getFallosDePagina().getFalloSiguiente(paginaAReemplazarce);
-        String intercambio="";
-        //si la pagina a subir no esta en principal y el proceso tiene mas de una pagina entonces, esta en virtual
-        if(paginaAEjecutar != -1 && !estaEnPrincipal(proceso, paginaAEjecutar)){
-            intercambio = getPaginaDePrincipal(proceso, paginaAReemplazarce);
-            int indice_1 = getIndiceDePaginaEnPrincipal(proceso,paginaAReemplazarce);
-            int indice_2 = getIndiceDePaginaEnVirtual(proceso, paginaAEjecutar);
-            memoriaPrincipal.set(indice_1,proceso.getNombre()+" "+paginaAEjecutar);
-            memoriaVirtual.set(indice_2,proceso.getNombre()+" "+intercambio);
-            
-        }
-    }
 }

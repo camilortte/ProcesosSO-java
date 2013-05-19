@@ -16,17 +16,22 @@ public class Proceso {
     private Dispositivo requerimientos[];
     private boolean requiereDispositivo;
     private Integer tablaDePaginas[][];
-    private int ultimaPaginaBajada;
+    private int ultimaPaginaCargada;
+    private int falloDePagina;
     private int paginasCount;
     private int tamanhoEjecutado;
     private FalloPagina fallosDePagina;
     
-    public void addPaginaBajada(){
-        ultimaPaginaBajada=ultimaPaginaBajada + 1;
+    public void addFalloDePagina(){
+        this.falloDePagina=falloDePagina+1;
     }
     
-    public int getUltimaPaginaBajada(){
-        return this.ultimaPaginaBajada;
+    public void addPaginaCargada(){
+        ultimaPaginaCargada=ultimaPaginaCargada + 1;
+    }
+    
+    public int getUltimaPaginaCargada(){
+        return this.ultimaPaginaCargada;
     }
     
         
@@ -58,7 +63,7 @@ public class Proceso {
         this.tiempoEjecucion = 0;
         this.tiempoBloqueado = 0;
         this.tamanhoEjecutado=0; // no ha ejecutado nada.
-        this.ultimaPaginaBajada=-1;
+        this.ultimaPaginaCargada=-1;
         this.fallosDePagina = new FalloPagina(cantidadPaginas);
         //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
         //Esta ultimas es como mejor.
