@@ -2,25 +2,17 @@
 
 ## Se cambió a PRIVATE debido a la naturaleza de la aplicación. (VENDERLA)
 
-##Cosas importantes que faltan:
+##FALTA:
 
-* poner en virtual los procesos que se bajan.   En proceso.
-* intercambiar paginas..  con errores
+*Mostrar el numero de fallos por cada proceso.
 
-* ¡¡ES NECESARIO HACER PRUEBAS PARA ASÏ DETERMINAR ERRORES Y PODER PASAR AL SIGUIENTE NIOVEL DE DESARROLLO!!
-* Se creo una nueva rama por seguridad debido a la gran cantidad de adiciones y cambios, potencialmente inestables.
-* Falta la implementación de la vantana de visualizacion de memoria.      
-* Al parecer hay un BUG en el momento de adicionar un proceso cuando se esta corriento la simulacion.
-
-* La politica de reemplazo falta integrarla a la ejecucion de caja proceso segun la secuencia de paginas.
-* Aplicar la politica la reemplazo visualmente.
 
 Consideraciones para manejo del conjunto residente:
-* La memoria principal soporta un maximo de 3 procesos.
-* Se van a subir 5 paginas por proceso.
-* Alcance de reemplazo, se va a manejar alcance local.
-* Politica de vaciado: por demanda.
-* tamaño de pagina : 100.
+* La memoria principal soporta un maximo de 3 procesos. (HECHO)
+* Se van a subir 5 paginas por proceso. (HECHO)
+* Alcance de reemplazo, se va a manejar alcance local. (HECHO)
+* Politica de vaciado: por demanda. (HECHO)
+* tamaño de pagina : 100. (HECHO)
 
 ## screenshots
 
