@@ -191,7 +191,21 @@ public class Memoria {
                     System.out.println("SE ESTA BAJANDO LAS PAGINAS DEL PROCESO "+p.getNombre());
                     memoriaPrincipal.set(i, null);
                     espaciosVaciosPrincipal.add(i);
-                    insertarEnVirtual(v);
+                    //insertarEnVirtual(v);
+               }
+            }
+        }
+        
+        for(int i=0;i<memoriaVirtual.size();i++){
+            if(memoriaVirtual.get(i)!=null){
+                String v[]=memoriaVirtual.get(i).split(" ");
+            
+                if(v[1].compareTo(p.getId())==0){
+                //System.out.println("datos a bajar a virtual : "+datoABajar[0]+" "+datoABajar[1]+" "+datoABajar[2]);
+                    System.out.println("SE ESTA BAJANDO LAS PAGINAS DEL PROCESO "+p.getNombre());
+                    memoriaVirtual.set(i, null);
+                    espaciosVaciosVirtual.add(i);
+                    //insertarEnVirtual(v);
                }
             }
         }
