@@ -6,7 +6,10 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +24,7 @@ public class VentanaMemoria extends javax.swing.JFrame {
     
     private ArrayList<String> memoriaPrincipal;
     private ArrayList<String> memoriaVirtual;
+    private boolean draw = true;
     
     public VentanaMemoria(ArrayList<String> memoriaPrincipal,ArrayList<String> memoriaVirtual) {
         initComponents();
@@ -186,12 +190,23 @@ public class VentanaMemoria extends javax.swing.JFrame {
         dibujarMemoria();
     }//GEN-LAST:event_jPanel2ComponentResized
 
-    public void paintComponent(Graphics g) 
-    {
-              
+    public void paintComponent(Graphics g) {
+       dibujarMemoria();
+    }
+
+  
+    
+    public void clear(){
+        jPanel1.removeAll();
+        jPanel2.removeAll();
+        dibujarMemoria();
     }
     
-    public void dibujarMemoria(){
+    
+    
+    public void dibujarMemoria(){  
+      this.update(this.getGraphics());
+      this.paint(this.getGraphics());
       dibujoMemoriaPrincipal();
       dibujoMemoriaVirtual();
     }
@@ -207,8 +222,9 @@ public class VentanaMemoria extends javax.swing.JFrame {
         //jPanel1.getGraphics().setColor(new Color(0,102,255));
         //jPanel1.getGraphics().setColor(new Color(255,255,255));
         Graphics g=jPanel1.getGraphics();
+        System.out.println("\nMemoria Princiapl");
         for(int i=0;i<memoriaPrincipal.size();i++){            
-            
+            System.out.print(memoriaPrincipal.get(i)+" ");
             if(memoriaPrincipal.get(i)==null){
                 g.setColor(Color.BLACK);
                 g.drawRect(x1,y1,x2,y2);                
@@ -238,8 +254,9 @@ public class VentanaMemoria extends javax.swing.JFrame {
         //jPanel1.getGraphics().setColor(new Color(0,102,255));
         //jPanel1.getGraphics().setColor(new Color(255,255,255));
         Graphics g=jPanel2.getGraphics();
+        System.out.println("\nMemoria Virtual");
         for(int i=0;i<memoriaVirtual.size();i++){            
-            
+            System.out.print(memoriaVirtual.get(i));
             if(memoriaVirtual.get(i)==null){
                 g.setColor(Color.BLACK);
                 g.drawRect(x1,y1,x2,y2);                
