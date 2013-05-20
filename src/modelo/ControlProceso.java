@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vista.VentanaMemoria;
 import vista.VentanaPrincipal;
 
 public class ControlProceso {
@@ -33,6 +34,7 @@ public class ControlProceso {
     private VentanaPrincipal ventana;
     private boolean terminado;
     private Memoria memoria;
+    private VentanaMemoria ventanaMemoria;
     //offer(proceso);// inserta un elemento
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
@@ -60,6 +62,11 @@ public class ControlProceso {
         this.terminado = true;
         memoria=new Memoria(10);
     }
+    
+    public void setVentanaMemoria(VentanaMemoria ventanaMemoria){
+        this.ventanaMemoria=ventanaMemoria;
+    }
+    
     
     /*obtener la memoria*/
     public Memoria getMemoria(){
@@ -363,6 +370,7 @@ public class ControlProceso {
                 sleep();
                 cambiarEstado(proceso, "TERMINADO");
                 memoria.bajarPaginas(proceso);
+                ventanaMemoria.clear();
                 ventana.actualizarProcesosTabla(proceso);
                 sleep();
                 cola_terminado.offer(proceso);
@@ -394,6 +402,7 @@ public class ControlProceso {
                     if (proceso.getTamanio_actual() <= 0) {
                         cambiarEstado(proceso, "TERMINADO");
                         memoria.bajarPaginas(proceso);
+                        ventanaMemoria.clear();
                         activarDispositivos(proceso);
                         ventana.activarPorgresBar(0, 0);
                         sleep();
@@ -442,6 +451,7 @@ public class ControlProceso {
                 if (proceso.getTamanio_actual() <= 0) {
                     cambiarEstado(proceso, "TERMINADO");
                     memoria.bajarPaginas(proceso);
+                    ventanaMemoria.clear();
                     ventana.actualizarProcesosTabla(proceso);
                     sleep();
                     ventana.ejecucionToTerminado();
