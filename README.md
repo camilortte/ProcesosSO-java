@@ -2,14 +2,7 @@
 
 ## Se cambió a PRIVATE debido a la naturaleza de la aplicación. (VENDERLA)
 
-##FALTA:
-
-*Mostrar el numero de fallos por cada proceso.
-* ERROR AL QUERER INGRESAR UN PROCESO DESPUES DE HAER EJECUTADOY TERMINADO OTROS.
-
-
 Consideraciones para manejo del conjunto residente:
-* La memoria principal soporta un maximo de 3 procesos. (HECHO)
 * Se van a subir 5 paginas por proceso. (HECHO)
 * Alcance de reemplazo, se va a manejar alcance local. (HECHO)
 * Politica de vaciado: por demanda. (HECHO)
