@@ -18,12 +18,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private ControlProceso controlProces;
     private DefaultTableModel modeloTabla;
     Dispositivo dispositivosDisponibles[] = new Dispositivo[7];
-    private int tamanioPaginas=100;
     private Memoria memoria;
     private VentanaMemoria venatanaMemoria;
+    private VentanaPreferencias ventanaPreferencias;
     //Dispositivo dispositivosDisponibles[]=new Dispositivo[7];
     //private Proceso procesoEjecutado;
+    private int tamanioMarcoPagina,tamanioPaginas,tamanioMemoria;
+    private boolean banderaInicio;
 
+    
+    
     public VentanaPrincipal() {
         initComponents();
         jList_nuevo.setModel(new DefaultListModel());
@@ -44,7 +48,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dispositivosDisponibles[4]=new Dispositivo("Microfono","4");
         dispositivosDisponibles[5]=new Dispositivo("Usb","5");
         dispositivosDisponibles[6]=new Dispositivo("Camara","6");
-        memoria=new Memoria(10);        
+        tamanioMemoria=10;
+        tamanioMarcoPagina=100;
+        tamanioPaginas=5;
+        memoria=new Memoria(tamanioMemoria);        
+        banderaInicio=true;
+        venatanaMemoria=new VentanaMemoria(memoria.getMemoriaPrincipal(), memoria.getMemoriaVirtual());
+        controlProces.setVentanaMemoria(venatanaMemoria);
         //Todos los dispositivos estaran disponibles
         for (int i=0;i<7;i++) {
             dispositivosDisponibles[i].setDisponible(true);
@@ -52,6 +62,55 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //procesoEjecutado = null;
     }
 
+    public int getTamanioMarcoPagina() {
+        return tamanioMarcoPagina;
+    }
+
+    public void setTamanioMarcoPagina(int tamanioMarcoPagina) {
+        this.tamanioMarcoPagina = tamanioMarcoPagina;
+    }
+
+    public int getTamanioPaginas() {
+        return tamanioPaginas;
+    }
+
+    public void setTamanioPaginas(int tamanioPaginas) {
+        this.tamanioPaginas = tamanioPaginas;
+    }
+
+    public int getTamanioMemoria() {
+        return tamanioMemoria;
+    }
+
+    public void setTamanioMemoria(int tamanioMemoria) {
+        this.tamanioMemoria = tamanioMemoria;
+        memoria=new Memoria(tamanioMemoria);       
+        //if(ventanaPreferencias!=null)
+            //if(venatanaMemoria.this.venatanaMemoria.dispose();
+        ArrayList<String> memoriaPrincipal=memoria.getMemoriaPrincipal();
+        ArrayList<String> memoriaVirtual=memoria.getMemoriaVirtual();
+        this.venatanaMemoria=new VentanaMemoria(memoriaPrincipal,memoriaVirtual);
+        
+        
+        
+        //venatanaMemoria.dibujarMemoria(memoriaPrincipal);
+        //venatanaMemoria.setVisible(true);
+        controlProces.setMemoria(memoria);
+        
+        //this.venatanaMemoria=new VentanaMemoria(memo, null)
+    }
+
+    public boolean isBanderaInicio() {
+        return banderaInicio;
+    }
+
+    public void setBanderaInicio(boolean banderaInicio) {
+        this.banderaInicio = banderaInicio;
+    }
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -172,6 +231,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuItem_insertarProcesosAleatorios = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ProcessSimulator UDistrital");
@@ -358,7 +418,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -425,7 +485,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jSpinner1)
                             .addComponent(jSpinner_eliminacionPorProceso)))
                     .addComponent(botonMatarProceso))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,7 +498,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(jSpinner_eliminacionPorProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(botonMatarProceso)
                 .addGap(40, 40, 40))
         );
@@ -779,7 +839,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(txtNombreContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         listaRequerimientos.addTab("info-disp", jPanel4);
@@ -1107,6 +1167,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        jMenuItem2.setText("Preferencias");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -1119,7 +1188,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 973, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -1330,6 +1399,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void jMenuItem_insertarProcesosAleatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
+        banderaInicio=false;
         int max = 1000;
         int min = 15;
         memoria = controlProces.getMemoria();
@@ -1375,10 +1445,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
             
             Proceso procesoAux = new Proceso("Chrome", String.valueOf(random1), "LISTO", 
-                    random1, requerimientos,(int) Math.ceil((random1+0.0)/(tamanioPaginas+0.0)));
+                    random1, requerimientos,(int) Math.ceil((random1+0.0)/(tamanioMarcoPagina+0.0)));
             
             if(memoria.hayMemoriaDisponible(procesoAux.getPaginasCount())){
-                if (!controlProces.addProceso(procesoAux)) {
+                if (!controlProces.addProcesoAListo(procesoAux)) {
                     i--;
                 } else {
                     memoria.solicitarEspacio(procesoAux.getTablaDePaginas(), procesoAux.getNombre()+" "+procesoAux.getId());
@@ -1391,6 +1461,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
         jLabel4.setEnabled(true);
+        venatanaMemoria.clear();
     }//GEN-LAST:event_jMenuItem_insertarProcesosAleatoriosActionPerformed
 
     private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
@@ -1438,7 +1509,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_botonMatarProcesoActionPerformed
 
     private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
-        
+        banderaInicio=false;
         memoria = controlProces.getMemoria();
         
         String nombreproceso = this.jTextField_nombre.getText();
@@ -1448,9 +1519,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             dispositivosRequeridos.toArray(arregloAEnviar);
             int tamanio=(Integer)this.jSpinner_tamanio.getValue();
             Proceso proceso = new Proceso(nombreproceso, id, "LISTO", tamanio,arregloAEnviar, 
-                    (int) Math.ceil((tamanio+0.0)/(tamanioPaginas+0.0)));
+                    (int) Math.ceil((tamanio+0.0)/(tamanioMarcoPagina+0.0)));
             if(memoria.hayMemoriaDisponible(proceso.getPaginasCount())){
-                if (controlProces.addProceso(proceso)) {    
+                if (controlProces.addProcesoAListo(proceso)) {    
                     memoria.solicitarEspacio(proceso.getTablaDePaginas(), nombreproceso+" "+id);
                     addItem(jList_listo, id + " " + nombreproceso);
                     deleteItem(jList_nuevo, id + " " + nombreproceso);
@@ -1471,6 +1542,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     "Error de ingreso", JOptionPane.ERROR_MESSAGE);
         }
         statusBar.setText("se ha creado un nuevo proceso.");
+        venatanaMemoria.clear();
     }//GEN-LAST:event_jButton_crearProcesoActionPerformed
 
     private void jCheckBox_requiereArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_requiereArchivoActionPerformed
@@ -1644,24 +1716,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox_requiereCamaraActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        memoria=controlProces.getMemoria();
-        ArrayList<String> memoriaPrincipal=memoria.getMemoriaPrincipal();
-        ArrayList<String> memoriaVirtual=memoria.getMemoriaVirtual();
-        /*
-        System.out.println("Memoria princiapl");
-        for(int i=0;i<memoriaPrincipal.size();i++){
-            System.out.println(memoriaPrincipal.get(i));
+        if(!venatanaMemoria.isVisible()){
+            memoria=controlProces.getMemoria();
+            ArrayList<String> memoriaPrincipal=memoria.getMemoriaPrincipal();
+            ArrayList<String> memoriaVirtual=memoria.getMemoriaVirtual();
+
+            venatanaMemoria=new VentanaMemoria(memoriaPrincipal,memoriaVirtual);
+            //venatanaMemoria.dibujarMemoria(memoriaPrincipal);
+            venatanaMemoria.setVisible(true);
+            controlProces.setVentanaMemoria(venatanaMemoria);
         }
-        
-        System.out.println("Memoria Virtual");
-        for(int i=0;i<memoriaVirtual.size();i++){
-            System.out.println(memoriaVirtual.get(i));
-        }*/
-        
-        venatanaMemoria=new VentanaMemoria(memoriaPrincipal,memoriaVirtual);
-        //venatanaMemoria.dibujarMemoria(memoriaPrincipal);
-        venatanaMemoria.setVisible(true);
-        controlProces.setVentanaMemoria(venatanaMemoria);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -1669,6 +1733,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         venatanaMemoria.clear();
        // venatanaMemoria.dibujarMemoria();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        this.ventanaPreferencias=new VentanaPreferencias(this);
+        this.ventanaPreferencias.setVisible(true);        
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /*Este metodo refresca la ventana de memoria, ya que se han subido y bajado procesos.*/
     public void actualizarVentanaMemoria(){
@@ -1769,10 +1840,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             txtTimeListo.setText(String.valueOf(procesoSeleccionado.getTiempoListo()));
             txtTimeBloqueados.setText(String.valueOf(procesoSeleccionado.getTiempoBloqueado()));
             txtTiempoEjecution.setText(String.valueOf(procesoSeleccionado.getTiempoEjecucion()));
-            totalTime = Integer.parseInt(txtTimeListo.getText()) + Integer.parseInt(txtTiempoEjecucion.getText()) /*+ Integer.parseInt(txtTiempoBloqueado.getText())*/;
+            try{
+                totalTime = Integer.parseInt(txtTimeListo.getText()) + Integer.parseInt(txtTiempoEjecucion.getText()) /*+ Integer.parseInt(txtTiempoBloqueado.getText())*/;
+
+            }catch (Exception e){
+                totalTime=0;
+            }
             txtTiempoTotal.setText(String.valueOf(totalTime));
+            txtNumeroFallos.setText(""+procesoSeleccionado.getFalloDePagina());
         }
-      
+
     }
 
     public void actualziarPanelProceso() {
@@ -1945,6 +2022,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem_insertarProcesosAleatorios;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

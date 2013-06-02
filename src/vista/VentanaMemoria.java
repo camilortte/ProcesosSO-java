@@ -30,6 +30,7 @@ public class VentanaMemoria extends javax.swing.JFrame {
         initComponents();
         this.memoriaPrincipal=memoriaPrincipal;
         this.memoriaVirtual=memoriaVirtual;
+        dibujarMemoria();
     }
 
     /**
@@ -78,7 +79,6 @@ public class VentanaMemoria extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(null);
         jPanel1.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 jPanel1ComponentResized(evt);
@@ -93,10 +93,9 @@ public class VentanaMemoria extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 436, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(null);
         jPanel2.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 jPanel2ComponentResized(evt);
@@ -111,7 +110,7 @@ public class VentanaMemoria extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jLabel1.setText("Memoria Principal");
@@ -144,14 +143,17 @@ public class VentanaMemoria extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
         // TODO add your handling code here:
         dibujarMemoria();
@@ -197,9 +199,11 @@ public class VentanaMemoria extends javax.swing.JFrame {
   
     
     public void clear(){
-        jPanel1.removeAll();
-        jPanel2.removeAll();
-        dibujarMemoria();
+        if(this.isVisible()){
+            jPanel1.removeAll();
+            jPanel2.removeAll();
+            dibujarMemoria();
+        }
     }
     
     

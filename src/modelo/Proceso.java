@@ -31,7 +31,7 @@ public class Proceso {
         this.tiempoEjecucion = 0;
         this.tiempoBloqueado = 0;
         this.tamanhoEjecutado=0; // no ha ejecutado nada.
-        this.ultimaPaginaCargada=-1;
+        this.ultimaPaginaCargada=0;
         //this.fallosDePagina = new FalloPagina(cantidadPaginas);
         //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
         //Esta ultimas es como mejor.
@@ -47,6 +47,8 @@ public class Proceso {
             }
         }
     }
+    
+    
 
     public void addFalloDePagina(){
         this.falloDePagina++;

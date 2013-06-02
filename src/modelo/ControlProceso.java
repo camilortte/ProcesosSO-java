@@ -35,6 +35,7 @@ public class ControlProceso {
     private boolean terminado;
     private Memoria memoria;
     private VentanaMemoria ventanaMemoria;
+    
     //offer(proceso);// inserta un elemento
     //poll();//Nos da la cabeza y la remueve
     //peek();//Nos da la cabeza sin remover
@@ -62,11 +63,16 @@ public class ControlProceso {
         this.terminado = true;
         memoria=new Memoria(10);
     }
-    
-    public void setVentanaMemoria(VentanaMemoria ventanaMemoria){
-        this.ventanaMemoria=ventanaMemoria;
+
+    public void setVentanaMemoria(VentanaMemoria ventanaMemoria) {
+        this.ventanaMemoria = ventanaMemoria;
     }
     
+   
+
+    public void setMemoria(Memoria memoria) {
+        this.memoria = memoria;
+    }       
     
     /*obtener la memoria*/
     public Memoria getMemoria(){
@@ -79,8 +85,9 @@ public class ControlProceso {
         int ejecutado = proceso.getTamanhoEjecutado();
         int tamanhoActual = proceso.getTamanio_actual();
         int tamanhoProceso = proceso.getTamanio();
+        int tamanioMarco = memoria.getTamanioMarco();
         
-        if(tamanhoProceso<=100){
+        if(tamanhoProceso<=tamanioMarco){
             if(tamanhoActual>0){
                 sePuedeBajarUnaPagina=false;
             }else{
@@ -88,11 +95,15 @@ public class ControlProceso {
                 proceso.setTamanhoEjecutado(0);
             }
             
-        }else if(ejecutado>=100){
+        }else if(ejecutado>=tamanioMarco){
             sePuedeBajarUnaPagina=true;
             proceso.setTamanhoEjecutado(0);
         }else{
-            sePuedeBajarUnaPagina=false;
+            if(proceso.getUltimaPaginaCargada()==(proceso.getPaginasCount()-1)){
+                sePuedeBajarUnaPagina=true;
+            }else{
+                sePuedeBajarUnaPagina=false;
+            }
         }
         
         return sePuedeBajarUnaPagina;
@@ -187,7 +198,7 @@ public class ControlProceso {
     }
 
     /*Metodo para eliminar un proceso de la cola bloqueado*/
-    public void eleminarProcesoDeColaBloqueado(Proceso proceso) {
+    public void eliminarProcesoDeColaBloqueado(Proceso proceso) {
         Iterator it = cola_bloquedao.iterator();
         Proceso value = proceso;
         while (it.hasNext()) {
@@ -314,7 +325,7 @@ public class ControlProceso {
         this.dispositivosDisponibles = dispositivosDisponibles;
     }
 
-    public boolean addProceso(Proceso proceso) {
+    public boolean addProcesoAListo(Proceso proceso) {
         boolean estado = tree_procesos.add(proceso);
         if (estado == true) {
             cola_listo.offer(proceso);
@@ -341,7 +352,6 @@ public class ControlProceso {
                 value = proceso;
             }
         }
-
     }
 
     public void ejecutar() throws InterruptedException {
@@ -392,7 +402,10 @@ public class ControlProceso {
                     proceso = procesador.procesar(proceso);
                     if(sePuedeBajarPagina(proceso)){
                         System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                        
                         bajarPagina(proceso);
+                        
+                        ventanaMemoria.clear();
                     }
                     ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
                     sleep();
@@ -440,6 +453,7 @@ public class ControlProceso {
                 if(sePuedeBajarPagina(proceso)){
                         System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
                         bajarPagina(proceso);
+                       ventanaMemoria.clear();
                 }
                 cambiarEstado(proceso, "EJECUCION");
                 ventana.actualizarProcesosTabla(proceso);
@@ -487,7 +501,50 @@ public class ControlProceso {
      ventana.actualizarProcesosTabla(proceso);
      sleep();          
      }*/
-    private void bloquearProceso(Proceso proceso) {
+    
+    public void addListo(Proceso proceso){
+        cola_listo.add(proceso);
+    }
+    
+    public void addBloqueado(Proceso proceso){
+        cola_bloquedao.add(proceso);
+    }
+    
+    public void eliminarDeBloqueado(Proceso proceso){
+        Iterator it = cola_bloquedao.iterator();
+        Proceso value = proceso;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            if (value.getId().compareTo(proceso.getId()) == 0) {
+               // tree_procesos.remove(value);
+                //value.setEstado(estado);
+                cola_bloquedao.remove(value);
+                break;
+            } else {
+                value = proceso;
+            }
+        }
+    }
+    
+    public void eliminarDeListo(Proceso proceso){
+        Iterator it = cola_listo.iterator();
+        Proceso value = proceso;
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            if (value.getId().compareTo(proceso.getId()) == 0) {
+               // tree_procesos.remove(value);
+                //value.setEstado(estado);
+                cola_listo.remove(value);
+                break;
+            } else {
+                value = proceso;
+            }
+        }
+    }
+    
+   
+    
+    public void bloquearProceso(Proceso proceso) {
         Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
         //proceso.sumarTiempoBloqueado(1);
         for (int i = 0; i < dispositivosRequerdos.length; i++) {
