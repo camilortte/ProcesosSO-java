@@ -143,7 +143,7 @@ public class Memoria {
     /*Este metodo  hace la hiperpaginacion segun la politica de vaciado local.*/
     public void hiperPaginar(Proceso proceso, int paginaASubir){
         int paginaABajar = paginaASubir - 1;
-        
+        System.out.println("se llamo a hiperpaginar()");
         if(proceso.getUltimaPaginaCargada()<proceso.getPaginasCount()-1) {
             cambioProceso(proceso, paginaABajar, paginaASubir);
             proceso.addFalloDePagina();
@@ -158,21 +158,18 @@ public class Memoria {
             proceso.addPaginaCargada();
         }else{
             System.out.println("la pagina no esta en MP, se necesita subir la pagina de MV, fallo de pagina");
-            controlProceso = new ControlProceso(null);
+            /*controlProceso = new ControlProceso(null);
             
-            //controlProceso.eleminarProcesoDeColaListo(proceso);
-            //controlProceso.bloquearProceso(proceso);
             controlProceso.eliminarDeListo(proceso);
             controlProceso.addBloqueado(proceso);
-            controlProceso.cambiarEstado(proceso,"BLOQUEADO");
+            controlProceso.cambiarEstado(proceso,"BLOQUEADO");*/
+            System.out.println("se va llamar a hiperpaginar()");
             hiperPaginar(proceso, paginaASubir);
-            proceso.addTiempoBloqueado();
+            //proceso.addTiempoBloqueado();
+            /*
             controlProceso.addListo(proceso);
             controlProceso.eliminarDeBloqueado(proceso);
-            controlProceso.cambiarEstado(proceso,"LISTO");
-            //controlProceso.cambiarEstado(proceso,"LISTO");
-            //controlProceso.eliminarProcesoDeColaBloqueado(proceso);
-            //controlProceso.addProcesoAListo(proceso);
+            controlProceso.cambiarEstado(proceso,"LISTO");*/
             proceso.addPaginaCargada();
         }
         

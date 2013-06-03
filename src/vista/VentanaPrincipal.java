@@ -135,6 +135,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jCheckBox_requiereMicrofono = new javax.swing.JCheckBox();
         jCheckBox_requiereUsb = new javax.swing.JCheckBox();
         jCheckBox_requiereCamara = new javax.swing.JCheckBox();
+        jLabel23 = new javax.swing.JLabel();
+        ComboBox_prioridad = new javax.swing.JComboBox();
         jPanel7 = new javax.swing.JPanel();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel16 = new javax.swing.JLabel();
@@ -379,6 +381,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jLabel23.setText("Prioridad :");
+
+        ComboBox_prioridad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Alta", "Media", "Baja" }));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -386,19 +392,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
-                            .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                                .addComponent(jTextField_id))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                            .addComponent(jTextField_id)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ComboBox_prioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -413,12 +422,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jCheckBox_requiereParlante)
                             .addComponent(jCheckBox_requiereMicrofono)
                             .addComponent(jButton_crearProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -429,7 +438,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinner_tamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23)
+                    .addComponent(ComboBox_prioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
@@ -485,7 +496,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             .addComponent(jSpinner1)
                             .addComponent(jSpinner_eliminacionPorProceso)))
                     .addComponent(botonMatarProceso))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,7 +509,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(jSpinner_eliminacionPorProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(botonMatarProceso)
                 .addGap(40, 40, 40))
         );
@@ -626,7 +637,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
                     .addComponent(txtIdProceso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -694,7 +705,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel39)
                                     .addComponent(txtTotalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(23, Short.MAX_VALUE))))
+                        .addContainerGap(26, Short.MAX_VALUE))))
         );
 
         listaRequerimientos.addTab("Info-process", jPanel8);
@@ -839,7 +850,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(txtNombreContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         listaRequerimientos.addTab("info-disp", jPanel4);
@@ -1097,7 +1108,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1188,7 +1199,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 973, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -1443,9 +1454,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
                 
             }
+            short valorPrioridad = (short) Math.floor(Math.random()*(2-0+1)+0); 
             
             Proceso procesoAux = new Proceso("Chrome", String.valueOf(random1), "LISTO", 
-                    random1, requerimientos,(int) Math.ceil((random1+0.0)/(tamanioMarcoPagina+0.0)));
+                    random1, requerimientos,(int) Math.ceil((random1+0.0)/(tamanioMarcoPagina+0.0)),valorPrioridad);
             
             if(memoria.hayMemoriaDisponible(procesoAux.getPaginasCount())){
                 if (!controlProces.addProcesoAListo(procesoAux)) {
@@ -1508,6 +1520,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonMatarProcesoActionPerformed
 
+    public short captarPrioridad(){
+            short valorPrioridad = 0;
+            String cadenaPrioridad = ComboBox_prioridad.getSelectedItem().toString();
+            
+            if(cadenaPrioridad.compareTo("Alta")==0){
+                valorPrioridad=2;
+            }else if(cadenaPrioridad.compareTo("Media")==0){
+                valorPrioridad=1;
+            }else{
+                valorPrioridad=0;
+            }
+       return valorPrioridad;
+    }
+    
     private void jButton_crearProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearProcesoActionPerformed
         banderaInicio=false;
         memoria = controlProces.getMemoria();
@@ -1518,8 +1544,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             Dispositivo arregloAEnviar[] = new Dispositivo[dispositivosRequeridos.size()];
             dispositivosRequeridos.toArray(arregloAEnviar);
             int tamanio=(Integer)this.jSpinner_tamanio.getValue();
+            short valorPrioridad = captarPrioridad();
+            
             Proceso proceso = new Proceso(nombreproceso, id, "LISTO", tamanio,arregloAEnviar, 
-                    (int) Math.ceil((tamanio+0.0)/(tamanioMarcoPagina+0.0)));
+                    (int) Math.ceil((tamanio+0.0)/(tamanioMarcoPagina+0.0)),valorPrioridad);
             if(memoria.hayMemoriaDisponible(proceso.getPaginasCount())){
                 if (controlProces.addProcesoAListo(proceso)) {    
                     memoria.solicitarEspacio(proceso.getTablaDePaginas(), nombreproceso+" "+id);
@@ -1950,6 +1978,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     private  ArrayList<Dispositivo> dispositivosRequeridos=new ArrayList<Dispositivo>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox ComboBox_prioridad;
     private javax.swing.JButton botonMatarProceso;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_crearProceso;
@@ -1979,6 +2008,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;

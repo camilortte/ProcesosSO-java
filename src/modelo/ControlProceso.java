@@ -25,9 +25,19 @@ public class ControlProceso {
     private Queue<Proceso> cola_bloqueadoMicrofono;
     private Queue<Proceso> cola_bloqueadoUSB;
     private Queue<Proceso> cola_bloqueadoCamara;
+    
+    private Queue<Proceso> cola_listoPrioridadAlta;
+    private Queue<Proceso> cola_listoPrioridaMedia;
+    private Queue<Proceso> cola_listoPrioridadBaja;
+    private Queue<Proceso> cola_terminadoPrioridadAlta;
+    private Queue<Proceso> cola_terminadoPrioridaMedia;
+    private Queue<Proceso> cola_terminadoPrioridadBaja;
+    
     private boolean stop;
     private Dispositivo dispositivosDisponibles[];
     private Procesador procesador;
+    private Procesador procesador_1;
+    private Procesador procesador_2;
     private int tiempoProceso;
     //Es la unica forma que se me ocurrio para modificar la ventana  desde los
     //proceso de la clase control proceso =D
@@ -57,8 +67,18 @@ public class ControlProceso {
         cola_bloqueadoMicrofono = new LinkedList<Proceso>();
         cola_bloqueadoUSB = new LinkedList<Proceso>();
         cola_bloqueadoCamara = new LinkedList<Proceso>();
+        
+        cola_listoPrioridadAlta = new LinkedList<Proceso>();        
+        cola_listoPrioridaMedia = new LinkedList<Proceso>();
+        cola_listoPrioridadBaja = new LinkedList<Proceso>();
+        cola_terminadoPrioridadAlta = new LinkedList<Proceso>();        
+        cola_terminadoPrioridaMedia = new LinkedList<Proceso>();
+        cola_terminadoPrioridadBaja = new LinkedList<Proceso>();
+        
         stop = false;
         procesador = new Procesador();
+        procesador_1 = new Procesador();
+        procesador_2 = new Procesador();
         this.ventana = ventana;
         this.terminado = true;
         memoria=new Memoria(10);
@@ -68,8 +88,6 @@ public class ControlProceso {
         this.ventanaMemoria = ventanaMemoria;
     }
     
-   
-
     public void setMemoria(Memoria memoria) {
         this.memoria = memoria;
     }       
@@ -111,6 +129,7 @@ public class ControlProceso {
     
     /*Recibe un proceso al que se le va a bajar una pagina*/
     public void bajarPagina(Proceso proceso){
+        
         int paginaASubir = proceso.getUltimaPaginaCargada() +1;
         memoria.cargarPagina(proceso,paginaASubir);
     }
@@ -146,7 +165,7 @@ public class ControlProceso {
         return 0;
     }
 
-    /*Metodo para obtener un proceso del arol de procesos*/
+    /*Metodo para obtener un proceso del arbol de procesos*/
     public Proceso obtenerProceso(String id) {
         Iterator it = tree_procesos.iterator();
         Proceso value = null;
@@ -167,6 +186,32 @@ public class ControlProceso {
         return value;
     }
 
+    public void quitarRecurso(String id, Dispositivo dispotivoAQuitar){
+        Iterator it = tree_procesos.iterator();
+        Proceso value = null;
+
+        while (it.hasNext()) {
+            value = (Proceso) it.next();
+            if (id != null) {
+                if (value.getId().compareTo(id) == 0) {
+                    //value=(Proceso) it.next();
+                    Dispositivo mios[] = value.getRequerimientos();
+                    for(int i=0;i<mios.length;i++){
+                        if(mios[i].getId().compareTo(dispotivoAQuitar.getId())==0){
+                            mios[i].setDisponible(false);
+                        }
+                        break;
+                    }
+                    break;
+                } else {
+                    value = null;
+                }
+            }else{
+                    value = null;
+            }
+        }
+    }
+    
     /*Eliminar un proceso del arrbol de procesos*/
     public void eliminarProcesoDeArbol(Proceso proceso) {
         Iterator it = tree_procesos.iterator();
@@ -325,9 +370,37 @@ public class ControlProceso {
         this.dispositivosDisponibles = dispositivosDisponibles;
     }
 
+    /*agrega un proceso en la cola de listo con alta prioridad*/
+    public void addProcesoColaListoAlta(Proceso proceso){
+        cola_listoPrioridadAlta.offer(proceso);
+        //JOptionPane.showMessageDialog(null,"se agrego un proceso a cola VIP");
+    }
+    
+    /*agrega un proceso en la cola de listo con emdia prioridad*/
+    public void addProcesoColaListoMedia(Proceso proceso){
+        cola_listoPrioridaMedia.offer(proceso);
+        //JOptionPane.showMessageDialog(null,"se agrego un proceso a cola MEDia");
+    }
+    
+    /*agrega un proceso en la cola de listo con baja prioridad*/
+    public void addProcesoColaListoBaja(Proceso proceso){
+        cola_listoPrioridadBaja.offer(proceso);
+        //JOptionPane.showMessageDialog(null,"se agrego un proceso a cola BAJA");
+    }
+    
+    /*Este metodo agrega procesos al arbol de procesos, a la cola listo y clasifica
+     segun la priioridad del proceso en listo con prioridad alta, media y baja*/
     public boolean addProcesoAListo(Proceso proceso) {
         boolean estado = tree_procesos.add(proceso);
         if (estado == true) {
+            short priority = proceso.getPrioridad();
+            if(priority==0){
+                addProcesoColaListoBaja(proceso);
+            }else if(priority==1){
+                addProcesoColaListoMedia(proceso);
+            }else if(priority==2){
+                addProcesoColaListoAlta(proceso);
+            }
             cola_listo.offer(proceso);
         }
         return estado;
@@ -354,19 +427,469 @@ public class ControlProceso {
         }
     }
 
+    public void sumarTiempos() {
+        sumarTiempoListos();
+        sumaTiempoBloqueadosArchivo();
+        sumaTiempoBloqueadosImpresora();
+        sumaTiempoBloqueadosMonitor();
+        sumaTiempoBloqueadosParlante();
+        sumaTiempoBloqueadosMicrofono();
+        sumaTiempoBloqueadosUsb();
+        sumaTiempoBloqueadosCamara();
+    }
+    
+    public void ejecutarPrioridadAlta(){
+        while (!cola_listoPrioridadAlta.isEmpty() && stop != true) {
+            System.out.println("entre al while()");
+            terminado = false;
+            Proceso proceso = cola_listoPrioridadAlta.poll();
+            ventana.actualizarInformacion(proceso);
+            if (proceso.getTamanio_actual() <= 0) {
+                ventana.listoToEjecucion();
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                ventana.ejecucionToTerminado();
+                sleep();
+                cambiarEstado(proceso, "TERMINADO");
+                memoria.bajarPaginas(proceso);
+                ventanaMemoria.clear();
+                ventana.actualizarProcesosTabla(proceso);
+                sleep();
+                cola_terminado.offer(proceso);
+                cola_terminadoPrioridadAlta.offer(proceso);
+                //Ojo no lo elimina del arbol de proces                
+                //Si el proceso requiere un dispositivo
+            } else if (proceso.isRequiereDispositivo()) {
+                ventana.listoToEjecucion();
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                cambiarEstado(proceso, "EJECUCION");
+                ventana.actualizarProcesosTabla(proceso);
+                ventana.actualizarInformacion(-1);
+                sleep();
+                //estan disponible los dispostivos solicitados 
+                if (comprobarRecursoDisponible(proceso)) {
+                    desactivarDispositivos(proceso);
+                    procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador.procesar(proceso);
+                    procesador_1.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador_1.procesar(proceso);
+                    procesador_2.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador_2.procesar(proceso);
+                    
+                    if (sePuedeBajarPagina(proceso)) {
+                        //System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                        bajarPagina(proceso);
+                        ventanaMemoria.clear();
+                    }
+                    ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                    sleep();
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+
+                    if (proceso.getTamanio_actual() <= 0) {
+                        cambiarEstado(proceso, "TERMINADO");
+                        memoria.bajarPaginas(proceso);
+                        ventanaMemoria.clear();
+                        activarDispositivos(proceso);
+                        ventana.activarPorgresBar(0, 0);
+                        sleep();
+                        ventana.actualizarProcesosTabla(proceso);
+                        sleep();
+                        ventana.ejecucionToTerminado();
+                        sleep();
+                        cola_terminado.offer(proceso);
+                        cola_terminadoPrioridadAlta.offer(proceso);
+                    } else {
+                        ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                        sleep();
+                        ventana.ejecucionToListo();
+                        sleep();
+                        cambiarEstado(proceso, "LISTO");
+                        ventana.actualizarProcesosTabla(proceso);
+                        sleep();
+                        //cola_listo.offer(proceso);
+                        cola_listoPrioridadAlta.offer(proceso);
+                    }
+                    //Como no estan disponibles los dispositivos solicitados.
+                    //se le tiene que dar los recursos que necesita
+                } else {
+                    Dispositivo recursosQueNecesita[] = proceso.getRequerimientos();
+                    for (int i = 0; i < recursosQueNecesita.length; i++) {
+                        String idContenedor = recursosQueNecesita[i].getIdProcesoContenedor();
+                        Dispositivo dispQuitar = recursosQueNecesita[i];
+                        recursosQueNecesita[i].setIdProcesoContenedor(proceso.getId());
+                        quitarRecurso(idContenedor, dispQuitar);
+                    }
+                }
+
+            } else { //NO REQUIERE DE DISPOSITIVOS
+                System.out.println("Entro: al else de no requiere dispositivos");
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                ventana.listoToEjecucion();
+                sleep();
+                procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                procesador_1.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                procesador_2.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+
+                proceso = procesador.procesar(proceso);
+                proceso = procesador_1.procesar(proceso);
+                proceso = procesador_2.procesar(proceso);
+                
+                //bajarPagina(proceso);
+                if (sePuedeBajarPagina(proceso)) {
+                    System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                    bajarPagina(proceso);
+                    ventanaMemoria.clear();
+                }
+                cambiarEstado(proceso, "EJECUCION");
+                ventana.actualizarProcesosTabla(proceso);
+                ventana.actualizarInformacion(proceso);
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                //Se termino el tamanio de proedimientos ?
+                if (proceso.getTamanio_actual() <= 0) {
+                    cambiarEstado(proceso, "TERMINADO");
+                    memoria.bajarPaginas(proceso);
+                    ventanaMemoria.clear();
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    ventana.ejecucionToTerminado();
+                    sleep();
+                    ventana.activarPorgresBar(0, 0);
+                    sleep();
+
+                    cola_terminado.offer(proceso);
+                    cola_terminadoPrioridadAlta.offer(proceso);
+                    //COmo no termino entonces vuelve a la cola de LISTO 
+                } else {
+                    ventana.ejecucionToListo();
+                    sleep();
+                    ventana.activarPorgresBar(0, 0);
+                    sleep();
+                    cambiarEstado(proceso, "LISTO");
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    //cola_listo.offer(proceso);
+                    cola_listoPrioridadAlta.offer(proceso);
+                    //proceso.sumarTiempoListo(); //mas 10 unidades en listo
+                }
+                ventana.actualizarInformacion(proceso);
+            }
+        }
+    }
+    
+    public void ejecutarPrioridadMedia(){
+        System.out.println("se empieza a ejecutar los de la cola list media");
+        while (!cola_listoPrioridaMedia.isEmpty() && stop != true) {
+            System.out.println("entre al while()");
+            terminado = false;
+            Proceso proceso = cola_listoPrioridaMedia.poll();
+            ventana.actualizarInformacion(proceso);
+            if (proceso.getTamanio_actual() <= 0) {
+                ventana.listoToEjecucion();
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                ventana.ejecucionToTerminado();
+                sleep();
+                cambiarEstado(proceso, "TERMINADO");
+                memoria.bajarPaginas(proceso);
+                ventanaMemoria.clear();
+                ventana.actualizarProcesosTabla(proceso);
+                sleep();
+                cola_terminado.offer(proceso);
+                cola_terminadoPrioridaMedia.offer(proceso);
+                //Ojo no lo elimina del arbol de proces                
+                //Si el proceso requiere un dispositivo
+            } else if (proceso.isRequiereDispositivo()) {
+                ventana.listoToEjecucion();
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                cambiarEstado(proceso, "EJECUCION");
+                ventana.actualizarProcesosTabla(proceso);
+                ventana.actualizarInformacion(-1);
+                sleep();
+                //estan disponible los dispostivos solicitados 
+                if (comprobarRecursoDisponible(proceso)) {
+                    desactivarDispositivos(proceso);
+                    procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador.procesar(proceso);
+                    procesador_1.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador_1.procesar(proceso);
+                    procesador_2.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador_2.procesar(proceso);
+                    
+                    if (sePuedeBajarPagina(proceso)) {
+                        //System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                        bajarPagina(proceso);
+                        ventanaMemoria.clear();
+                    }
+                    ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                    sleep();
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+
+                    if (proceso.getTamanio_actual() <= 0) {
+                        cambiarEstado(proceso, "TERMINADO");
+                        memoria.bajarPaginas(proceso);
+                        ventanaMemoria.clear();
+                        activarDispositivos(proceso);
+                        ventana.activarPorgresBar(0, 0);
+                        sleep();
+                        ventana.actualizarProcesosTabla(proceso);
+                        sleep();
+                        ventana.ejecucionToTerminado();
+                        sleep();
+                        cola_terminado.offer(proceso);
+                        cola_terminadoPrioridaMedia.offer(proceso);
+                    } else {
+                        ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                        sleep();
+                        ventana.ejecucionToListo();
+                        sleep();
+                        cambiarEstado(proceso, "LISTO");
+                        ventana.actualizarProcesosTabla(proceso);
+                        sleep();
+                        //cola_listo.offer(proceso);
+                        cola_listoPrioridaMedia.offer(proceso);
+                    }
+                    //Como no estan disponibles los dispositivos solicitados.
+                    //se le tiene que dar los recursos que necesita
+                } else {
+                    Dispositivo recursosQueNecesita[] = proceso.getRequerimientos();
+                    for (int i = 0; i < recursosQueNecesita.length; i++) {
+                        String idContenedor = recursosQueNecesita[i].getIdProcesoContenedor();
+                        Dispositivo dispQuitar = recursosQueNecesita[i];
+                        recursosQueNecesita[i].setIdProcesoContenedor(proceso.getId());
+                        quitarRecurso(idContenedor, dispQuitar);
+                    }
+                    
+                }
+
+            } else { //NO REQUIERE DE DISPOSITIVOS
+                System.out.println("Entro: al else de no requiere dispositivos");
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                ventana.listoToEjecucion();
+                sleep();
+                procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                procesador_1.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                procesador_2.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+
+                proceso = procesador.procesar(proceso);
+                proceso = procesador_1.procesar(proceso);
+                proceso = procesador_2.procesar(proceso);
+                
+                //bajarPagina(proceso);
+                if (sePuedeBajarPagina(proceso)) {
+                    System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                    bajarPagina(proceso);
+                    ventanaMemoria.clear();
+                }
+                cambiarEstado(proceso, "EJECUCION");
+                ventana.actualizarProcesosTabla(proceso);
+                ventana.actualizarInformacion(proceso);
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                //Se termino el tamanio de proceso ?
+                if (proceso.getTamanio_actual() <= 0) {
+                    cambiarEstado(proceso, "TERMINADO");
+                    memoria.bajarPaginas(proceso);
+                    ventanaMemoria.clear();
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    ventana.ejecucionToTerminado();
+                    sleep();
+                    ventana.activarPorgresBar(0, 0);
+                    sleep();
+
+                    cola_terminado.offer(proceso);
+                    cola_terminadoPrioridaMedia.offer(proceso);
+                    //COmo no termino entonces vuelve a la cola de LISTO 
+                } else {
+                    ventana.ejecucionToListo();
+                    sleep();
+                    ventana.activarPorgresBar(0, 0);
+                    sleep();
+                    cambiarEstado(proceso, "LISTO");
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    //cola_listo.offer(proceso);
+                    cola_listoPrioridaMedia.offer(proceso);
+                    //proceso.sumarTiempoListo(); //mas 10 unidades en listo
+                }
+                ventana.actualizarInformacion(proceso);
+            }
+        }
+    }
+    
+    public void ejecutarPrioridadBaja(){
+        System.out.println("se empieza a ejecutar los de la cola list baja");
+        while (!cola_listoPrioridadBaja.isEmpty() && stop != true) {
+            System.out.println("entre al while()");
+            terminado = false;
+            Proceso proceso = cola_listoPrioridadBaja.poll();
+            ventana.actualizarInformacion(proceso);
+            if (proceso.getTamanio_actual() <= 0) {
+                ventana.listoToEjecucion();
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                ventana.ejecucionToTerminado();
+                sleep();
+                cambiarEstado(proceso, "TERMINADO");
+                memoria.bajarPaginas(proceso);
+                ventanaMemoria.clear();
+                ventana.actualizarProcesosTabla(proceso);
+                sleep();
+                cola_terminado.offer(proceso);
+                cola_terminadoPrioridadBaja.offer(proceso);
+                //Ojo no lo elimina del arbol de proces                
+                //Si el proceso requiere un dispositivo
+            } else if (proceso.isRequiereDispositivo()) {
+                ventana.listoToEjecucion();
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                cambiarEstado(proceso, "EJECUCION");
+                ventana.actualizarProcesosTabla(proceso);
+                ventana.actualizarInformacion(-1);
+                sleep();
+                //estan disponible los dispostivos solicitados 
+                if (comprobarRecursoDisponible(proceso)) {
+                    desactivarDispositivos(proceso);
+                    procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador.procesar(proceso);
+                    procesador_1.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador_1.procesar(proceso);
+                    procesador_2.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                    proceso = procesador_2.procesar(proceso);
+                    
+                    if (sePuedeBajarPagina(proceso)) {
+                        //System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                        bajarPagina(proceso);
+                        ventanaMemoria.clear();
+                    }
+                    ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                    sleep();
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+
+                    if (proceso.getTamanio_actual() <= 0) {
+                        cambiarEstado(proceso, "TERMINADO");
+                        memoria.bajarPaginas(proceso);
+                        ventanaMemoria.clear();
+                        activarDispositivos(proceso);
+                        ventana.activarPorgresBar(0, 0);
+                        sleep();
+                        ventana.actualizarProcesosTabla(proceso);
+                        sleep();
+                        ventana.ejecucionToTerminado();
+                        sleep();
+                        cola_terminado.offer(proceso);
+                        cola_terminadoPrioridadBaja.offer(proceso);
+                    } else {
+                        ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                        sleep();
+                        ventana.ejecucionToListo();
+                        sleep();
+                        cambiarEstado(proceso, "LISTO");
+                        ventana.actualizarProcesosTabla(proceso);
+                        sleep();
+                        //cola_listo.offer(proceso);
+                        cola_listoPrioridadBaja.offer(proceso);
+                    }
+                    //Como no estan disponibles los dispositivos solicitados.
+                    //se le tiene que dar los recursos que necesita
+                } else {
+                    Dispositivo recursosQueNecesita[] = proceso.getRequerimientos();
+                    for (int i = 0; i < recursosQueNecesita.length; i++) {
+                        String idContenedor = recursosQueNecesita[i].getIdProcesoContenedor();
+                        Dispositivo dispQuitar = recursosQueNecesita[i];
+                        recursosQueNecesita[i].setIdProcesoContenedor(proceso.getId());
+                        quitarRecurso(idContenedor, dispQuitar);
+                    }
+                    
+                }
+
+            } else { //NO REQUIERE DE DISPOSITIVOS
+                System.out.println("Entro: al else de no requiere dispositivos");
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                ventana.listoToEjecucion();
+                sleep();
+                procesador.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                procesador_1.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+                procesador_2.setCantidadAQuitar(ventana.getCantidadAQUitarJSpinner());
+
+                proceso = procesador.procesar(proceso);
+                proceso = procesador_1.procesar(proceso);
+                proceso = procesador_2.procesar(proceso);
+                
+                //bajarPagina(proceso);
+                if (sePuedeBajarPagina(proceso)) {
+                    System.out.println("Estoy dentro de ejcutar().se proceso.. se puede bajar una pagina..");
+                    bajarPagina(proceso);
+                    ventanaMemoria.clear();
+                }
+                cambiarEstado(proceso, "EJECUCION");
+                ventana.actualizarProcesosTabla(proceso);
+                ventana.actualizarInformacion(proceso);
+                sleep();
+                ventana.activarPorgresBar(proceso.getTamanio(), proceso.getTamanio_actual());
+                sleep();
+                //Se termino el tamanio de proedimientos ?
+                if (proceso.getTamanio_actual() <= 0) {
+                    cambiarEstado(proceso, "TERMINADO");
+                    memoria.bajarPaginas(proceso);
+                    ventanaMemoria.clear();
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    ventana.ejecucionToTerminado();
+                    sleep();
+                    ventana.activarPorgresBar(0, 0);
+                    sleep();
+
+                    cola_terminado.offer(proceso);
+                    cola_terminadoPrioridadBaja.offer(proceso);
+                    //COmo no termino entonces vuelve a la cola de LISTO 
+                } else {
+                    ventana.ejecucionToListo();
+                    sleep();
+                    ventana.activarPorgresBar(0, 0);
+                    sleep();
+                    cambiarEstado(proceso, "LISTO");
+                    ventana.actualizarProcesosTabla(proceso);
+                    sleep();
+                    //cola_listo.offer(proceso);
+                    cola_listoPrioridadBaja.offer(proceso);
+                    //proceso.sumarTiempoListo(); //mas 10 unidades en listo
+                }
+                ventana.actualizarInformacion(proceso);
+            }
+        }
+    }
+    
     public void ejecutar() throws InterruptedException {
         stop = false;
         ventana.desactivarPaneles();
-
+        sumarTiempos();
+        ejecutarPrioridadAlta();        
+        ejecutarPrioridadMedia();
+        ejecutarPrioridadBaja();
+        terminado = true;
+        ventana.activarPaneles();
+        
+        /*   
         while (!cola_listo.isEmpty() && stop != true) {
-            sumarTiempoListos();
-            sumaTiempoBloqueadosArchivo();
-            sumaTiempoBloqueadosImpresora();
-            sumaTiempoBloqueadosMonitor();
-            sumaTiempoBloqueadosParlante();
-            sumaTiempoBloqueadosMicrofono();
-            sumaTiempoBloqueadosUsb();
-            sumaTiempoBloqueadosCamara();
+            
             terminado = false;           
             Proceso proceso = cola_listo.poll();
              ventana.actualizarInformacion(proceso);
@@ -489,8 +1012,9 @@ public class ControlProceso {
             }
             ventana.actualizarInformacion(proceso);
         }
+        
         terminado = true;
-        ventana.activarPaneles();
+        ventana.activarPaneles();*/
     }
 
     /*
@@ -502,14 +1026,16 @@ public class ControlProceso {
      sleep();          
      }*/
     
+    /*Adiciona un proceso a listo cuando sale de un fallo de pagina*/
     public void addListo(Proceso proceso){
         cola_listo.add(proceso);
     }
-    
+    /*Adiciona un proceso a bloqueado cuando ha fallo de pagina*/
     public void addBloqueado(Proceso proceso){
         cola_bloquedao.add(proceso);
     }
     
+    /*Elimina un proceso especifico de la cola bloqueado*/
     public void eliminarDeBloqueado(Proceso proceso){
         Iterator it = cola_bloquedao.iterator();
         Proceso value = proceso;
@@ -526,14 +1052,13 @@ public class ControlProceso {
         }
     }
     
+    /*Elimina un proceso especifico de la cola listo*/
     public void eliminarDeListo(Proceso proceso){
         Iterator it = cola_listo.iterator();
         Proceso value = proceso;
         while (it.hasNext()) {
             value = (Proceso) it.next();
             if (value.getId().compareTo(proceso.getId()) == 0) {
-               // tree_procesos.remove(value);
-                //value.setEstado(estado);
                 cola_listo.remove(value);
                 break;
             } else {
@@ -543,7 +1068,7 @@ public class ControlProceso {
     }
     
    
-    
+    /*Bloque un proceso por dispositivo*/
     public void bloquearProceso(Proceso proceso) {
         Dispositivo dispositivosRequerdos[] = proceso.getRequerimientos();
         //proceso.sumarTiempoBloqueado(1);

@@ -6,6 +6,7 @@ public class Proceso {
     private String nombre;
     private String id;
     private String estado;
+    private short prioridad;
     private int tamanio;
     private int tamanio_actual;
     private int tiempoListo;
@@ -19,7 +20,7 @@ public class Proceso {
     private int paginasCount;
     private int tamanhoEjecutado;
     
-    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas){
+    public Proceso(String nombre,String id, String estado,int tamanio, Dispositivo requerimientos[],int cantidadPaginas,short prioridad){
         this.nombre = nombre;
         this.estado = estado;
         this.id = id;
@@ -32,6 +33,8 @@ public class Proceso {
         this.tiempoBloqueado = 0;
         this.tamanhoEjecutado=0; // no ha ejecutado nada.
         this.ultimaPaginaCargada=0;
+        this.prioridad=prioridad;
+       
         //this.fallosDePagina = new FalloPagina(cantidadPaginas);
         //Toca que reciba el tamanio de las paginas o de una vez la cantidad de paginas del proceso.
         //Esta ultimas es como mejor.
@@ -47,7 +50,14 @@ public class Proceso {
             }
         }
     }
-    
+
+    public short getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(short prioridad) {
+        this.prioridad = prioridad;
+    }
     
 
     public void addFalloDePagina(){
