@@ -1,13 +1,5 @@
 #**ProcesSO**
 
-## Se cambió a PRIVATE debido a la naturaleza de la aplicación. (VENDERLA)
-
-Consideraciones para manejo del conjunto residente:
-* Se van a subir 5 paginas por proceso. (HECHO)
-* Alcance de reemplazo, se va a manejar alcance local. (HECHO)
-* Politica de vaciado: por demanda. (HECHO)
-* tamaño de pagina : 100. (HECHO)
-
 ## screenshots
 
 ![alt text](http://i.imgur.com/fOom0JP.png "Inicio con procesos")
