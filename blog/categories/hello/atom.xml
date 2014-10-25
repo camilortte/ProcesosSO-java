@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hello | Camilortte's Blog]]></title>
+  <link href="http://camilortte.github.io//github/blog/categories/hello/atom.xml" rel="self"/>
+  <link href="http://camilortte.github.io//github/"/>
+  <updated>2014-10-25T18:30:40-05:00</updated>
+  <id>http://camilortte.github.io//github/</id>
+  <author>
+    <name><![CDATA[Camilo Ramírez]]></name>
+    <email><![CDATA[camilortte@hotmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Un Momento]]></title>
+    <link href="http://camilortte.github.io//github/blog/2014/10/25/a-test-post/"/>
+    <updated>2014-10-25T15:04:17-05:00</updated>
+    <id>http://camilortte.github.io//github/blog/2014/10/25/a-test-post</id>
+    <content type="html"><![CDATA[<p>Lo sé, no tengo ningún contenido, pero, ¿Por qué tan rápido?, como diría Harvey Dent:</p>
+
+<blockquote><p>&ldquo; La noche es más oscura justo antes del amanecer. Y os diré una cosa. Está a punto de amanecer. &rdquo;</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>
